@@ -72,18 +72,28 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 # Tab Autocompletion Settings
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' menu select
-# Shift-Tab to navigate backwards
-bindkey '^[[Z' reverse-menu-complete
 autoload -Uz compinit
 compinit
 
-# ctrl-a for line-home, ctrl-e for line-end
+
+#################
+# <Keybinds>
+#################
 bindkey -e
+
+# Shift-Tab to navigate backwards
+bindkey '^[[Z' reverse-menu-complete
 
 # ctrl-v to edit command line in vim
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^v" edit-command-line
+
+bindkey "\e[H" beginning-of-line
+bindkey "\e[F" end-of-line
+#################
+# </Keybinds>
+#################
 
 # Tell Qt apps to use the qt5ct them for DaRk MoDe!!111one
 export QT_QPA_PLATFORMTHEME=qt5ct
