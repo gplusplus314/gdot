@@ -31,7 +31,7 @@ nnoremap("<CR>", "<Down>")
 nnoremap("<BS>", "<Up>")
 
 -- Fast project file switching:
-nnoremap("`]", ':lua require("harpoon.mark").add_file()<CR>')
+nnoremap("`m", ':lua require("harpoon.mark").add_file()<CR>')
 nnoremap("``", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 nnoremap("`0", ':lua require("harpoon.ui").nav_file(1)<CR>')
 nnoremap("`1", ':lua require("harpoon.ui").nav_file(2)<CR>')

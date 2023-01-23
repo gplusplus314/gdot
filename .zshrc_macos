@@ -1,17 +1,2 @@
 export PATH="$HOME/.dotfiles/bin/macos:$PATH"
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-if ! defaults read net.kovidgoyal.kitty NSUserKeyEquivalents | grep -q "Reload preferences"; then
-  defaults write net.kovidgoyal.kitty NSUserKeyEquivalents -dict-add "Reload preferences" '~^$\\U00a7'
-fi
-
-if [ -f "$HOME/.cargo/env" ]; then
-  . "$HOME/.cargo/env"
-fi
-
-alias neovide=~/Applications/Neovide.app/Contents/MacOS/neovide
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-export PATH="/usr/local/opt/unzip/bin:$PATH"
+export PATH="$HOME/Library/Python/3.10/bin:$PATH"
