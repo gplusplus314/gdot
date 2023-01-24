@@ -8,48 +8,9 @@ source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export EDITOR=nvim
-export NEOVIDE_FRAMELESS=true
-export TERMINAL=alacritty
-
 ###########################
-# START aliases and funcs #
+#  START  Settings        #
 ###########################
-
-alias vi=nvim
-alias vim=nvim
-
-# Colorize the ls output ##
-alias ls='ls --color=auto'
-# Use a long listing format ##
-alias ll='ls -la'
-# Show hidden files ##
-alias l.='ls -d .* --color=auto'
-# colorful grep
-alias grep='grep --color'
-
-# pushd via fzf of telescope-project.nvm
-# "Pushd Project"
-function pp() {
-  DIR=$(cat ~/.local/share/nvim/telescope-projects.txt \
-    | awk -F"=" '{print $1 " " $2}' \
-    | fzf -n 1 --with-nth 1 -q "$1" -1 \
-    | awk '{print $2}')
-  pushd "$DIR"
-}
-
-alias gdot='git --git-dir=$HOME/.gdot/ --work-tree=$HOME'
-
-function colors256() {
-  for i in {0..255}; do
-    printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
-  done
-}
-
-###########################
-#  END  aliases and funcs #
-###########################
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $HOME/p10k.zsh ]] || source $HOME/.p10k.zsh
 
@@ -75,6 +36,66 @@ zstyle ':completion:*' menu select
 autoload -Uz compinit
 compinit
 
+export EDITOR=nvim
+export NEOVIDE_FRAMELESS=true
+export TERMINAL=alacritty
+export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_DEFAULT_OPTS="--ansi"
+export FZF_ALT_C_COMMAND='fd -td -L'
+export FZF_ALT_C_OPTS="--preview-window 'top:60%' --preview 'tree -l -C -L 3 {}'"
+export FZF_TMUX_HEIGHT='80%'
+# To use custom commands instead of find, override _fzf_compgen_{path,dir}
+_fzf_compgen_path() {
+  echo "$1"
+  command rg --files
+}
+_fzf_compgen_dir() {
+  command fd -td -L
+}
+function __gfzf_compgen_preview() {
+  [ -d $1 ] && tree -l -C -L 3 $1 || [ -f $1 ] && bat --color=always --style=header,grid,numbers $1
+}
+export FZF_COMPLETION_OPTS="--preview-window 'top:60%' --preview '[ -d {} ] && tree -l -C -L 3 {} || [ -f {} ] && bat --color=always --style=header,grid,numbers {} 2> /dev/null'"
+
+###########################
+#  END    Settings        #
+###########################
+
+###########################
+# START aliases and funcs #
+###########################
+alias vi=nvim
+alias vim=nvim
+
+# Colorize the ls output ##
+alias ls='ls --color=auto'
+# Use a long listing format ##
+alias ll='ls -la'
+# Show hidden files ##
+alias l.='ls -d .* --color=auto'
+# colorful grep
+alias grep='grep --color'
+
+# pushd via fzf of telescope-project.nvm
+# "Pushd Project"
+function pp() {
+  DIR=$(cat ~/.local/share/nvim/telescope-projects.txt \
+    | awk -F"=" '{print $1 " " $2}' \
+    | fzf -n 1 --with-nth 1 -q "$1" -1 --preview-window 'top:60%' --preview 'echo {} | awk '"'"'{print $2}'"'"' | xargs tree -l -C -L 3' \
+    | awk '{print $2}')
+  pushd "$DIR"
+}
+
+alias gdot='git --git-dir=$HOME/.gdot/ --work-tree=$HOME'
+
+function colors256() {
+  for i in {0..255}; do
+    printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
+  done
+}
+###########################
+#  END  aliases and funcs #
+###########################
 
 #################
 # <Keybinds>
@@ -91,6 +112,39 @@ bindkey "^v" edit-command-line
 
 bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
+
+function reset-prompt() {
+  for precmd in $precmd_functions; do
+    $precmd
+  done
+  zle reset-prompt
+}
+
+function zle-pp() {
+  pp
+  reset-prompt
+}
+zle -N zle-pp
+bindkey "^p" zle-pp
+
+function zle-fzff() {
+  local output
+  output=$(fzf --preview-window 'top:60%' --preview 'bat --color=always --style=header,grid,numbers {}' < /dev/tty) && LBUFFER+=${(q-)output}
+}
+zle -N zle-fzff
+bindkey "^f" zle-fzff
+function zle-fzfd() {
+  local output
+  output=$(FZF_DEFAULT_COMMAND='fd -td -L' fzf --preview-window 'top:60%' --preview 'tree -l -C -L 3 {}' +m < /dev/tty) && LBUFFER+=${(q-)output}
+}
+zle -N zle-fzfd
+bindkey "^d" zle-fzfd
+function zle-fzfh() {
+  local output
+  output=$(FZF_DEFAULT_COMMAND='fd -td -L --base-directory ~' fzf --preview-window 'top:60%' --preview 'tree -l -C -L 3 ~/{}' +m < /dev/tty) && LBUFFER+=${(q-)output}
+}
+zle -N zle-fzfh
+bindkey "^h" zle-fzfh
 #################
 # </Keybinds>
 #################
@@ -114,3 +168,5 @@ if [ -f "$HOME/.zshrc_local" ]; then
   source $HOME/.zshrc_local
 fi
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
