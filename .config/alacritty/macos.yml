@@ -1,0 +1,153 @@
+shell:
+  program: /usr/local/bin/zsh
+  args:
+    - --login
+
+window:
+  # Window decorations
+  #
+  # Values for `decorations`:
+  #     - full: Borders and title bar
+  #     - none: Neither borders nor title bar
+  #
+  # Values for `decorations` (macOS only):
+  #     - transparent: Title bar, transparent background and title bar buttons
+  #     - buttonless: Title bar, transparent background and no title bar buttons
+  decorations: buttonless
+
+# Font configuration
+font:
+  # Normal (roman) font face
+  normal:
+    # Font family
+    family: SauceCodePro Nerd Font
+  # Point size
+  size: 16.0
+
+key_bindings:
+  # (macOS only)
+  # Use Command as if it were Ctrl:
+  - { key: A,         mods: Command,       chars: "\x01"                       }
+  - { key: B,         mods: Command,       chars: "\x02"                       }
+  - { key: C,         mods: Command,       chars: "\x03"                       }
+  - { key: D,         mods: Command,       chars: "\x04"                       }
+  - { key: E,         mods: Command,       chars: "\x05"                       }
+  - { key: F,         mods: Command,       chars: "\x06"                       }
+  - { key: G,         mods: Command,       chars: "\x07"                       }
+  - { key: H,         mods: Command,       chars: "\x08"                       }
+  - { key: I,         mods: Command,       chars: "\x09"                       }
+  - { key: J,         mods: Command,       chars: "\x0A"                       }
+  - { key: K,         mods: Command,       chars: "\x0B"                       }
+  - { key: L,         mods: Command,       chars: "\x0C"                       }
+  - { key: M,         mods: Command,       chars: "\x0D"                       }
+  - { key: N,         mods: Command,       chars: "\x0E"                       }
+  - { key: O,         mods: Command,       chars: "\x0F"                       }
+  - { key: P,         mods: Command,       chars: "\x10"                       }
+  - { key: Q,         mods: Command,       chars: "\x11"                       }
+  - { key: R,         mods: Command,       chars: "\x12"                       }
+  - { key: S,         mods: Command,       chars: "\x13"                       }
+  - { key: T,         mods: Command,       chars: "\x14"                       }
+  - { key: U,         mods: Command,       chars: "\x15"                       }
+  - { key: V,         mods: Command,       chars: "\x16"                       }
+  #- { key: W,         mods: Command,       chars: "\x17"                       }
+  - { key: X,         mods: Command,       chars: "\x18"                       }
+  - { key: Y,         mods: Command,       chars: "\x19"                       }
+  - { key: Z,         mods: Command,       chars: "\x1A"                       }
+
+  # Option key as Meta key:
+  - { key: A,         mods: Option,       chars: "\x1ba"                       }
+  - { key: B,         mods: Option,       chars: "\x1bb"                       }
+  - { key: C,         mods: Option,       chars: "\x1bc"                       }
+  - { key: D,         mods: Option,       chars: "\x1bd"                       }
+  - { key: E,         mods: Option,       chars: "\x1be"                       }
+  - { key: F,         mods: Option,       chars: "\x1bf"                       }
+  - { key: G,         mods: Option,       chars: "\x1bg"                       }
+  - { key: H,         mods: Option,       chars: "\x1bh"                       }
+  - { key: I,         mods: Option,       chars: "\x1bi"                       }
+  - { key: J,         mods: Option,       chars: "\x1bj"                       }
+  - { key: K,         mods: Option,       chars: "\x1bk"                       }
+  - { key: L,         mods: Option,       chars: "\x1bl"                       }
+  - { key: M,         mods: Option,       chars: "\x1bm"                       }
+  - { key: N,         mods: Option,       chars: "\x1bn"                       }
+  - { key: O,         mods: Option,       chars: "\x1bo"                       }
+  - { key: P,         mods: Option,       chars: "\x1bp"                       }
+  - { key: Q,         mods: Option,       chars: "\x1bq"                       }
+  - { key: R,         mods: Option,       chars: "\x1br"                       }
+  - { key: S,         mods: Option,       chars: "\x1bs"                       }
+  - { key: T,         mods: Option,       chars: "\x1bt"                       }
+  - { key: U,         mods: Option,       chars: "\x1bu"                       }
+  - { key: V,         mods: Option,       chars: "\x1bv"                       }
+  - { key: W,         mods: Option,       chars: "\x1bw"                       }
+  - { key: X,         mods: Option,       chars: "\x1bx"                       }
+  - { key: Y,         mods: Option,       chars: "\x1by"                       }
+  - { key: Z,         mods: Option,       chars: "\x1bz"                       }
+  - { key: A,         mods: Option|Shift, chars: "\x1bA"                       }
+  - { key: B,         mods: Option|Shift, chars: "\x1bB"                       }
+  - { key: C,         mods: Option|Shift, chars: "\x1bC"                       }
+  - { key: D,         mods: Option|Shift, chars: "\x1bD"                       }
+  - { key: E,         mods: Option|Shift, chars: "\x1bE"                       }
+  - { key: F,         mods: Option|Shift, chars: "\x1bF"                       }
+  - { key: G,         mods: Option|Shift, chars: "\x1bG"                       }
+  - { key: H,         mods: Option|Shift, chars: "\x1bH"                       }
+  - { key: I,         mods: Option|Shift, chars: "\x1bI"                       }
+  - { key: J,         mods: Option|Shift, chars: "\x1bJ"                       }
+  - { key: K,         mods: Option|Shift, chars: "\x1bK"                       }
+  - { key: L,         mods: Option|Shift, chars: "\x1bL"                       }
+  - { key: M,         mods: Option|Shift, chars: "\x1bM"                       }
+  - { key: N,         mods: Option|Shift, chars: "\x1bN"                       }
+  - { key: O,         mods: Option|Shift, chars: "\x1bO"                       }
+  - { key: P,         mods: Option|Shift, chars: "\x1bP"                       }
+  - { key: Q,         mods: Option|Shift, chars: "\x1bQ"                       }
+  - { key: R,         mods: Option|Shift, chars: "\x1bR"                       }
+  - { key: S,         mods: Option|Shift, chars: "\x1bS"                       }
+  - { key: T,         mods: Option|Shift, chars: "\x1bT"                       }
+  - { key: U,         mods: Option|Shift, chars: "\x1bU"                       }
+  - { key: V,         mods: Option|Shift, chars: "\x1bV"                       }
+  - { key: W,         mods: Option|Shift, chars: "\x1bW"                       }
+  - { key: X,         mods: Option|Shift, chars: "\x1bX"                       }
+  - { key: Y,         mods: Option|Shift, chars: "\x1bY"                       }
+  - { key: Z,         mods: Option|Shift, chars: "\x1bZ"                       }
+  - { key: Key1,      mods: Option,       chars: "\x1b1"                       }
+  - { key: Key2,      mods: Option,       chars: "\x1b2"                       }
+  - { key: Key3,      mods: Option,       chars: "\x1b3"                       }
+  - { key: Key4,      mods: Option,       chars: "\x1b4"                       }
+  - { key: Key5,      mods: Option,       chars: "\x1b5"                       }
+  - { key: Key6,      mods: Option,       chars: "\x1b6"                       }
+  - { key: Key7,      mods: Option,       chars: "\x1b7"                       }
+  - { key: Key8,      mods: Option,       chars: "\x1b8"                       }
+  - { key: Key9,      mods: Option,       chars: "\x1b9"                       }
+  - { key: Key0,      mods: Option,       chars: "\x1b0"                       }
+  - { key: Grave,     mods: Option,       chars: "\x1b`"                       } # Command + `
+  - { key: Grave,     mods: Option|Shift, chars: "\x1b~"                       } # Command + ~
+  - { key: Period,    mods: Option,       chars: "\x1b."                       } # Command + .
+  - { key: Key8,      mods: Option|Shift, chars: "\x1b*"                       } # Command + *
+  - { key: Key3,      mods: Option|Shift, chars: "\x1b#"                       } # Command + #
+  - { key: Period,    mods: Option|Shift, chars: "\x1b>"                       } # Command + >
+  - { key: Comma,     mods: Option|Shift, chars: "\x1b<"                       } # Command + <
+  - { key: Minus,     mods: Option|Shift, chars: "\x1b_"                       } # Command + _
+  - { key: Key5,      mods: Option|Shift, chars: "\x1b%"                       } # Command + %
+  - { key: Key6,      mods: Option|Shift, chars: "\x1b^"                       } # Command + ^
+  - { key: Backslash, mods: Option,       chars: "\x1b\\"                      } # Command + \
+  - { key: Backslash, mods: Option|Shift, chars: "\x1b|"                       } # Command + |
+
+  #- { key: K,              mods: Command, mode: ~Vi|~Search, chars: "\x0c"                 }
+  #- { key: K,              mods: Command, mode: ~Vi|~Search, action: ClearHistory          }
+  #- { key: Key0,           mods: Command,                    action: ResetFontSize         }
+  - { key: Equals,         mods: Command,                    action: IncreaseFontSize      }
+  - { key: Plus,           mods: Command,                    action: IncreaseFontSize      }
+  - { key: NumpadAdd,      mods: Command,                    action: IncreaseFontSize      }
+  - { key: Minus,          mods: Command,                    action: DecreaseFontSize      }
+  - { key: NumpadSubtract, mods: Command,                    action: DecreaseFontSize      }
+  - { key: V,              mods: Command|Shift,                    action: Paste                 }
+  - { key: C,              mods: Command|Shift,                    action: Copy                  }
+  #- { key: C,              mods: Command, mode: Vi|~Search,  action: ClearSelection        }
+  #- { key: H,              mods: Command,                    action: Hide                  }
+  #- { key: H,              mods: Command|Alt,                action: HideOtherApplications }
+  #- { key: M,              mods: Command,                    action: Minimize              }
+  - { key: Q,              mods: Command,                    action: Quit                  }
+  #- { key: W,              mods: Command,                    action: Quit                  }
+  #- { key: N,              mods: Command,                    action: SpawnNewInstance      }
+  #- { key: F,              mods: Command|Control,            action: ToggleFullscreen      }
+  #- { key: F,              mods: Command, mode: ~Search,     action: SearchForward         }
+  #- { key: B,              mods: Command, mode: ~Search,     action: SearchBackward        }
+
