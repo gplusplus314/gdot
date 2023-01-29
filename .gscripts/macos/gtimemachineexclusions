@@ -2,14 +2,15 @@
 import os
 
 included_home_subdirs=set(""".config
-.gnupg
+.gitconfig
 .ssh
 Desktop
 Documents
-inbox
 Library
 Movies
 Pictures
+Public
+notes
 Public""".split("\n"))
 
 # Q: "What is the inbox folder?"
