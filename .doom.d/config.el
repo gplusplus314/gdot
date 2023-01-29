@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Gerry Hernandez"
-      user-mail-address "gerry@gerryhernandez.com")
+(setq user-full-name (shell-command-to-string "git config user.name")
+      user-mail-address (shell-command-to-string "git config user.email"))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-tokyo-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -78,7 +78,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; New stuff:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq doom-theme 'doom-tokyo-night)
 
 ;; Like Vim's scrolloff
 (setq scroll-margin 20)
@@ -104,9 +103,14 @@
 (set-face-attribute 'fill-column-indicator nil :foreground "black")
 
 ;; Stop using the system clipboard as default register
-(setq select-enable-clipboard nil)
+;;(setq select-enable-clipboard nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom Funcs:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun copy-from-osx ()
-  (shell-command-to-string "pbpaste"))
+  (interactive)
+  (insert (shell-command-to-string "pbpaste")))
 (defun paste-to-osx (text &optional push)
   (let ((process-connection-type nil))
     (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
