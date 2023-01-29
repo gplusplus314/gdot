@@ -6,17 +6,16 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
 
 ###########################
 #  START  Settings        #
 ###########################
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f $HOME/p10k.zsh ]] || source $HOME/.p10k.zsh
-
 export PATH="$HOME/.dotfiles/bin/all:$PATH"
 export PATH="$HOME/go/bin:$PATH"
-export GPG_TTY=$(tty)
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.emacs.d/bin:$PATH"
+export GPG_TTY=$TTY
 
 export ZSH_THEME_TERM_TITLE_IDLE="%~"
 export ZSH_THEME_TERM_TAB_TITLE_IDLE="%~"
@@ -39,6 +38,7 @@ compinit
 export EDITOR=nvim
 export NEOVIDE_FRAMELESS=true
 export TERMINAL=alacritty
+
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_DEFAULT_OPTS="--ansi"
 export FZF_ALT_C_COMMAND='fd -td -L'
@@ -56,6 +56,11 @@ function __gfzf_compgen_preview() {
   [ -d $1 ] && tree -l -C -L 3 $1 || [ -f $1 ] && bat --color=always --style=header,grid,numbers $1
 }
 export FZF_COMPLETION_OPTS="--preview-window 'top:60%' --preview '[ -d {} ] && tree -l -C -L 3 {} || [ -f {} ] && bat --color=always --style=header,grid,numbers {} 2> /dev/null'"
+
+# Tell Qt apps to use the qt5ct them for DaRk MoDe!!111one
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+export DOOMDIR="~/.doom.d"
 
 ###########################
 #  END    Settings        #
@@ -149,11 +154,7 @@ bindkey "^h" zle-fzfh
 # </Keybinds>
 #################
 
-# Tell Qt apps to use the qt5ct them for DaRk MoDe!!111one
-export QT_QPA_PLATFORMTHEME=qt5ct
-
-# dem binz
-export PATH=$HOME/.local/bin:$PATH
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Keep OS-Specific config SECOND TO LAST so it can override generics:
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -168,5 +169,3 @@ if [ -f "$HOME/.zshrc_local" ]; then
   source $HOME/.zshrc_local
 fi
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
