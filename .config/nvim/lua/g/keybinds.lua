@@ -44,9 +44,9 @@ vnoremap(">", ">gv")
 
 -- Toggle file tree:
 if is_vscode then
-  nnoremap("<leader>n", "<Cmd>call VSCodeNotify('workbench.action.toggleSidebarVisibility')<Cr>")
+  nnoremap("<leader>.", "<Cmd>call VSCodeNotify('workbench.action.toggleSidebarVisibility')<Cr>")
 else
-  nnoremap("<leader>n", ":NvimTreeFindFileToggle<cr>")
+  nnoremap("<leader>.", ":NvimTreeFindFileToggle<cr>")
 end
 
 -- Paste without yank in visual mode:
@@ -105,18 +105,12 @@ M.telescope = {
   },
 }
 
+
 -- Easier split navigation:
-if is_vscode then
-else
-  nnoremap("<C-Left>", "<C-W>h")
-  nnoremap("<C-Down>", "<C-W>j")
-  nnoremap("<C-Up>", "<C-W>k")
-  nnoremap("<C-Right>", "<C-W>l")
-  --nnoremap("<C-H>", "<C-W>h")
-  --nnoremap("<C-J>", "<C-W>j")
-  --nnoremap("<C-K>", "<C-W>k")
-  --nnoremap("<C-L>", "<C-W>l")
-end
+nnoremap("<C-Left>", "<C-W>h")
+nnoremap("<C-Down>", "<C-W>j")
+nnoremap("<C-Up>", "<C-W>k")
+nnoremap("<C-Right>", "<C-W>l")
 
 -- CD to current file/buffer directory
 nnoremap("<leader>cd", ":cd %:p:h<CR>")

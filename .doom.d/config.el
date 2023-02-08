@@ -103,24 +103,137 @@
 (set-face-attribute 'fill-column-indicator nil :foreground "black")
 
 ;; Stop using the system clipboard as default register
-;;(setq select-enable-clipboard nil)
+(setq select-enable-clipboard nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Custom Funcs:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun copy-from-osx ()
+;; Clipboard util
+(require 'simpleclip)
+
+;;(setq neo-window-fixed-size nil)
+;;;; Set the neo-window-width to the current width of the
+;;;; neotree window, to trick neotree into resetting the
+;;;; width back to the actual window width.
+;;;; Fixes: https://github.com/jaypei/emacs-neotree/issues/262
+;;(eval-after-load "neotree"
+;;  '(add-to-list 'window-size-change-functions
+;;    (lambda (_frame)
+;;      (let ((neo-window (neo-global--get-window)))
+;;        (unless (null neo-window)
+;;          (setq neo-window-width (window-width neo-window)))))))
+
+(setq projectile-switch-project-action 'neotree-projectile-action)
+(setq projectile-track-known-projects-automatically nil)
+
+(defun gh/set-agenda-files ()
   (interactive)
-  (insert (shell-command-to-string "pbpaste")))
-(defun paste-to-osx (text &optional push)
-  (let ((process-connection-type nil))
-    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-      (process-send-string proc text)
-      (process-send-eof proc))))
-(setq interprogram-cut-function 'paste-to-osx)
-(setq interprogram-paste-function 'copy-from-osx)
+  (setq org-agenda-files (directory-files-recursively "~/org" "\\.org$"))
+  )
+(after! org
+  (setq org-roam-capture-templates
+        '(
+          ("d" "default" plain "%?"
+           :target (file+head "${slug}.org"
+                              "#+title: ${title}\n")
+           :unnarrowed t)))
+  (advice-add 'org-agenda :before 'gh/set-agenda-files)
+  (advice-add 'org-todo-list :before 'gh/set-agenda-files)
+  (setq org-roam-directory "~/org/roam/")
+  (setq org-roam-index-file "~/org/roam/index.org")
+  (setq org-directory "~/org"
+        org-default-notes-file (expand-file-name "notes.org" org-directory)
+        org-ellipsis " ▼ "
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
+        org-superstar-itembullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
+        org-log-done 'time
+        org-hide-emphasis-markers t
+        ;; ex. of org-link-abbrev-alist in action
+        ;; [[wiki:Name_of_Page][Description]]
+        org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+        '(("arch" . "https://wiki.archlinux.org/index.php/")
+          ("wiki" . "https://en.wikipedia.org/wiki/"))
+        org-table-convert-region-max-lines 20000
+        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+        '((sequence
+           "TODO(t)"         ; A task that is ready to be tackled
+           "IN-PROG(i)"      ; A task that is in progress
+           "STORY(s)"        ; A project that contains other tasks
+           "BLOCKED(b)"      ; Something is holding up this task
+           "IDEA"            ; Something that needs refinement
+           "|"               ; The pipe necessary to separate "active" states and "inactive" states
+           "DONE(d)"         ; Task has been completed
+           "CANCELED(c)" ))
+        org-todo-keyword-faces
+        '(("TODO" . org-warning)
+          ("IN-PROG" . "green")
+          ("STORY" . "purple")
+          ("BLOCKED" . "red")
+          )) ; Task has been cancelled
+  (set-face-attribute 'org-table nil :weight 'normal :height 1.0)
+)
+(require 'org-inlinetask)
+
+;; Nice looking Org headings
+(defun gh/disable-big-org-headings ()
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.0 ultra-bold)
+         (org-level-2 1.0 extra-bold)
+         (org-level-3 1.0 bold)
+         (org-level-4 1.0 semi-bold)
+         (org-level-5 1.0 normal)
+         (org-level-6 1.0 normal)
+         (org-level-7 1.0 normal)
+         (org-level-8 1.0 normal)))
+    (set-face-attribute (nth 0 face) nil :weight (nth 2 face) :height (nth 1 face)))
+  )
+(defun gh/enable-big-org-headings ()
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 ultra-bold)
+         (org-level-2 1.6 extra-bold)
+         (org-level-3 1.5 bold)
+         (org-level-4 1.4 semi-bold)
+         (org-level-5 1.3 normal)
+         (org-level-6 1.2 normal)
+         (org-level-7 1.1 normal)
+         (org-level-8 1.0 normal)))
+    (set-face-attribute (nth 0 face) nil :weight (nth 2 face) :height (nth 1 face)))
+  )
+(defun gh/toggle-big-org-headings ()
+  (interactive)
+  (if (get 'gh-big-org-headings 'state)
+      (progn
+        (put 'gh-big-org-headings 'state nil)
+        (gh/disable-big-org-headings))
+    (progn
+      (put 'gh-big-org-headings 'state t)
+      (gh/enable-big-org-headings)))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybinds:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(evil-define-key 'insert 'global (kbd "C-S-V") 'copy-from-osx)
+(map! "C-S-V" #'simpleclip-paste)
+(map! :leader "y" #'simpleclip-copy)
+
+(map! "C-<left>" #'evil-window-left)
+(map! "C-<down>" #'evil-window-down)
+(map! "C-<up>" #'evil-window-up)
+(map! "C-<right>" #'evil-window-right)
+
+;;(map! :leader "t t" #'neotree-toggle)
+(map! :leader :desc "treemacs" "." #'treemacs)
+
+(map! :leader
+      (:prefix ("f" . "find")
+       :desc "file by name" "f" #'find-file
+       :desc "org-roam node" "r" #'org-roam-node-find
+       :desc "org note" "o" #'+default/org-notes-search
+       ))
+
+(map! :leader
+      (:prefix ("t" . "toggle")
+      :desc "toggle big Org headings" "o" #'gh/toggle-big-org-headings
+      ))

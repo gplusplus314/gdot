@@ -4,14 +4,15 @@ xcode-select --install
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew install --cask karabiner-elements
 brew install --cask alacritty
+brew install --cask alfred
+brew install --cask amethyst
 brew install --cask discord
 brew install --cask firefox
-brew install --cask amethyst
-brew install --cask alfred
-brew install --cask hammerspoon
+brew install --cask flameshot
 brew install --cask gcc-arm-embedded
+brew install --cask hammerspoon
+brew install --cask karabiner-elements
 
 brew install \
   bat \
@@ -21,6 +22,7 @@ brew install \
   dfu-util \
   dtc \
   fd \
+  figlet \
   firefoxpwa \
   fish \
   fzf \
@@ -28,6 +30,7 @@ brew install \
   git \
   go \
   gopls \
+  lolcat \
   lua-language-server \
   luarocks \
   neovim \
@@ -43,7 +46,8 @@ brew install \
   wget \
   zsh
 
-brew install emacs-mac --with-dbus --with-starter --with-natural-title-bar --with-native-comp --with-mac-metal --with-xwidgets --with-imagemagick
+brew tap railwaycat/emacsmacport
+brew install emacs-mac --with-dbus --with-starter --with-no-title-bars --with-native-comp --with-mac-metal --with-xwidgets --with-imagemagick
 osascript -e 'tell application "Finder" to make alias file to POSIX file "/usr/local/opt/emacs-mac/Emacs.app" at POSIX file "/Applications"'
 
 pip3 install --user -U west
@@ -51,8 +55,6 @@ pip3 install --user -U west
 pushd ~/.config
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git
 popd
-
-git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
 
 /usr/local/opt/ncurses/bin/infocmp -x tmux-256color > ~/tmux-256color.src
 sudo /usr/bin/tic -x ~/tmux-256color.src

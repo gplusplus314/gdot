@@ -62,6 +62,11 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 
 export DOOMDIR="~/.doom.d"
 
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+
 ###########################
 #  END    Settings        #
 ###########################
@@ -97,6 +102,20 @@ function colors256() {
   for i in {0..255}; do
     printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
   done
+}
+
+lfpd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        if [ -d "$dir" ]; then
+            if [ "$dir" != "$(pwd)" ]; then
+                pushd "$dir"
+            fi
+        fi
+    fi
 }
 ###########################
 #  END  aliases and funcs #
@@ -150,6 +169,8 @@ function zle-fzfh() {
 }
 zle -N zle-fzfh
 bindkey "^h" zle-fzfh
+
+bindkey -s '^o' 'lfpd\n'
 #################
 # </Keybinds>
 #################
