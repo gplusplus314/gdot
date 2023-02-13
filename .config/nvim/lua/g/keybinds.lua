@@ -12,8 +12,6 @@ local function bind(op, outer_opts)
   end
 end
 
-vim.g.mapleader = " " -- Spacebar as leader
-
 local nmap = bind("n", { noremap = false })
 local nnoremap = bind "n"
 local vnoremap = bind "v"
@@ -46,7 +44,7 @@ vnoremap(">", ">gv")
 if is_vscode then
   nnoremap("<leader>.", "<Cmd>call VSCodeNotify('workbench.action.toggleSidebarVisibility')<Cr>")
 else
-  nnoremap("<leader>.", ":NvimTreeFindFileToggle<cr>")
+  nnoremap("<leader>.", ":NvimTreeToggle<cr>")
 end
 
 -- Paste without yank in visual mode:
@@ -64,6 +62,10 @@ vnoremap("K", ":m '<-2<CR>gv=gv")
 vnoremap("<S-Down>", ":m '>+1<CR>gv=gv")
 vnoremap("<S-Up>", ":m '<-2<CR>gv=gv")
 
+-- Delete characters without clobbering default register:
+nnoremap("x", '"_x')
+nnoremap("X", '"_X')
+
 -- MarkdownPreview easy-mode
 nnoremap("<leader>md", ":MarkdownPreviewToggle<CR>")
 
@@ -78,16 +80,16 @@ nnoremap("gl", toggle_inline_diagnostics)
 
 -- Find things quickly
 if is_vscode then
-  nnoremap("<leader>ff", "<Cmd>call VSCodeNotify('find-it-faster.findFiles')<Cr>")
-  nnoremap("<leader>fg", "<Cmd>call VSCodeNotify('find-it-faster.findWithinFiles')<Cr>")
+  nnoremap("<leader>sf", "<Cmd>call VSCodeNotify('find-it-faster.findFiles')<Cr>")
+  nnoremap("<leader>sg", "<Cmd>call VSCodeNotify('find-it-faster.findWithinFiles')<Cr>")
 else
   -- Telescope: https://github.com/nvim-telescope/telescope.nvim#usage
-  nnoremap("<leader>ff", "<cmd>Telescope find_files<cr>")
-  nnoremap("<leader>fg", "<cmd>Telescope live_grep<cr>")
+  nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>")
+  nnoremap("<leader>sg", "<cmd>Telescope live_grep<cr>")
   nnoremap("<leader> ", "<cmd>Telescope buffers<cr>")
-  nnoremap("<leader>fh", "<cmd>Telescope help_tags<cr>")
-  nnoremap("<leader>fp", "<cmd>Telescope project<cr>")
-  nnoremap("<leader>ft", "<cmd>Telescope builtin<cr>")
+  nnoremap("<leader>sh", "<cmd>Telescope help_tags<cr>")
+  nnoremap("<leader>sp", "<cmd>Telescope project<cr>")
+  nnoremap("<leader>st", "<cmd>Telescope builtin<cr>")
 end
 
 -- Telescope Config Mappings:
@@ -119,7 +121,7 @@ nnoremap("<leader>cd", ":cd %:p:h<CR>")
 require("leap").add_default_mappings()
 
 -- Obsidian
-nnoremap("<leader>fo", "<cmd>ObsidianSearch<CR>")
+nnoremap("<leader>so", "<cmd>ObsidianSearch<CR>")
 nnoremap("<leader>oo", "<cmd>ObsidianOpen<CR>")
 nnoremap("<leader>or", "<cmd>ObsidianBacklinks<CR>")
 nnoremap("<leader>ot", "<cmd>ObsidianToday<CR>")
@@ -214,8 +216,8 @@ M.cmp = {
 }
 
 M.apply_lspattach = function(bufmap)
-  -- Displays hover information about the symbol under the cursor
-  bufmap("n", "gh", "<cmd>lua vim.lsp.buf.hover()<cr>")
+-- Displays hover information about the symbol under the cursor
+bufmap("n", "gh", "<cmd>lua vim.lsp.buf.hover()<cr>")
 
   -- Jump to the definition
   bufmap("n", "gd", '<cmd>lua require("telescope.builtin").lsp_definitions()<cr>')
