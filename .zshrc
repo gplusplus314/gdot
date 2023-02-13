@@ -67,6 +67,12 @@ export FZF_DEFAULT_OPTS=" \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
+# LLVM settings:
+export LDFLAGS="-L/usr/local/opt/llvm/lib/c++ -Wl,-rpath,/usr/local/opt/llvm/lib/c++,-L/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export CC=$(which clang)
+
 ###########################
 #  END    Settings        #
 ###########################

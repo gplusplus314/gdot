@@ -39,8 +39,11 @@ lsp_defaults.capabilities =
 vim.api.nvim_create_autocmd("LspAttach", {
   desc = "LSP actions",
   callback = function()
-    local bufmap = function(mode, lhs, rhs)
-      local opts = { buffer = true }
+    local bufmap = function(mode, lhs, rhs, opts)
+      if opts == nil then
+        opts = {}
+      end
+      opts.buffer = true
       vim.keymap.set(mode, lhs, rhs, opts)
     end
 

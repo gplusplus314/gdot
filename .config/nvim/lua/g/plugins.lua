@@ -149,6 +149,33 @@ return require("lazy").setup({
     end,
   },
 
+  -- Neorg notes and agenda:
+  {
+    "nvim-neorg/neorg",
+    build = ":Neorg sync-parsers",
+    opts = {
+      load = {
+        ["core.defaults"] = {}, -- Loads default behaviour
+        ["core.integrations.treesitter"] = {},
+        ["core.norg.completion"] = {
+          config = {
+            engine = "nvim-cmp",
+            name = "[Neorg]"
+          }
+        },
+        ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
+        ["core.norg.dirman"] = { -- Manages Neorg workspaces
+          config = {
+            workspaces = {
+              g = "~/neorg/g",
+            }
+          }
+        },
+      }
+    },
+    dependencies = { { "nvim-lua/plenary.nvim" } },
+  },
+
   --  use({
   --    'euclio/vim-markdown-composer',
   --    build = 'cargo build --release',
@@ -238,16 +265,10 @@ return require("lazy").setup({
   "saadparwaiz1/cmp_luasnip",
   "rafamadriz/friendly-snippets",
   "williamboman/mason-lspconfig.nvim",
-  -- use({'jayp0521/mason-nvim-DAP, etc:
   {
     "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
-      -- require("mason-nvim-dap").setup({
-      --   automatic_setup = true,
-      --   automatic_installation = true,
-      --   ensure_installed = {'delve'}
-      -- })
     end,
   },
 

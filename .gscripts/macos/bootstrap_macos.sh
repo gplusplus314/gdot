@@ -13,6 +13,7 @@ brew install --cask flameshot
 brew install --cask gcc-arm-embedded
 brew install --cask hammerspoon
 brew install --cask karabiner-elements
+brew install --cask wezterm
 
 brew install \
   bat \
@@ -30,6 +31,7 @@ brew install \
   git \
   go \
   gopls \
+  llvm \
   lolcat \
   lua-language-server \
   luarocks \

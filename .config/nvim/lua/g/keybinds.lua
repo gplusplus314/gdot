@@ -1,3 +1,5 @@
+local wk = require("which-key")
+
 -- Exported mappings:
 local M = {}
 
@@ -18,11 +20,6 @@ local vnoremap = bind "v"
 local xnoremap = bind "x"
 local inoremap = bind "i"
 
--- Vim Keys in insert mode
---inoremap("<C-h>", "<Left>")
---inoremap("<C-j>", "<Down>")
---inoremap("<C-k>", "<Up>")
---inoremap("<C-l>", "<Right>")
 
 -- Up and down using thumbs:
 nnoremap("<CR>", "<Down>")
@@ -39,13 +36,6 @@ nnoremap("`3", ':lua require("harpoon.ui").nav_file(4)<CR>')
 -- Keep visual selection while indenting:
 vnoremap("<", "<gv")
 vnoremap(">", ">gv")
-
--- Toggle file tree:
-if is_vscode then
-  nnoremap("<leader>.", "<Cmd>call VSCodeNotify('workbench.action.toggleSidebarVisibility')<Cr>")
-else
-  nnoremap("<leader>.", ":NvimTreeToggle<cr>")
-end
 
 -- Paste without yank in visual mode:
 vnoremap("p", '"_dP')
@@ -66,9 +56,17 @@ vnoremap("<S-Up>", ":m '<-2<CR>gv=gv")
 nnoremap("x", '"_x')
 nnoremap("X", '"_X')
 
--- MarkdownPreview easy-mode
-nnoremap("<leader>md", ":MarkdownPreviewToggle<CR>")
 
+-- Quick Toggles:
+wk.register({t = {name = "[t]oggle"}}, {prefix = "<leader>"})
+-- MarkdownPreview easy-mode
+nnoremap("<leader>tm", ":MarkdownPreviewToggle<CR>", {desc = "[m]arkdown preview"})
+-- Toggle file tree:
+nnoremap("<leader>.", ":NvimTreeToggle<cr>", {desc = "toggle file tree"})
+nnoremap("<leader>tt", ":NvimTreeToggle<cr>", {desc = "file [t]ree"})
+local dap = require "dap"
+local dapui = require "dapui"
+nnoremap("<leader>tD", dapui.toggle, { desc = "[D]ebug UI" })
 -- Toggle inline diagnostics
 local inline_diagnostics_enabled = true
 local function toggle_inline_diagnostics()
@@ -76,21 +74,46 @@ local function toggle_inline_diagnostics()
   vim.diagnostic.config { virtual_text = inline_diagnostics_enabled }
 end
 toggle_inline_diagnostics()
-nnoremap("gl", toggle_inline_diagnostics)
+nnoremap("<leader>ti", toggle_inline_diagnostics, {desc = "[i]nline diagnostics"})
 
--- Find things quickly
-if is_vscode then
-  nnoremap("<leader>sf", "<Cmd>call VSCodeNotify('find-it-faster.findFiles')<Cr>")
-  nnoremap("<leader>sg", "<Cmd>call VSCodeNotify('find-it-faster.findWithinFiles')<Cr>")
-else
-  -- Telescope: https://github.com/nvim-telescope/telescope.nvim#usage
-  nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>")
-  nnoremap("<leader>sg", "<cmd>Telescope live_grep<cr>")
-  nnoremap("<leader> ", "<cmd>Telescope buffers<cr>")
-  nnoremap("<leader>sh", "<cmd>Telescope help_tags<cr>")
-  nnoremap("<leader>sp", "<cmd>Telescope project<cr>")
-  nnoremap("<leader>st", "<cmd>Telescope builtin<cr>")
-end
+
+-- Debugging:
+wk.register({d = {name = "[d]ebug"}}, {prefix = "<leader>"})
+nnoremap("<leader>db", dap.toggle_breakpoint, { desc = "toggle [b]reakpoint" })
+nnoremap("<leader>dc", dap.continue, { desc = "[c]ontinue" })
+nnoremap("<leader>dt", require("dap-go").debug_test, { desc = "debug [t]est" })
+nnoremap("<leader>dC", dap.run_last, { desc = "run most recent debug [C]onfig" })
+nnoremap("<leader>ds", dap.step_over, { desc = "[s]tep over" })
+nnoremap("<leader>di", dap.step_into, { desc = "step [i]nto" })
+nnoremap("<leader>do", dap.step_out, { desc = "step [o]ut" })
+nnoremap("<leader>dr", dap.repl.open, { desc = "toggle [r]epl" })
+nnoremap("<leader>dB", function()
+  dap.set_breakpoint(vim.fn.input "Breakpoint Condition: ")
+end, { desc = "toggle conditional [B]reakpoint" })
+nnoremap("<leader>dl", function()
+  dap.set_breakpoint(vim.fn.input "Logpoint Message: ")
+end, { desc = "[l]ogpoint" })
+nnoremap("<leader>dT", dap.terminate, { desc = "[T]erminate" })
+nnoremap("<leader>du", dapui.toggle, { desc = "toggle debug [u]i" })
+nnoremap("<leader>dh", dap.run_to_cursor, { desc = "run to [h]ere" })
+
+
+-- Searching:
+wk.register({s = {name = "[s]earch"}}, {prefix = "<leader>"})
+-- Telescope: https://github.com/nvim-telescope/telescope.nvim#usage
+nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>", {desc = "[f]iles"})
+nnoremap("<leader>sg", "<cmd>Telescope live_grep<cr>", {desc = "live [g]rep"})
+nnoremap("<leader> ", "<cmd>Telescope buffers<cr>", {desc = "search buffers"})
+nnoremap("<leader>sb", "<cmd>Telescope buffers<cr>", {desc = "[b]uffers"})
+nnoremap("<leader>sh", "<cmd>Telescope help_tags<cr>", {desc = "[h]elp"})
+nnoremap("<leader>sp", "<cmd>Telescope project<cr>", {desc = "[p]roject"})
+nnoremap("<leader>st", "<cmd>Telescope builtin<cr>", {desc = "[t]elescope"})
+
+-- Other which-key labels:
+wk.register({["["] = {name = "previous"}}, {prefix = ""})
+wk.register({["]"] = {name = "next"}}, {prefix = ""})
+wk.register({c = {name = "change"}}, {prefix = ""})
+wk.register({g = {name = "go to"}}, {prefix = ""})
 
 -- Telescope Config Mappings:
 M.telescope = {
@@ -121,46 +144,27 @@ nnoremap("<leader>cd", ":cd %:p:h<CR>")
 require("leap").add_default_mappings()
 
 -- Obsidian
-nnoremap("<leader>so", "<cmd>ObsidianSearch<CR>")
-nnoremap("<leader>oo", "<cmd>ObsidianOpen<CR>")
-nnoremap("<leader>or", "<cmd>ObsidianBacklinks<CR>")
-nnoremap("<leader>ot", "<cmd>ObsidianToday<CR>")
-vnoremap("<leader>ol", "<cmd>ObsidianLink<CR>")
-nnoremap("<leader>of", "<cmd>ObsidianFollowLink<CR>")
-vim.keymap.set("n", "gf", function()
-  if require("obsidian").util.cursor_on_markdown_link() then
-    return "<cmd>ObsidianFollowLink<CR>"
-  else
-    return "gf"
-  end
-end, { noremap = false, expr = true })
-nnoremap("<leader>on", "<cmd>ObsidianNew ")
-nnoremap("<leader>on", function()
-  local name = vim.fn.input("Note Name: ", "", "file")
-  vim.cmd("ObsidianNew " .. name)
-end)
+--nnoremap("<leader>so", "<cmd>ObsidianSearch<CR>")
+--nnoremap("<leader>oo", "<cmd>ObsidianOpen<CR>")
+--nnoremap("<leader>or", "<cmd>ObsidianBacklinks<CR>")
+--nnoremap("<leader>ot", "<cmd>ObsidianToday<CR>")
+--vnoremap("<leader>ol", "<cmd>ObsidianLink<CR>")
+--nnoremap("<leader>of", "<cmd>ObsidianFollowLink<CR>")
+--vim.keymap.set("n", "gf", function()
+--  if require("obsidian").util.cursor_on_markdown_link() then
+--    return "<cmd>ObsidianFollowLink<CR>"
+--  else
+--    return "gf"
+--  end
+--end, { noremap = false, expr = true })
+--nnoremap("<leader>on", "<cmd>ObsidianNew ")
+--nnoremap("<leader>on", function()
+--  local name = vim.fn.input("Note Name: ", "", "file")
+--  vim.cmd("ObsidianNew " .. name)
+--end)
 
--- Debugging:
--- Convention: <leader>d = "leader Debug"
-local dap = require "dap"
-local dapui = require "dapui"
-nnoremap("<leader>db", dap.toggle_breakpoint, { desc = "toggle Breakpoint" })
-nnoremap("<leader>dc", dap.continue, { desc = "Continue" })
-nnoremap("<leader>dt", require("dap-go").debug_test, { desc = "debug Test" })
-nnoremap("<leader>dC", dap.run_last, { desc = "run most recent debug config" })
-nnoremap("<leader>ds", dap.step_over, { desc = "Step over" })
-nnoremap("<leader>di", dap.step_into, { desc = "step Into" })
-nnoremap("<leader>do", dap.step_out, { desc = "step Out" })
-nnoremap("<leader>dr", dap.repl.open, { desc = "toggle Repl" })
-nnoremap("<leader>dB", function()
-  dap.set_breakpoint(vim.fn.input "Breakpoint Condition: ")
-end, { desc = "toggle conditional Breakpoint" })
-nnoremap("<leader>dl", function()
-  dap.set_breakpoint(vim.fn.input "Logpoint Message: ")
-end, { desc = "Logpoint" })
-nnoremap("<leader>dT", dap.terminate, { desc = "Terminate" })
-nnoremap("<leader>du", dapui.toggle, { desc = "toggle debug Ui" })
-nnoremap("<leader>dh", dap.run_to_cursor, { desc = "run to Here" })
+-- Neorg (phonetic "Org")
+--nnoremap("<leader>o", "", { desc = "" })
 
 -- Autocomplete
 local cmp = require "cmp"
@@ -217,42 +221,42 @@ M.cmp = {
 
 M.apply_lspattach = function(bufmap)
 -- Displays hover information about the symbol under the cursor
-bufmap("n", "gh", "<cmd>lua vim.lsp.buf.hover()<cr>")
+  bufmap("n", "gh", "<cmd>lua vim.lsp.buf.hover()<cr>", {desc = "[h]over"})
 
   -- Jump to the definition
-  bufmap("n", "gd", '<cmd>lua require("telescope.builtin").lsp_definitions()<cr>')
+  bufmap("n", "gd", '<cmd>lua require("telescope.builtin").lsp_definitions()<cr>', {desc = "[d]efinitions"})
 
   -- Jump to declaration
-  bufmap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>")
+  bufmap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", {desc = "[D]eclaration"})
 
   -- Lists all the implementations for the symbol under the cursor
-  bufmap("n", "gi", '<cmd>lua require("telescope.builtin").lsp_implementations()<cr>')
+  bufmap("n", "gi", '<cmd>lua require("telescope.builtin").lsp_implementations()<cr>', {desc = "[i]mplementations"})
 
   -- Jumps to the definition of the type symbol
-  bufmap("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
+  bufmap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", {desc = "[t]ype definition"})
 
   -- Lists all the references
-  bufmap("n", "gr", '<cmd>lua require("telescope.builtin").lsp_references()<cr>')
+  bufmap("n", "gr", '<cmd>lua require("telescope.builtin").lsp_references()<cr>', {desc = "[r]eferences"})
 
   -- Displays a function's signature information
-  bufmap("n", "K", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
-  bufmap("i", "<C-u>", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
+  bufmap("n", "K", "<cmd>lua vim.lsp.buf.signature_help()<cr>", {desc = "signature help"})
+  bufmap("i", "<C-u>", "<cmd>lua vim.lsp.buf.signature_help()<cr>", {desc = "signature help"})
 
   -- Renames all references to the symbol under the cursor
-  bufmap("n", "cs", "<cmd>lua vim.lsp.buf.rename()<cr>")
+  bufmap("n", "cs", "<cmd>lua vim.lsp.buf.rename()<cr>", {desc = "[s]ymbol under cursor"})
 
   -- Selects a code action available at the current cursor position
-  bufmap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>")
-  bufmap("x", "ga", "<cmd>lua vim.lsp.buf.range_code_action()<cr>")
+  bufmap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", {desc = "code [a]ctions"})
+  bufmap("x", "ga", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", {desc = "code [a]ctions"})
 
   -- Show diagnostics in a floating window
-  bufmap("n", "<leader>gl", "<cmd>lua vim.diagnostic.open_float()<cr>")
+  bufmap("n", "<leader>td", "<cmd>lua vim.diagnostic.open_float()<cr>", {desc = "[d]iagnostics window"})
 
   -- Move to the previous diagnostic
-  bufmap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
+  bufmap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", {desc = "[d]iagnostic"})
 
   -- Move to the next diagnostic
-  bufmap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>")
+  bufmap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", {desc = "[d]iagnostic"})
 end
 
 M.apply_firenvim = function()
