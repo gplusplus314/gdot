@@ -6,17 +6,16 @@ require("mason-lspconfig").setup()
 local lspconfig = require "lspconfig"
 local lsp_defaults = lspconfig.util.default_config
 
-
 require("mason-lspconfig").setup_handlers {
   -- The first entry (without a key) will be the default handler
   -- and will be called for each installed server that doesn't have
   -- a dedicated handler.
-  function (server_name) -- default handler (optional)
+  function(server_name) -- default handler (optional)
     lspconfig[server_name].setup {}
   end,
   -- Next, you can provide a dedicated handler for specific servers.
   -- For example, a handler override for the `gopls`:
-  gopls = function ()
+  gopls = function()
     lspconfig.gopls.setup {
       analyses = {
         unusedparams = true,
@@ -25,7 +24,6 @@ require("mason-lspconfig").setup_handlers {
     }
   end,
 }
-
 
 -- Merge sane defaults into capabilities config:
 lsp_defaults.capabilities =

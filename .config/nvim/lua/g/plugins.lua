@@ -1,20 +1,20 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
+  vim.fn.system {
     "git",
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
     "--branch=stable", -- latest stable release
     lazypath,
-  })
+  }
 end
 vim.opt.rtp:prepend(lazypath)
 
 -- Lazy.nvim requires the leader to be set before loading:
 vim.g.mapleader = " " -- Spacebar as leader
 
-return require("lazy").setup({
+return require("lazy").setup {
   defaults = {
     lazy = true,
   },
@@ -111,19 +111,19 @@ return require("lazy").setup({
   {
     "nvim-tree/nvim-tree.lua",
     dependencies = {
-      "nvim-tree/nvim-web-devicons"
+      "nvim-tree/nvim-web-devicons",
     },
     lazy = false,
     config = function()
-      require("nvim-tree").setup({
+      require("nvim-tree").setup {
         sync_root_with_cwd = true,
         actions = {
           open_file = {
             quit_on_open = true,
-          }
-        }
-      })
-    end
+          },
+        },
+      }
+    end,
   },
 
   -- Markdown Utils:
@@ -300,4 +300,4 @@ return require("lazy").setup({
       require("dap-go").setup()
     end,
   },
-})
+}

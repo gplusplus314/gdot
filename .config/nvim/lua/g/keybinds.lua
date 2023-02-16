@@ -1,9 +1,9 @@
-local wk = require("which-key")
+local wk = require "which-key"
 
 -- Exported mappings:
 local M = {}
 
---{{{ Util 
+--{{{ Util
 -- Stolen from: https://github.com/ThePrimeagen/.dotfiles/blob/master/nvim/.config/nvim/lua/theprimeagen/keymap.lua
 local function bind(op, outer_opts)
   outer_opts = outer_opts or { noremap = true }
@@ -63,16 +63,21 @@ nnoremap("<C-Down>", "<C-W>j")
 nnoremap("<C-Up>", "<C-W>k")
 nnoremap("<C-Right>", "<C-W>l")
 
+-- CD to current file/buffer directory
+nnoremap("<leader>cd", ":cd %:p:h<CR>")
+
+-- Leap
+require("leap").add_default_mappings()
+
 --}}}
 
-
 --{{{ Quick [t]oggles:
-wk.register({t = {name = "[t]oggle"}}, {prefix = "<leader>"})
+wk.register({ t = { name = "[t]oggle" } }, { prefix = "<leader>" })
 -- MarkdownPreview easy-mode
-nnoremap("<leader>tm", ":MarkdownPreviewToggle<CR>", {desc = "[m]arkdown preview"})
+nnoremap("<leader>tm", ":MarkdownPreviewToggle<CR>", { desc = "[m]arkdown preview" })
 -- Toggle file tree:
-nnoremap("<leader>.", ":NvimTreeToggle<cr>", {desc = "toggle file tree"})
-nnoremap("<leader>tt", ":NvimTreeToggle<cr>", {desc = "file [t]ree"})
+nnoremap("<leader>.", ":NvimTreeToggle<cr>", { desc = "toggle file tree" })
+nnoremap("<leader>tt", ":NvimTreeToggle<cr>", { desc = "file [t]ree" })
 local dap = require "dap"
 local dapui = require "dapui"
 nnoremap("<leader>tD", dapui.toggle, { desc = "[D]ebug UI" })
@@ -83,15 +88,11 @@ local function toggle_inline_diagnostics()
   vim.diagnostic.config { virtual_text = inline_diagnostics_enabled }
 end
 toggle_inline_diagnostics()
-nnoremap("<leader>ti", toggle_inline_diagnostics, {desc = "[i]nline diagnostics"})
---wk.register({n = {name = "[n]eorg"}}, {prefix = "<leader>t"})
---nnoremap("<leader>tnt", "<cmd>Neorg toc<cr>", {desc = "toggle neorg [t]oc"})
---nnoremap("<leader>tnc", "<cmd>Neorg toggle-concealer<cr>", {desc = "neorg [c]oncealer"})
+nnoremap("<leader>ti", toggle_inline_diagnostics, { desc = "[i]nline diagnostics" })
 --}}}
 
-
 --{{{ [d]ebugging:
-wk.register({d = {name = "[d]ebug"}}, {prefix = "<leader>"})
+wk.register({ d = { name = "[d]ebug" } }, { prefix = "<leader>" })
 nnoremap("<leader>db", dap.toggle_breakpoint, { desc = "toggle [b]reakpoint" })
 nnoremap("<leader>dc", dap.continue, { desc = "[c]ontinue" })
 nnoremap("<leader>dt", require("dap-go").debug_test, { desc = "debug [t]est" })
@@ -111,46 +112,26 @@ nnoremap("<leader>du", dapui.toggle, { desc = "toggle debug [u]i" })
 nnoremap("<leader>dh", dap.run_to_cursor, { desc = "run to [h]ere" })
 --}}}
 
-
 --{{{ [s]earching:
-wk.register({s = {name = "[s]earch"}}, {prefix = "<leader>"})
+wk.register({ s = { name = "[s]earch" } }, { prefix = "<leader>" })
 -- Telescope: https://github.com/nvim-telescope/telescope.nvim#usage
-nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>", {desc = "[f]iles"})
-nnoremap("<leader>sg", "<cmd>Telescope live_grep<cr>", {desc = "live [g]rep"})
-nnoremap("<leader> ", "<cmd>Telescope buffers<cr>", {desc = "search buffers"})
-nnoremap("<leader>sb", "<cmd>Telescope buffers<cr>", {desc = "[b]uffers"})
-nnoremap("<leader>sh", "<cmd>Telescope help_tags<cr>", {desc = "[h]elp"})
-nnoremap("<leader>sp", "<cmd>Telescope project<cr>", {desc = "[p]roject"})
-nnoremap("<leader>st", "<cmd>Telescope builtin<cr>", {desc = "[t]elescope"})
+nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "[f]iles" })
+nnoremap("<leader>sg", "<cmd>Telescope live_grep<cr>", { desc = "live [g]rep" })
+nnoremap("<leader> ", "<cmd>Telescope buffers<cr>", { desc = "search buffers" })
+nnoremap("<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "[b]uffers" })
+nnoremap("<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "[h]elp" })
+nnoremap("<leader>sp", "<cmd>Telescope project<cr>", { desc = "[p]roject" })
+nnoremap("<leader>st", "<cmd>Telescope builtin<cr>", { desc = "[t]elescope" })
 --}}}
 
-
---{{{ Ne[o]rg
---wk.register({o = {name = "ne[o]rg"}}, {prefix = "<leader>"})
---nnoremap("<leader>ot", "<cmd>Neorg toc<cr>", {desc = "toggle [t]oc"})
---nnoremap("<leader>oc", "<cmd>Neorg toggle-concealer<cr>", {desc = "toggle [c]oncealer"})
---wk.register({m = {name = "[m]etadata"}}, {prefix = "<leader>o"})
---nnoremap("<leader>omi", "<cmd>Neorg inject-metadata<cr>", {desc = "[i]nject"})
---nnoremap("<leader>omu", "<cmd>Neorg update-metadata<cr>", {desc = "[u]pdate"})
---wk.register({w = {name = "[w]orkspace"}}, {prefix = "<leader>o"})
---nnoremap("<leader>owg", "<cmd>Neorg workspace g<cr>", {desc = "[g]"})
---wk.register({t = {name = "[t]odo"}}, {prefix = "<leader>o"})
---nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_pending<cr>", {desc = "set to [p]ending"})
---nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_undone<cr>", {desc = "set to [u]ndone"})
---nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_important<cr>", {desc = "set to [i]mportant"})
---nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_cancelled<cr>", {desc = "set to [c]ancelled"})
---nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_on_hold<cr>", {desc = "set to on-[h]old"})
---nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_done<cr>", {desc = "set to [d]one"})
---nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_recurring<cr>", {desc = "set to [r]ecurring"})
+--{{{ Other which-key labels
+wk.register({ ["["] = { name = "previous" } }, { prefix = "" })
+wk.register({ ["]"] = { name = "next" } }, { prefix = "" })
+wk.register({ c = { name = "change" } }, { prefix = "" })
+wk.register({ g = { name = "go to" } }, { prefix = "" })
 --}}}
 
--- Other which-key labels:
-wk.register({["["] = {name = "previous"}}, {prefix = ""})
-wk.register({["]"] = {name = "next"}}, {prefix = ""})
-wk.register({c = {name = "change"}}, {prefix = ""})
-wk.register({g = {name = "go to"}}, {prefix = ""})
-
--- Telescope Config Mappings:
+--{{{ Telescope Config Mappings
 M.telescope = {
   defaults = {
     i = {
@@ -164,23 +145,17 @@ M.telescope = {
     },
   },
 }
+--}}}
 
-
--- CD to current file/buffer directory
-nnoremap("<leader>cd", ":cd %:p:h<CR>")
-
--- Leap
-require("leap").add_default_mappings()
-
--- Obsidian
-wk.register({o = {name = "[o]bsidian"}}, {prefix = "<leader>"})
-nnoremap("<leader>so", "<cmd>ObsidianSearch<CR>", {desc = "[o]bsidian"})
-nnoremap("<leader>os", "<cmd>ObsidianSearch<CR>", {desc = "[s]earch"}) -- synonym ^^
-nnoremap("<leader>oo", "<cmd>ObsidianOpen<CR>", {desc = "[o]open in obsidian"})
-nnoremap("<leader>ob", "<cmd>ObsidianBacklinks<CR>", {desc = "[b]acklinks"})
-nnoremap("<leader>oT", "<cmd>ObsidianToday<CR>", {desc = "[T]oday"})
-vnoremap("<leader>ol", "<cmd>ObsidianLink<CR>", {desc = "[l]ink"})
-nnoremap("<leader>of", "<cmd>ObsidianFollowLink<CR>", {desc = "[f]ollow link"})
+--{{{ Obsidian
+wk.register({ o = { name = "[o]bsidian" } }, { prefix = "<leader>" })
+nnoremap("<leader>so", "<cmd>ObsidianSearch<CR>", { desc = "[o]bsidian" })
+nnoremap("<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "[s]earch" }) -- synonym ^^
+nnoremap("<leader>oo", "<cmd>ObsidianOpen<CR>", { desc = "[o]open in obsidian" })
+nnoremap("<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "[b]acklinks" })
+nnoremap("<leader>oT", "<cmd>ObsidianToday<CR>", { desc = "[T]oday" })
+vnoremap("<leader>ol", "<cmd>ObsidianLink<CR>", { desc = "[l]ink" })
+nnoremap("<leader>of", "<cmd>ObsidianFollowLink<CR>", { desc = "[f]ollow link" })
 vim.keymap.set("n", "gf", function()
   if require("obsidian").util.cursor_on_markdown_link() then
     return "<cmd>ObsidianFollowLink<CR>"
@@ -193,27 +168,40 @@ nnoremap("<leader>on", function()
   if name ~= nil and name ~= "" then
     vim.cmd("ObsidianNew " .. name)
   end
-end, {desc = "[n]ew note"})
+end, { desc = "[n]ew note" })
 local function insert_at_cursor(text)
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { text })
 end
-wk.register({t = {name = "[t]ask"}}, {prefix = "<leader>o"})
-nnoremap("<leader>otl", function() insert_at_cursor("🔽") end, {desc = "insert [l]ow priority"})
-nnoremap("<leader>otm", function() insert_at_cursor("🔼") end, {desc = "insert [m]edium priority"})
-nnoremap("<leader>oth", function() insert_at_cursor("⏫") end, {desc = "insert [h]igh priority"})
-nnoremap("<leader>otd", function() insert_at_cursor("📅") end, {desc = "insert [d]ue date"})
-nnoremap("<leader>otr", function() insert_at_cursor("🔁") end, {desc = "insert [r]ecurs"})
-nnoremap("<leader>ots", function() insert_at_cursor("⏳") end, {desc = "insert [s]cheduled"})
-nnoremap("<leader>ota", function() insert_at_cursor("🛫 " .. os.date("%Y-%m-%d")) end,
-  {desc = "insert st[a]rt"})
-nnoremap("<leader>otf", 
-  function() insert_at_cursor("✅ " .. os.date("%Y-%m-%d")) end,
-  {desc = "insert [f]inished"})
+wk.register({ t = { name = "[t]ask" } }, { prefix = "<leader>o" })
+nnoremap("<leader>otl", function()
+  insert_at_cursor "🔽"
+end, { desc = "insert [l]ow priority" })
+nnoremap("<leader>otm", function()
+  insert_at_cursor "🔼"
+end, { desc = "insert [m]edium priority" })
+nnoremap("<leader>oth", function()
+  insert_at_cursor "⏫"
+end, { desc = "insert [h]igh priority" })
+nnoremap("<leader>otd", function()
+  insert_at_cursor "📅"
+end, { desc = "insert [d]ue date" })
+nnoremap("<leader>otr", function()
+  insert_at_cursor "🔁"
+end, { desc = "insert [r]ecurs" })
+nnoremap("<leader>ots", function()
+  insert_at_cursor "⏳"
+end, { desc = "insert [s]cheduled" })
+nnoremap("<leader>ota", function()
+  insert_at_cursor("🛫 " .. os.date "%Y-%m-%d")
+end, { desc = "insert st[a]rt" })
+nnoremap("<leader>otf", function()
+  insert_at_cursor("✅ " .. os.date "%Y-%m-%d")
+end, { desc = "insert [f]inished" })
 nnoremap("<leader>otT", function()
   local desc = vim.fn.input("task description: ", "")
   insert_at_cursor("- [ ] #task " .. desc)
-end, {desc = "quick-insert [T]ask"})
+end, { desc = "quick-insert [T]ask" })
 nnoremap("<leader>ott", function()
   local desc = vim.fn.input("task description: ", "")
   local priority_choice = vim.fn.confirm("priority", "&normal\n&low\n&medium\n&high", 1)
@@ -232,10 +220,10 @@ nnoremap("<leader>ott", function()
     recurs = " 🔁 " .. recurs
   end
   insert_at_cursor("- [ ] #task " .. desc .. priority .. due .. scheduled)
-end, {desc = "scaffold [t]ask"})
+end, { desc = "scaffold [t]ask" })
+--}}}
 
-
--- Autocomplete
+--{{{ CMP Autocomplete
 local cmp = require "cmp"
 local luasnip = require "luasnip"
 local has_words_before = function()
@@ -287,51 +275,55 @@ M.cmp = {
     end
   end, { "i", "s" }),
 }
+--}}}
 
+--{{{ LSP Attach
 M.apply_lspattach = function(bufmap)
--- Displays hover information about the symbol under the cursor
-  bufmap("n", "gh", "<cmd>lua vim.lsp.buf.hover()<cr>", {desc = "[h]over"})
+  -- Displays hover information about the symbol under the cursor
+  bufmap("n", "gh", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "[h]over" })
 
   -- Jump to the definition
-  bufmap("n", "gd", '<cmd>lua require("telescope.builtin").lsp_definitions()<cr>', {desc = "[d]efinitions"})
+  bufmap("n", "gd", '<cmd>lua require("telescope.builtin").lsp_definitions()<cr>', { desc = "[d]efinitions" })
 
   -- Jump to declaration
-  bufmap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", {desc = "[D]eclaration"})
+  bufmap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", { desc = "[D]eclaration" })
 
   -- Lists all the implementations for the symbol under the cursor
-  bufmap("n", "gi", '<cmd>lua require("telescope.builtin").lsp_implementations()<cr>', {desc = "[i]mplementations"})
+  bufmap("n", "gi", '<cmd>lua require("telescope.builtin").lsp_implementations()<cr>', { desc = "[i]mplementations" })
 
   -- Jumps to the definition of the type symbol
-  bufmap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", {desc = "[t]ype definition"})
+  bufmap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { desc = "[t]ype definition" })
 
   -- Lists all the references
-  bufmap("n", "gr", '<cmd>lua require("telescope.builtin").lsp_references()<cr>', {desc = "[r]eferences"})
+  bufmap("n", "gr", '<cmd>lua require("telescope.builtin").lsp_references()<cr>', { desc = "[r]eferences" })
 
   -- Displays a function's signature information
-  bufmap("n", "K", "<cmd>lua vim.lsp.buf.signature_help()<cr>", {desc = "signature help"})
-  bufmap("i", "<C-u>", "<cmd>lua vim.lsp.buf.signature_help()<cr>", {desc = "signature help"})
+  bufmap("n", "K", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { desc = "signature help" })
+  bufmap("i", "<C-u>", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { desc = "signature help" })
 
   -- Renames all references to the symbol under the cursor
-  bufmap("n", "cs", "<cmd>lua vim.lsp.buf.rename()<cr>", {desc = "[s]ymbol under cursor"})
+  bufmap("n", "cs", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "[s]ymbol under cursor" })
 
   -- Selects a code action available at the current cursor position
-  bufmap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", {desc = "code [a]ctions"})
-  bufmap("x", "ga", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", {desc = "code [a]ctions"})
+  bufmap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "code [a]ctions" })
+  bufmap("x", "ga", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", { desc = "code [a]ctions" })
 
   -- Show diagnostics in a floating window
-  bufmap("n", "<leader>td", "<cmd>lua vim.diagnostic.open_float()<cr>", {desc = "[d]iagnostics window"})
+  bufmap("n", "<leader>td", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "[d]iagnostics window" })
 
   -- Move to the previous diagnostic
-  bufmap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", {desc = "[d]iagnostic"})
+  bufmap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "[d]iagnostic" })
 
   -- Move to the next diagnostic
-  bufmap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", {desc = "[d]iagnostic"})
+  bufmap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "[d]iagnostic" })
 end
 
 M.apply_firenvim = function()
   nnoremap("<Esc>", ":wq<cr>")
 end
+--}}}
 
+--{{{ Nvim Tree
 M.apply_nvim_tree = function(bufnr)
   local inject_node = require("nvim-tree.utils").inject_node
   local api = require "nvim-tree.api"
@@ -348,5 +340,6 @@ M.apply_nvim_tree = function(bufnr)
     end)
   )
 end
+--}}}
 
 return M
