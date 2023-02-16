@@ -13,3 +13,4 @@ require "g/lsp"
 
 -- Overrides for embedded NeoVim editors:
 require "g/firenvim"
+

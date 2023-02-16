@@ -3,8 +3,7 @@ local wk = require("which-key")
 -- Exported mappings:
 local M = {}
 
-local is_vscode = vim.g.vscode ~= nil
-
+--{{{ Util 
 -- Stolen from: https://github.com/ThePrimeagen/.dotfiles/blob/master/nvim/.config/nvim/lua/theprimeagen/keymap.lua
 local function bind(op, outer_opts)
   outer_opts = outer_opts or { noremap = true }
@@ -19,7 +18,9 @@ local nnoremap = bind "n"
 local vnoremap = bind "v"
 local xnoremap = bind "x"
 local inoremap = bind "i"
+---}}}
 
+--{{{ Basic movements and root-level binds
 
 -- Up and down using thumbs:
 nnoremap("<CR>", "<Down>")
@@ -56,8 +57,16 @@ vnoremap("<S-Up>", ":m '<-2<CR>gv=gv")
 nnoremap("x", '"_x')
 nnoremap("X", '"_X')
 
+-- Easier split navigation:
+nnoremap("<C-Left>", "<C-W>h")
+nnoremap("<C-Down>", "<C-W>j")
+nnoremap("<C-Up>", "<C-W>k")
+nnoremap("<C-Right>", "<C-W>l")
 
--- Quick Toggles:
+--}}}
+
+
+--{{{ Quick [t]oggles:
 wk.register({t = {name = "[t]oggle"}}, {prefix = "<leader>"})
 -- MarkdownPreview easy-mode
 nnoremap("<leader>tm", ":MarkdownPreviewToggle<CR>", {desc = "[m]arkdown preview"})
@@ -75,9 +84,13 @@ local function toggle_inline_diagnostics()
 end
 toggle_inline_diagnostics()
 nnoremap("<leader>ti", toggle_inline_diagnostics, {desc = "[i]nline diagnostics"})
+--wk.register({n = {name = "[n]eorg"}}, {prefix = "<leader>t"})
+--nnoremap("<leader>tnt", "<cmd>Neorg toc<cr>", {desc = "toggle neorg [t]oc"})
+--nnoremap("<leader>tnc", "<cmd>Neorg toggle-concealer<cr>", {desc = "neorg [c]oncealer"})
+--}}}
 
 
--- Debugging:
+--{{{ [d]ebugging:
 wk.register({d = {name = "[d]ebug"}}, {prefix = "<leader>"})
 nnoremap("<leader>db", dap.toggle_breakpoint, { desc = "toggle [b]reakpoint" })
 nnoremap("<leader>dc", dap.continue, { desc = "[c]ontinue" })
@@ -96,9 +109,10 @@ end, { desc = "[l]ogpoint" })
 nnoremap("<leader>dT", dap.terminate, { desc = "[T]erminate" })
 nnoremap("<leader>du", dapui.toggle, { desc = "toggle debug [u]i" })
 nnoremap("<leader>dh", dap.run_to_cursor, { desc = "run to [h]ere" })
+--}}}
 
 
--- Searching:
+--{{{ [s]earching:
 wk.register({s = {name = "[s]earch"}}, {prefix = "<leader>"})
 -- Telescope: https://github.com/nvim-telescope/telescope.nvim#usage
 nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>", {desc = "[f]iles"})
@@ -108,6 +122,27 @@ nnoremap("<leader>sb", "<cmd>Telescope buffers<cr>", {desc = "[b]uffers"})
 nnoremap("<leader>sh", "<cmd>Telescope help_tags<cr>", {desc = "[h]elp"})
 nnoremap("<leader>sp", "<cmd>Telescope project<cr>", {desc = "[p]roject"})
 nnoremap("<leader>st", "<cmd>Telescope builtin<cr>", {desc = "[t]elescope"})
+--}}}
+
+
+--{{{ Ne[o]rg
+--wk.register({o = {name = "ne[o]rg"}}, {prefix = "<leader>"})
+--nnoremap("<leader>ot", "<cmd>Neorg toc<cr>", {desc = "toggle [t]oc"})
+--nnoremap("<leader>oc", "<cmd>Neorg toggle-concealer<cr>", {desc = "toggle [c]oncealer"})
+--wk.register({m = {name = "[m]etadata"}}, {prefix = "<leader>o"})
+--nnoremap("<leader>omi", "<cmd>Neorg inject-metadata<cr>", {desc = "[i]nject"})
+--nnoremap("<leader>omu", "<cmd>Neorg update-metadata<cr>", {desc = "[u]pdate"})
+--wk.register({w = {name = "[w]orkspace"}}, {prefix = "<leader>o"})
+--nnoremap("<leader>owg", "<cmd>Neorg workspace g<cr>", {desc = "[g]"})
+--wk.register({t = {name = "[t]odo"}}, {prefix = "<leader>o"})
+--nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_pending<cr>", {desc = "set to [p]ending"})
+--nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_undone<cr>", {desc = "set to [u]ndone"})
+--nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_important<cr>", {desc = "set to [i]mportant"})
+--nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_cancelled<cr>", {desc = "set to [c]ancelled"})
+--nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_on_hold<cr>", {desc = "set to on-[h]old"})
+--nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_done<cr>", {desc = "set to [d]one"})
+--nnoremap("<leader>otp", "<cmd>Neorg keybind norg core.norg.qol.todo_items.todo.task_recurring<cr>", {desc = "set to [r]ecurring"})
+--}}}
 
 -- Other which-key labels:
 wk.register({["["] = {name = "previous"}}, {prefix = ""})
@@ -131,12 +166,6 @@ M.telescope = {
 }
 
 
--- Easier split navigation:
-nnoremap("<C-Left>", "<C-W>h")
-nnoremap("<C-Down>", "<C-W>j")
-nnoremap("<C-Up>", "<C-W>k")
-nnoremap("<C-Right>", "<C-W>l")
-
 -- CD to current file/buffer directory
 nnoremap("<leader>cd", ":cd %:p:h<CR>")
 
@@ -144,27 +173,67 @@ nnoremap("<leader>cd", ":cd %:p:h<CR>")
 require("leap").add_default_mappings()
 
 -- Obsidian
---nnoremap("<leader>so", "<cmd>ObsidianSearch<CR>")
---nnoremap("<leader>oo", "<cmd>ObsidianOpen<CR>")
---nnoremap("<leader>or", "<cmd>ObsidianBacklinks<CR>")
---nnoremap("<leader>ot", "<cmd>ObsidianToday<CR>")
---vnoremap("<leader>ol", "<cmd>ObsidianLink<CR>")
---nnoremap("<leader>of", "<cmd>ObsidianFollowLink<CR>")
---vim.keymap.set("n", "gf", function()
---  if require("obsidian").util.cursor_on_markdown_link() then
---    return "<cmd>ObsidianFollowLink<CR>"
---  else
---    return "gf"
---  end
---end, { noremap = false, expr = true })
---nnoremap("<leader>on", "<cmd>ObsidianNew ")
---nnoremap("<leader>on", function()
---  local name = vim.fn.input("Note Name: ", "", "file")
---  vim.cmd("ObsidianNew " .. name)
---end)
+wk.register({o = {name = "[o]bsidian"}}, {prefix = "<leader>"})
+nnoremap("<leader>so", "<cmd>ObsidianSearch<CR>", {desc = "[o]bsidian"})
+nnoremap("<leader>os", "<cmd>ObsidianSearch<CR>", {desc = "[s]earch"}) -- synonym ^^
+nnoremap("<leader>oo", "<cmd>ObsidianOpen<CR>", {desc = "[o]open in obsidian"})
+nnoremap("<leader>ob", "<cmd>ObsidianBacklinks<CR>", {desc = "[b]acklinks"})
+nnoremap("<leader>oT", "<cmd>ObsidianToday<CR>", {desc = "[T]oday"})
+vnoremap("<leader>ol", "<cmd>ObsidianLink<CR>", {desc = "[l]ink"})
+nnoremap("<leader>of", "<cmd>ObsidianFollowLink<CR>", {desc = "[f]ollow link"})
+vim.keymap.set("n", "gf", function()
+  if require("obsidian").util.cursor_on_markdown_link() then
+    return "<cmd>ObsidianFollowLink<CR>"
+  else
+    return "gf"
+  end
+end, { noremap = false, expr = true })
+nnoremap("<leader>on", function()
+  local name = vim.fn.input("Note Name: ", "", "file")
+  if name ~= nil and name ~= "" then
+    vim.cmd("ObsidianNew " .. name)
+  end
+end, {desc = "[n]ew note"})
+local function insert_at_cursor(text)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { text })
+end
+wk.register({t = {name = "[t]ask"}}, {prefix = "<leader>o"})
+nnoremap("<leader>otl", function() insert_at_cursor("🔽") end, {desc = "insert [l]ow priority"})
+nnoremap("<leader>otm", function() insert_at_cursor("🔼") end, {desc = "insert [m]edium priority"})
+nnoremap("<leader>oth", function() insert_at_cursor("⏫") end, {desc = "insert [h]igh priority"})
+nnoremap("<leader>otd", function() insert_at_cursor("📅") end, {desc = "insert [d]ue date"})
+nnoremap("<leader>otr", function() insert_at_cursor("🔁") end, {desc = "insert [r]ecurs"})
+nnoremap("<leader>ots", function() insert_at_cursor("⏳") end, {desc = "insert [s]cheduled"})
+nnoremap("<leader>ota", function() insert_at_cursor("🛫 " .. os.date("%Y-%m-%d")) end,
+  {desc = "insert st[a]rt"})
+nnoremap("<leader>otf", 
+  function() insert_at_cursor("✅ " .. os.date("%Y-%m-%d")) end,
+  {desc = "insert [f]inished"})
+nnoremap("<leader>otT", function()
+  local desc = vim.fn.input("task description: ", "")
+  insert_at_cursor("- [ ] #task " .. desc)
+end, {desc = "quick-insert [T]ask"})
+nnoremap("<leader>ott", function()
+  local desc = vim.fn.input("task description: ", "")
+  local priority_choice = vim.fn.confirm("priority", "&normal\n&low\n&medium\n&high", 1)
+  local priorities = { "", " 🔽", " 🔼", " ⏫" }
+  local priority = priorities[priority_choice]
+  local due = vim.fn.input("due date: ", "")
+  if due ~= "" then
+    due = " 📅 " .. due
+  end
+  local scheduled = vim.fn.input("scheduled: ", "")
+  if scheduled ~= "" then
+    scheduled = " ⏳ " .. scheduled
+  end
+  local recurs = vim.fn.input("recurs: ", "")
+  if recurs ~= "" then
+    recurs = " 🔁 " .. recurs
+  end
+  insert_at_cursor("- [ ] #task " .. desc .. priority .. due .. scheduled)
+end, {desc = "scaffold [t]ask"})
 
--- Neorg (phonetic "Org")
---nnoremap("<leader>o", "", { desc = "" })
 
 -- Autocomplete
 local cmp = require "cmp"

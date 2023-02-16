@@ -15,6 +15,9 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " " -- Spacebar as leader
 
 return require("lazy").setup({
+  defaults = {
+    lazy = true,
+  },
   "nvim-lua/plenary.nvim",
   {
     "nvim-telescope/telescope.nvim",
@@ -57,11 +60,12 @@ return require("lazy").setup({
   },
 
   {
+    --enabled = false,
     "rmagatti/auto-session",
     config = function()
       require("auto-session").setup {
         log_level = "error",
-        auto_session_suppress_dirs = { "/", "~/" },
+        auto_session_suppress_dirs = { "/", "~/", "~/neorg/*" },
         cwd_change_handling = {
           auto_session_root_dir = vim.fn.stdpath "data" .. "/sessions/",
           restore_upcoming_session = true,
@@ -97,7 +101,7 @@ return require("lazy").setup({
   -- Status line:
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons", opt = true },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("lualine").setup()
     end,
@@ -105,18 +109,21 @@ return require("lazy").setup({
 
   -- File manager:
   {
-    "kyazdani42/nvim-tree.lua",
+    "nvim-tree/nvim-tree.lua",
     dependencies = {
-      "kyazdani42/nvim-web-devicons", -- optional, for file icons
+      "nvim-tree/nvim-web-devicons"
     },
+    lazy = false,
     config = function()
-      require("nvim-tree").setup {
+      require("nvim-tree").setup({
         sync_root_with_cwd = true,
-        on_attach = function(bufnr)
-          require("g/keybinds").apply_nvim_tree(bufnr)
-        end,
-      }
-    end,
+        actions = {
+          open_file = {
+            quit_on_open = true,
+          }
+        }
+      })
+    end
   },
 
   -- Markdown Utils:
@@ -150,31 +157,37 @@ return require("lazy").setup({
   },
 
   -- Neorg notes and agenda:
-  {
-    "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
-    opts = {
-      load = {
-        ["core.defaults"] = {}, -- Loads default behaviour
-        ["core.integrations.treesitter"] = {},
-        ["core.norg.completion"] = {
-          config = {
-            engine = "nvim-cmp",
-            name = "[Neorg]"
-          }
-        },
-        ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
-        ["core.norg.dirman"] = { -- Manages Neorg workspaces
-          config = {
-            workspaces = {
-              g = "~/neorg/g",
-            }
-          }
-        },
-      }
-    },
-    dependencies = { { "nvim-lua/plenary.nvim" } },
-  },
+  --{
+  --  "nvim-neorg/neorg",
+  --  build = ":Neorg sync-parsers",
+  --  opts = {
+  --    load = {
+  --      ["core.defaults"] = {}, -- Loads default behaviour
+  --      ["core.integrations.treesitter"] = {},
+  --      ["core.norg.completion"] = {
+  --        config = {
+  --          engine = "nvim-cmp",
+  --          name = "[Neorg]"
+  --        }
+  --      },
+  --      ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
+  --      ["core.norg.dirman"] = { -- Manages Neorg workspaces
+  --        config = {
+  --          workspaces = {
+  --            g = "~/neorg/g",
+  --          }
+  --        }
+  --      },
+  --      ["core.keybinds"] = {
+  --        config = {
+  --          default_keybinds = true,
+  --          neorg_leader = " n",
+  --        }
+  --      }
+  --    }
+  --  },
+  --  dependencies = { { "nvim-lua/plenary.nvim" } },
+  --},
 
   --  use({
   --    'euclio/vim-markdown-composer',
@@ -254,7 +267,7 @@ return require("lazy").setup({
       }
     end,
   },
-  "neovim/nvim-lspconfig",
+  "hrsh7th/nvim-cmp",
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
@@ -264,12 +277,12 @@ return require("lazy").setup({
   "L3MON4D3/LuaSnip",
   "saadparwaiz1/cmp_luasnip",
   "rafamadriz/friendly-snippets",
-  "williamboman/mason-lspconfig.nvim",
   {
     "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup()
-    end,
+    dependencies = {
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig",
+    },
   },
 
   -- Debugging

@@ -3,33 +3,29 @@ local keybinds = require "g/keybinds"
 -- Mason should be required before lspconfig:
 require("mason").setup()
 require("mason-lspconfig").setup()
-
 local lspconfig = require "lspconfig"
 local lsp_defaults = lspconfig.util.default_config
 
--- -------------------------------
--- START LSP Servers:
--- -------------------------------
 
--- Lua:
-lspconfig.sumneko_lua.setup {
-  single_file_support = true,
+require("mason-lspconfig").setup_handlers {
+  -- The first entry (without a key) will be the default handler
+  -- and will be called for each installed server that doesn't have
+  -- a dedicated handler.
+  function (server_name) -- default handler (optional)
+    lspconfig[server_name].setup {}
+  end,
+  -- Next, you can provide a dedicated handler for specific servers.
+  -- For example, a handler override for the `gopls`:
+  gopls = function ()
+    lspconfig.gopls.setup {
+      analyses = {
+        unusedparams = true,
+      },
+      staticcheck = true,
+    }
+  end,
 }
 
-lspconfig.rust_analyzer.setup {}
-
-lspconfig.clangd.setup {}
-
-lspconfig.gopls.setup {
-  analyses = {
-    unusedparams = true,
-  },
-  staticcheck = true,
-}
-
--- -------------------------------
--- END LSP Servers ^^
--- -------------------------------
 
 -- Merge sane defaults into capabilities config:
 lsp_defaults.capabilities =
