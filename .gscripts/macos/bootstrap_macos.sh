@@ -35,6 +35,7 @@ brew install \
   lolcat \
   lua-language-server \
   luarocks \
+  marksman \
   neovim \
   ninja \
   nvm \
@@ -52,6 +53,7 @@ brew tap railwaycat/emacsmacport
 brew install emacs-mac --with-dbus --with-starter --with-no-title-bars --with-native-comp --with-mac-metal --with-xwidgets --with-imagemagick
 osascript -e 'tell application "Finder" to make alias file to POSIX file "/usr/local/opt/emacs-mac/Emacs.app" at POSIX file "/Applications"'
 
+# Build tool for ZMK
 pip3 install --user -U west
 
 pushd ~/.config
