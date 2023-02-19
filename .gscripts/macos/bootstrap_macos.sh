@@ -1,6 +1,25 @@
 #!/usr/bin/env bash
+echo "\n"
+echo "First, you need to manually accept Apple's license agreement for Xcode." \
+     "It should pop up right now. Look for the prompt in another window, then" \
+     "come back here when it's done."
+
 xcodebuild -license
+echo "\n"
+read -p "Xcode license accepted? Press enter to continue!"
+
+echo "\n"
+echo "Now we need to install Xcode command line tools. This will pop up in"
+echo "another window. Come back here when it's done."
 xcode-select --install
+
+echo "\n"
+read -p "Xcode installed? Press enter to continue!"
+
+echo "\n"
+echo "Now a ton of software is going to be installed automatically without" \
+     "human interaction. This may take a while; about enough time to make an" \
+     "especially delicious snacc..."
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -49,10 +68,6 @@ brew install \
   wget \
   zsh
 
-brew tap railwaycat/emacsmacport
-brew install emacs-mac --with-dbus --with-starter --with-no-title-bars --with-native-comp --with-mac-metal --with-xwidgets --with-imagemagick
-osascript -e 'tell application "Finder" to make alias file to POSIX file "/usr/local/opt/emacs-mac/Emacs.app" at POSIX file "/Applications"'
-
 # Build tool for ZMK
 pip3 install --user -U west
 
@@ -74,10 +89,12 @@ popd
 ##################################
 # The following are interactive: #
 ##################################
+echo "\n"
+echo "A few more things need to be installed/configured that require human" \
+     "interaction. Are you ready?"
+read -p "Press enter to continue!"
 
 chsh -s /usr/local/bin/zsh
 
 $(brew --prefix)/opt/fzf/install
-
-~/.emacs.d/bin/doom install
 
