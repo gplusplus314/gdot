@@ -40,6 +40,8 @@ set.splitright = true -- open vertical splits to the right of the current window
 set.hidden = true -- allows you to hide buffers with unsaved changes without being prompted
 set.inccommand = "split" -- live preview of :s results
 
+set.foldmethod = "marker" -- Fold on {{{ in between 3 curly brackets }}}
+
 -- Initialize customized color schemes so when we switch to them, they're the
 -- way I like them:
 require "g/colors/dracula"

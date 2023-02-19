@@ -69,6 +69,9 @@ nnoremap("<leader>cd", ":cd %:p:h<CR>")
 -- Leap
 require("leap").add_default_mappings()
 
+-- Save and quit in style!
+nnoremap("ZZ", ":wqa<CR>")
+
 --}}}
 
 --{{{ Quick [t]oggles:
@@ -241,10 +244,10 @@ M.cmp = {
   ["<C-d>"] = cmp.mapping.scroll_docs(4),
   ["<C-Space>"] = cmp.mapping.complete(),
   ["<Tab>"] = cmp.mapping(function(fallback)
-    if cmp.visible() then
-      cmp.select_next_item()
-    elseif luasnip.expand_or_jumpable() then
+    if luasnip.expand_or_jumpable() then
       luasnip.expand_or_jump()
+    elseif cmp.visible() then
+      cmp.select_next_item()
     elseif has_words_before() then
       cmp.complete()
     else

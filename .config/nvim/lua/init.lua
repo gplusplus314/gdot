@@ -1,15 +1,18 @@
 -- Load plugins so they can be configured:
-require "g/plugins"
+require "g.plugins"
 
 -- Basic settings:
-require "g/basic_settings"
-require "g/config_hacks"
+require "g.basic_settings"
+require "g.config_hacks"
 
 -- Load custom keybinds
-require "g/keybinds"
+require "g.keybinds"
 
 -- Load LSP config
-require "g/lsp"
+require "g.lsp"
+
+-- Load snippets
+require "g.snippets"
 
 -- Overrides for embedded NeoVim editors:
-require "g/firenvim"
+require "g.firenvim"
