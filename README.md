@@ -22,7 +22,7 @@ any way. No noise. Yay!
 individual files at a time. Just use `gdot add foobar`. To conveniently add
 **u**nstaged changes for tracked files, use `gdot add -u`.
 
-### MacOS
+## MacOS
 To install everything, run the `bootstrap_macos.sh` script. Keep in mind that
 it can take a while and will require human interaction to answer some
 questions.
@@ -30,7 +30,8 @@ questions.
 ./.gscripts/macos/bootstrap_macos.sh
 ```
 
-Time Macnine is "too easy" and only allows you to exclude folders, not
+### Time Machine tweak script
+Time Machine is "too easy" and only allows you to exclude folders, not
 explicitly include them. For a development machine, this is terrible. So this
 script emulates **inclusionary behavior** by taking a list of home-directory
 level directories that you **do** want to backup, then it automatically
@@ -42,3 +43,8 @@ and then run it:
 ```sh
 ~/.gscripts/macos/gtimemachineexclusions
 ```
+
+### Use NeoVim as a system-wide text editor
+Right click a file in Finder and go to `open with -> other`. Navigate to the
+home directory, then use keyboard shortcut `shift+cmd+.` to show hidden files.
+Then navigate to `~/.gscripts/macos/automator` and select `NeoVim.app`.

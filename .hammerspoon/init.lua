@@ -15,7 +15,7 @@ function launch_terminal()
   end
 end
 
-hs.hotkey.bind({'ctrl'}, 'return', launch_terminal2)
+hs.hotkey.bind({'ctrl'}, 'return', launch_terminal)
 
 hs.hotkey.bind({'control'}, 's', function ()
   hs.execute('/Applications/flameshot.app/Contents/MacOS/flameshot gui')

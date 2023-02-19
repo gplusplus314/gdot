@@ -76,7 +76,6 @@ nnoremap("ZZ", ":wqa<CR>")
 
 --{{{ Quick [t]oggles:
 wk.register({ t = { name = "[t]oggle" } }, { prefix = "<leader>" })
--- MarkdownPreview easy-mode
 nnoremap("<leader>tm", ":MarkdownPreviewToggle<CR>", { desc = "[m]arkdown preview" })
 -- Toggle file tree:
 nnoremap("<leader>.", ":NvimTreeToggle<cr>", { desc = "toggle file tree" })
