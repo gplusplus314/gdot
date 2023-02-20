@@ -35,7 +35,7 @@ Time Machine is "too easy" and only allows you to exclude folders, not
 explicitly include them. For a development machine, this is terrible. So this
 script emulates **inclusionary behavior** by taking a list of home-directory
 level directories that you **do** want to backup, then it automatically
-excludes everything else. Edit the `gtimemachineexlusions` script:
+excludes everything else. Edit the `gtimemachineexclusions` script:
 ```sh
 vi ~/.gscripts/macos/gtimemachineexclusions
 ```
