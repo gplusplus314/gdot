@@ -3,7 +3,6 @@ require "g.plugins"
 
 -- Basic settings:
 require "g.basic_settings"
-require "g.config_hacks"
 
 -- Load custom keybinds
 require "g.keybinds"
