@@ -319,7 +319,9 @@ M.apply_lspattach = function(bufmap)
   -- Move to the next diagnostic
   bufmap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "[d]iagnostic" })
 end
+--}}}
 
+---{{{ FireNvim
 M.apply_firenvim = function()
   nnoremap("<Esc>", ":wq<cr>")
 end

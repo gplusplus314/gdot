@@ -39,6 +39,7 @@ brew install \
   ccache \
   cmake \
   coreutils \
+  deno \
   dfu-util \
   dtc \
   fd \

@@ -1,3 +1,4 @@
+#{{{ Init Powerlevel10k
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -7,14 +8,13 @@ fi
 source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
+#}}}
 
-###########################
-#  START  Settings        #
-###########################
+#{{{ Settings
 export PATH="$HOME/.dotfiles/bin/all:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.emacs.d/bin:$PATH"
+
 export GPG_TTY=$TTY
 
 export ZSH_THEME_TERM_TITLE_IDLE="%~"
@@ -72,16 +72,13 @@ export LDFLAGS="-L/usr/local/opt/llvm/lib/c++ -Wl,-rpath,/usr/local/opt/llvm/lib
 export CPPFLAGS="-I/usr/local/opt/llvm/include"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export CC=$(which clang)
+#}}}
 
-###########################
-#  END    Settings        #
-###########################
-
-###########################
-# START aliases and funcs #
-###########################
+#{{{ Aliases and Functions
 alias vi=nvim
 alias vim=nvim
+
+alias cat=bat
 
 # Colorize the ls output ##
 alias ls='ls --color=auto'
@@ -92,7 +89,7 @@ alias l.='ls -d .* --color=auto'
 # colorful grep
 alias grep='grep --color'
 
-# pushd via fzf of telescope-project.nvm
+# pushd via fzf of telescope-project.nvim
 # "Pushd Project"
 function pp() {
   DIR=$(cat ~/.local/share/nvim/telescope-projects.txt \
@@ -123,13 +120,9 @@ lfpd () {
         fi
     fi
 }
-###########################
-#  END  aliases and funcs #
-###########################
+#}}}
 
-#################
-# <Keybinds>
-#################
+#{{{ Keybinds
 bindkey -e
 
 # Shift-Tab to navigate backwards
@@ -177,22 +170,30 @@ zle -N zle-fzfh
 bindkey "^h" zle-fzfh
 
 bindkey -s '^o' 'lfpd\n'
-#################
-# </Keybinds>
-#################
+#}}}
 
+#{{{ Initializers
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#}}}
 
+#{{{ OS-Specific Overrides
 # Keep OS-Specific config SECOND TO LAST so it can override generics:
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # linux-specific stuff
   source /usr/share/nvm/init-nvm.sh
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-  source $HOME/.zshrc_macos
-fi
+  export PATH="$HOME/.gscripts/macos:$PATH"
+  export PATH="$HOME/Library/Python/3.10/bin:$PATH"
 
+  export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+fi
+#}}}
+
+#{{{ Machine-Specific Overrides
 # Keep machine-specific config ABSOLUTELYE LAST to override everything:
 if [ -f "$HOME/.zshrc_local" ]; then
   source $HOME/.zshrc_local
 fi
-
+#}}}

@@ -127,18 +127,19 @@ return require("lazy").setup {
   },
 
   -- Markdown Utils:
-  -- install without yarn or npm
   {
-    "iamcco/markdown-preview.nvim",
-    build = function()
-      vim.fn["mkdp#util#install"]()
+    "toppair/peek.nvim",
+    build = "deno task --quiet build:fast",
+    config = function ()
+      vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})
+      vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
     end,
   },
 
   -- Obsidian notes integration:
   {
-    dir = "~/src/github.com/gerryhernandez/obsidian.nvim",
-    --"epwalsh/obsidian.nvim",
+    --dir = "~/src/github.com/gerryhernandez/obsidian.nvim",
+    "epwalsh/obsidian.nvim",
     config = function()
       require("obsidian").setup {
         use_advanced_uri = true,
@@ -156,56 +157,18 @@ return require("lazy").setup {
     end,
   },
 
-  -- Neorg notes and agenda:
-  --{
-  --  "nvim-neorg/neorg",
-  --  build = ":Neorg sync-parsers",
-  --  opts = {
-  --    load = {
-  --      ["core.defaults"] = {}, -- Loads default behaviour
-  --      ["core.integrations.treesitter"] = {},
-  --      ["core.norg.completion"] = {
-  --        config = {
-  --          engine = "nvim-cmp",
-  --          name = "[Neorg]"
-  --        }
-  --      },
-  --      ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
-  --      ["core.norg.dirman"] = { -- Manages Neorg workspaces
-  --        config = {
-  --          workspaces = {
-  --            g = "~/neorg/g",
-  --          }
-  --        }
-  --      },
-  --      ["core.keybinds"] = {
-  --        config = {
-  --          default_keybinds = true,
-  --          neorg_leader = " n",
-  --        }
-  --      }
-  --    }
-  --  },
-  --  dependencies = { { "nvim-lua/plenary.nvim" } },
-  --},
-
-  --  use({
-  --    'euclio/vim-markdown-composer',
-  --    build = 'cargo build --release',
-  --    config = function ()
-  --      vim.g.markdown_composer_external_renderer='pandoc -f markdown -t html'
-  --      vim.g.markdown_composer_autostart = 0
-  --    end
-  --  })
-
   -- Other niceties:
 
   -- Use NeoVim as a text editor for text fields within Firefox:
   {
-    "glacambre/firenvim",
+    'glacambre/firenvim',
+    -- Lazy load firenvim
+    -- Explanation: https://github.com/folke/lazy.nvim/discussions/463#discussioncomment-4819297
+    cond = not not vim.g.started_by_firenvim,
     build = function()
+      require("lazy").load({ plugins = "firenvim", wait = true })
       vim.fn["firenvim#install"](0)
-    end,
+    end
   },
 
   -- Shows available options for leader keys:
