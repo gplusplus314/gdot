@@ -321,7 +321,7 @@ M.apply_lspattach = function(bufmap)
 end
 --}}}
 
----{{{ FireNvim
+--{{{ FireNvim
 M.apply_firenvim = function()
   nnoremap("<Esc>", ":wq<cr>")
 end

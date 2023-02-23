@@ -77,6 +77,7 @@ export CC=$(which clang)
 #{{{ Aliases and Functions
 alias vi=nvim
 alias vim=nvim
+alias vip='nvim'
 
 alias cat=bat
 
@@ -93,9 +94,9 @@ alias grep='grep --color'
 # "Pushd Project"
 function pp() {
   DIR=$(cat ~/.local/share/nvim/telescope-projects.txt \
-    | awk -F"=" '{print $1 " " $2}' \
-    | fzf -n 1 --with-nth 1 -q "$1" -1 --preview-window 'top:60%' --preview 'echo {} | awk '"'"'{print $2}'"'"' | xargs tree -l -C -L 3' \
-    | awk '{print $2}')
+    | awk -F"=" '{print $1 "\t" $2}' \
+    | fzf -n 1 --with-nth 1 -q "$1" -1 --preview-window 'top:60%' --preview 'echo {} | awk -F"\t" '"'"'{print "\"" $2 "\""}'"'"' | xargs tree -l -C -L 3' \
+    | awk -F"\t" '{print $2}')
   pushd "$DIR"
 }
 
@@ -105,20 +106,6 @@ function colors256() {
   for i in {0..255}; do
     printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
   done
-}
-
-lfpd () {
-    tmp="$(mktemp)"
-    lf -last-dir-path="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        if [ -d "$dir" ]; then
-            if [ "$dir" != "$(pwd)" ]; then
-                pushd "$dir"
-            fi
-        fi
-    fi
 }
 #}}}
 
@@ -168,8 +155,6 @@ function zle-fzfh() {
 }
 zle -N zle-fzfh
 bindkey "^h" zle-fzfh
-
-bindkey -s '^o' 'lfpd\n'
 #}}}
 
 #{{{ Initializers
