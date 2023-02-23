@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import os
 
-included_home_subdirs=set(""".config
+included_home_subdirs=set("""
+.config
 .gitconfig
 .ssh
 Desktop
@@ -10,8 +11,10 @@ Library
 Movies
 Pictures
 Public
+Public
+inbox
 notes
-Public""".split("\n"))
+""".strip().split("\n"))
 
 # Q: "What is the inbox folder?"
 # A: I purge my downloads folder from time to time. The inbox folder is
@@ -23,5 +26,14 @@ home_subdirs = {dir for dir in os.listdir(home_dir) if os.path.isdir(os.path.joi
 
 dirs_to_ignore = {dir for dir in home_subdirs if dir not in included_home_subdirs}
 
+print("Resetting exclusions to default state...")
+for dir in home_subdirs:
+    os_path = os.path.join(home_dir, dir)
+    os.system(f"sudo tmutil removeexclusion -p {os_path}")
+print("    done.\n")
+
 for dir in dirs_to_ignore:
-    os.system(f"tmutil addexclusion -p {os.path.join(home_dir, dir)}")
+    os_path = os.path.join(home_dir, dir)
+    os.system(f"sudo tmutil addexclusion -p {os_path}")
+    print(f"Added exclusion: {os_path}")
+
