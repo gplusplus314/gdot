@@ -143,7 +143,7 @@ return require("lazy").setup {
     config = function()
       require("obsidian").setup {
         use_advanced_uri = true,
-        dir = "~/notes/Brain",
+        dir = "/Users/g/Library/Mobile Documents/iCloud~md~obsidian/Documents/Brain",
         daily_notes = {
           folder = "dailies",
         },

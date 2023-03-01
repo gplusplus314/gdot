@@ -14,6 +14,7 @@ source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
 export PATH="$HOME/.dotfiles/bin/all:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 export GPG_TTY=$TTY
 

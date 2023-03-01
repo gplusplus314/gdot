@@ -516,7 +516,7 @@ hints:
      command: xdg-open
      post_processing: true
      mouse:
-       enabled: true
+       enabled: false
        mods: None
      binding:
        key: F

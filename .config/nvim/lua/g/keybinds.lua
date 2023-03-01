@@ -76,7 +76,15 @@ nnoremap("ZZ", ":wqa<CR>")
 
 --{{{ Quick [t]oggles:
 wk.register({ t = { name = "[t]oggle" } }, { prefix = "<leader>" })
-nnoremap("<leader>tm", ":MarkdownPreviewToggle<CR>", { desc = "[m]arkdown preview" })
+local function toggle_peek_preview()
+  local peek = require('peek')
+  if peek.is_open() then
+    peek.close()
+  else
+    peek.open()
+  end
+end
+nnoremap("<leader>tm", toggle_peek_preview, { desc = "[m]arkdown preview" })
 -- Toggle file tree:
 nnoremap("<leader>.", ":NvimTreeToggle<cr>", { desc = "toggle file tree" })
 nnoremap("<leader>tt", ":NvimTreeToggle<cr>", { desc = "file [t]ree" })
