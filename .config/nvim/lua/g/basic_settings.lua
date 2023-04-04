@@ -11,9 +11,10 @@ local set = vim.opt
 set.nu = true -- Show line number on current line
 set.relativenumber = true -- Show relative line numbers
 
-set.tabstop = 2
-set.softtabstop = 2
-set.shiftwidth = 2
+local indent_size = 4
+set.tabstop = indent_size
+set.softtabstop = indent_size
+set.shiftwidth = indent_size
 set.expandtab = true
 set.smartindent = true
 set.smarttab = true -- <tab>/<BS> indent/dedent in leading whitespace

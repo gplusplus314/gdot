@@ -68,6 +68,9 @@ brew install tree                 # Show directory structure visually
 brew install wget                 # Gets things from the web
 brew install zsh                  # Interactive shell of choice
 
+# Debug tools for Go
+go install github.com/go-delve/delve/cmd/dlv@latest
+
 # Build tool for ZMK
 pip3 install --user -U west
 
