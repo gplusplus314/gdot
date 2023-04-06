@@ -48,3 +48,5 @@ set.foldmethod = "marker" -- Fold on {{{ in between 3 curly brackets }}}
 require "g/colors/dracula"
 require "g/colors/material"
 vim.cmd [[colorscheme tokyonight-night]]
+
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
