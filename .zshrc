@@ -15,6 +15,7 @@ export PATH="$HOME/.dotfiles/bin/all:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/usr/local/opt/protobuf@3/bin:$PATH"
 
 export GPG_TTY=$TTY
 
