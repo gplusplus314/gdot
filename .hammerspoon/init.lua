@@ -17,9 +17,9 @@ end
 
 hs.hotkey.bind({'ctrl'}, 'return', launch_terminal)
 
-hs.hotkey.bind({'control'}, 's', function ()
-  hs.execute('/Applications/flameshot.app/Contents/MacOS/flameshot gui')
-end)
+--hs.hotkey.bind({'control'}, 's', function ()
+--  hs.execute('/Applications/flameshot.app/Contents/MacOS/flameshot gui')
+--end)
 
-hs.loadSpoon("Emojis")
-spoon.Emojis:bindHotkeys({toggle = {{'ctrl'}, 'e'}})
+--hs.loadSpoon("Emojis")
+--spoon.Emojis:bindHotkeys({toggle = {{'ctrl'}, 'e'}})

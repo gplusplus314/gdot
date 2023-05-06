@@ -37,7 +37,10 @@ zstyle ':completion:*' menu select
 autoload -Uz compinit
 compinit
 
-export EDITOR=nvim
+# Don't close the shell on Ctrl-D
+set -o ignoreeof
+
+export EDITOR='env EDITOR_INVOKED=1 nvim'
 export NEOVIDE_FRAMELESS=true
 export TERMINAL=alacritty
 
@@ -79,7 +82,6 @@ export CC=$(which clang)
 #{{{ Aliases and Functions
 alias vi=nvim
 alias vim=nvim
-alias vip='nvim'
 
 alias cat=bat
 
@@ -131,6 +133,13 @@ function reset-prompt() {
   done
   zle reset-prompt
 }
+
+function zle-fg() {
+  fg
+  reset-prompt
+}
+zle -N zle-fg
+bindkey "^z" zle-fg
 
 function zle-pp() {
   pp
