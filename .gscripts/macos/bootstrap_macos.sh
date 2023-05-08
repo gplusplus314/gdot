@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 echo "\n"
 echo "First, you need to manually accept Apple's license agreement for Xcode." \
-     "It should pop up right now. Look for the prompt in another window, then" \
-     "come back here when it's done."
+	"It should pop up right now. Look for the prompt in another window, then" \
+	"come back here when it's done."
 
 xcodebuild -license
 echo "\n"
@@ -18,8 +18,8 @@ read -p "Xcode installed? Press enter to continue!"
 
 echo "\n"
 echo "Now a ton of software is going to be installed automatically without" \
-     "human interaction. This may take a while; about enough time to make an" \
-     "especially delicious snacc..."
+	"human interaction. This may take a while; about enough time to make an" \
+	"especially delicious snacc..."
 
 # Install Homebrew package manager
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -35,38 +35,40 @@ brew install --cask hammerspoon        # macOS automation/scripting in Lua
 brew install --cask karabiner-elements # Keyboar manipulation/remapping
 brew install --cask wezterm            # Alternative, experimental terminal
 
-brew install bat                  # Better cat
-brew install ccache               # Compiler Cache to speed up some compilations
-brew install cmake                # Configurable cross platform make
-brew install coreutils            # GNU core utils, more up to date than Apple's
-brew install deno                 # Rust-based alternative to Node.js
-brew install dfu-util             # DFU-mode firmware flashing for keyboard
-brew install dtc                  # Device Tree Controller - ZMK build dep
-brew install fd                   # Alternative to find
-brew install figlet               # ASCII art text generator
-brew install firefoxpwa           # Use Firefox to host PWAs
-brew install fzf                  # TUI/CLI fuzzy finder
-brew install gh                   # GitHub CLI
-brew install git                  # Git version control
-brew install go                   # Go programming language
-brew install gopls                # Go languago server
-brew install llvm                 # Next-gen compiler backend
-brew install lolcat               # The purrfect addition to the CLI
-brew install lua-language-server  # As the name implies
-brew install luarocks             # Package manager for Lua
-brew install marksman             # Markdown language server
-brew install neovim               # NeoVim terminal-based text editor
-brew install ninja                # Buid system for CMake - used by ZMK
-brew install nvm                  # Node Version Manager
-brew install python3              # A snake that runs code
-brew install qmk\qmk\qmk          # Keyboard firmware framework for wired keebs
-brew install ripgrep              # Fast search tool
-brew install stylua               # Lua formatter
-brew install tldr                 # Short alternative to man-pages
-brew install tmux                 # Terminal Multiplexer
-brew install tree                 # Show directory structure visually
-brew install wget                 # Gets things from the web
-brew install zsh                  # Interactive shell of choice
+brew install bat                 # Better cat
+brew install ccache              # Compiler Cache to speed up some compilations
+brew install cmake               # Configurable cross platform make
+brew install coreutils           # GNU core utils, more up to date than Apple's
+brew install deno                # Rust-based alternative to Node.js
+brew install dfu-util            # DFU-mode firmware flashing for keyboard
+brew install dtc                 # Device Tree Controller - ZMK build dep
+brew install fd                  # Alternative to find
+brew install figlet              # ASCII art text generator
+brew install firefoxpwa          # Use Firefox to host PWAs
+brew install fzf                 # TUI/CLI fuzzy finder
+brew install gh                  # GitHub CLI
+brew install git                 # Git version control
+brew install go                  # Go programming language
+brew install gopls               # Go languago server
+brew install llvm                # Next-gen compiler backend
+brew install lolcat              # The purrfect addition to the CLI
+brew install lua-language-server # As the name implies
+brew install luarocks            # Package manager for Lua
+brew install marksman            # Markdown language server
+brew install neovim              # NeoVim terminal-based text editor
+brew install ninja               # Buid system for CMake - used by ZMK
+brew install nvm                 # Node Version Manager
+brew install python3             # A snake that runs code
+brew install qmk\qmk\qmk         # Keyboard firmware framework for wired keebs
+brew install ripgrep             # Fast search tool
+brew install stylua              # Lua formatter
+brew install tldr                # Short alternative to man-pages
+brew install tmux                # Terminal Multiplexer
+brew install tree                # Show directory structure visually
+brew install wget                # Gets things from the web
+brew install zsh                 # Interactive shell of choice
+brew install llvm                # Compiler/toolchain
+brew install zig --HEAD          # Zig Programming language
 
 # Debug tools for Go
 go install github.com/go-delve/delve/cmd/dlv@latest
@@ -75,7 +77,7 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 pip3 install --user -U west
 
 # Rust
-curl https://sh.rustup.rs -sSf > rustup-init.sh
+curl https://sh.rustup.rs -sSf >rustup-init.sh
 chmod +x rustup-init.sh
 ./rustup-init.sh -y
 rm rustup-init.sh
@@ -84,7 +86,7 @@ pushd ~/.config
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git
 popd
 
-/usr/local/opt/ncurses/bin/infocmp -x tmux-256color > ~/tmux-256color.src
+/usr/local/opt/ncurses/bin/infocmp -x tmux-256color >~/tmux-256color.src
 sudo /usr/bin/tic -x ~/tmux-256color.src
 rm ~/tmux-256color.src
 
@@ -100,10 +102,9 @@ popd
 ##################################
 echo "\n"
 echo "A few more things need to be installed/configured that require human" \
-     "interaction. Are you ready?"
+	"interaction. Are you ready?"
 read -p "Press enter to continue!"
 
 chsh -s /usr/local/bin/zsh
 
 $(brew --prefix)/opt/fzf/install
-

@@ -105,6 +105,7 @@ function pp() {
 }
 
 alias gdot='git --git-dir=$HOME/.gdot/ --work-tree=$HOME'
+alias lgit='lazygit'
 
 function colors256() {
   for i in {0..255}; do
