@@ -79,8 +79,9 @@ brew install tmux                # Terminal Multiplexer
 brew install tree                # Show directory structure visually
 brew install wget                # Gets things from the web
 brew install zsh                 # Interactive shell of choice
-brew install llvm                # Compiler/toolchain
 brew install zig --HEAD          # Zig Programming language
+
+brew install koekeishiya/formulae/yabai  # For window highlighting
 
 # Debug tools for Go
 go install github.com/go-delve/delve/cmd/dlv@latest
@@ -105,8 +106,8 @@ rm ~/tmux-256color.info
 sudo sh -c "echo $BREW_PATH/bin/zsh >> /etc/shells"
 
 pushd ~/Library/Fonts
-wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf
-wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.ttf
+wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/SauceCodeProNerdFontMono-Regular.ttf
+wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/SauceCodeProNerdFont-Regular.ttf
 popd
 
 ##################################
@@ -120,3 +121,5 @@ read -p "Press enter to continue!"
 chsh -s /usr/local/bin/zsh
 
 $(brew --prefix)/opt/fzf/install
+
+yabai --start-service
