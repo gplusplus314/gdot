@@ -23,6 +23,7 @@ echo "Now a ton of software is going to be installed automatically without" \
 
 # Install Homebrew package manager
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 brew install --cask alacritty          # Terminal emulator
 brew install --cask alfred             # Launcher
