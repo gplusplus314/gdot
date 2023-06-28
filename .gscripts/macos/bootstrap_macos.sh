@@ -23,7 +23,17 @@ echo "Now a ton of software is going to be installed automatically without" \
 
 # Install Homebrew package manager
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+
+machine=$(uname -m)
+if [[ "$machine" == "arm64" ]]; then
+    BREW_PATH="/opt/homebrew"
+elif [[ "$machine" == "x86_64" ]]; then
+    BREW_PATH="/usr/local"
+else
+    echo "Unknown architecture: $machine"
+    exit 1
+fi
+eval "$($BREW_PATH/bin/brew shellenv)"
 
 brew install --cask alacritty          # Terminal emulator
 brew install --cask alfred             # Launcher
@@ -57,6 +67,7 @@ brew install lua-language-server # As the name implies
 brew install luarocks            # Package manager for Lua
 brew install marksman            # Markdown language server
 brew install neovim              # NeoVim terminal-based text editor
+brew install ncurses             # TUI tooling
 brew install ninja               # Buid system for CMake - used by ZMK
 brew install nvm                 # Node Version Manager
 brew install python3             # A snake that runs code
@@ -87,11 +98,11 @@ pushd ~/.config
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git
 popd
 
-/usr/local/opt/ncurses/bin/infocmp -x tmux-256color >~/tmux-256color.src
-sudo /usr/bin/tic -x ~/tmux-256color.src
-rm ~/tmux-256color.src
+$BREW_PATH/opt/ncurses/bin/infocmp tmux-256color > ~/tmux-256color.info
+sudo tic -xe tmux-256color tmux-256color.info
+rm ~/tmux-256color.info
 
-sudo sh -c 'echo "/usr/local/bin/zsh" >> /etc/shells'
+sudo sh -c "echo $BREW_PATH/bin/zsh >> /etc/shells"
 
 pushd ~/Library/Fonts
 wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf
