@@ -17,6 +17,19 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/usr/local/opt/protobuf@3/bin:$PATH"
 
+machine=$(uname -m)
+if [[ "$machine" == "arm64" ]]; then
+    export BREW_PREFIX="/opt/homebrew"
+elif [[ "$machine" == "x86_64" ]]; then
+    export BREW_PREFIX="/usr/local"
+else
+    echo "Unknown architecture: $machine"
+    exit 1
+fi
+eval "$($BREW_PREFIX/bin/brew shellenv)"
+
+export PATH="$(python3 -m site --user-base)/bin:$PATH"
+
 export GPG_TTY=$TTY
 
 export ZSH_THEME_TERM_TITLE_IDLE="%~"
@@ -194,3 +207,6 @@ if [ -f "$HOME/.zshrc_local" ]; then
   source $HOME/.zshrc_local
 fi
 #}}}
+###start-marker|{"name":"orcsource","description":"Allows Outreach specific shell hooks"}
+source "$HOME/.outreach/outreachrc.sh"
+###end-marker

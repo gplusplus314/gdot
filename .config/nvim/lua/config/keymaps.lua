@@ -77,6 +77,7 @@ tnoremap("<esc>", "<C-\\><C-N>")
 
 --{{{ Quick [t]oggles:
 wk.register({ t = { name = "[t]oggle" } }, { prefix = "<leader>" })
+nnoremap("<leader>tw", ":set wrap!<cr>", { desc = "text [w]rap" })
 local function toggle_peek_preview()
   local peek = require("peek")
   if peek.is_open() then
@@ -96,7 +97,6 @@ toggle_inline_diagnostics()
 nnoremap("<leader>ti", toggle_inline_diagnostics, { desc = "[i]nline diagnostics" })
 -- Copilot:
 local copilot_enabled = true
-require("copilot.command").enable()
 nnoremap("<leader>tc", function()
   if copilot_enabled then
     vim.cmd("Copilot disable")
@@ -107,6 +107,7 @@ nnoremap("<leader>tc", function()
   end
   copilot_enabled = not copilot_enabled
 end, { desc = "[c]opilot" })
+
 --}}}
 
 --{{{ [s]earching:

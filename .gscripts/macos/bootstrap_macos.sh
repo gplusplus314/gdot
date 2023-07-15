@@ -26,17 +26,17 @@ echo "Now a ton of software is going to be installed automatically without" \
 
 machine=$(uname -m)
 if [[ "$machine" == "arm64" ]]; then
-    BREW_PATH="/opt/homebrew"
+	BREW_PATH="/opt/homebrew"
 elif [[ "$machine" == "x86_64" ]]; then
-    BREW_PATH="/usr/local"
+	BREW_PATH="/usr/local"
 else
-    echo "Unknown architecture: $machine"
-    exit 1
+	echo "Unknown architecture: $machine"
+	exit 1
 fi
 eval "$($BREW_PATH/bin/brew shellenv)"
 
 brew install --cask alacritty          # Terminal emulator
-brew install --cask alfred             # Launcher
+brew install --cask alfred             # Launcher (I only use it for apps)
 brew install --cask amethyst           # Dynamic tiling window manager
 brew install --cask discord            # Chat app
 brew install --cask firefox            # The best web browser
@@ -45,6 +45,7 @@ brew install --cask gcc-arm-embedded   # For compiling QMK keyboard firmware
 brew install --cask hammerspoon        # macOS automation/scripting in Lua
 brew install --cask karabiner-elements # Keyboar manipulation/remapping
 brew install --cask wezterm            # Alternative, experimental terminal
+brew install --cask raycast            # My main launcher
 
 brew install bat                 # Better cat
 brew install ccache              # Compiler Cache to speed up some compilations
@@ -81,13 +82,14 @@ brew install wget                # Gets things from the web
 brew install zsh                 # Interactive shell of choice
 brew install zig --HEAD          # Zig Programming language
 
-brew install koekeishiya/formulae/yabai  # For window highlighting
+brew install koekeishiya/formulae/yabai # For window highlighting
 
 # Debug tools for Go
 go install github.com/go-delve/delve/cmd/dlv@latest
 
-# Build tool for ZMK
+# Build tools for ZMK
 pip3 install --user -U west
+pip3 install pyelftools
 
 # Rust
 curl https://sh.rustup.rs -sSf >rustup-init.sh
@@ -99,7 +101,7 @@ pushd ~/.config
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git
 popd
 
-$BREW_PATH/opt/ncurses/bin/infocmp tmux-256color > ~/tmux-256color.info
+$BREW_PATH/opt/ncurses/bin/infocmp tmux-256color >~/tmux-256color.info
 sudo tic -xe tmux-256color tmux-256color.info
 rm ~/tmux-256color.info
 

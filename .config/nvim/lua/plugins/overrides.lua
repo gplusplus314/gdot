@@ -28,8 +28,6 @@ return {
     },
   },
 
-  { "nvim-telescope/telescope.nvim", lazy = false },
-
   {
     "echasnovski/mini.surround",
     opts = {
@@ -80,35 +78,28 @@ return {
   {
     "simrat39/symbols-outline.nvim",
     cmd = "SymbolsOutline",
-    keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+    keys = { { "<leader>ts", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
     config = true,
   },
 
-  --{
-  --  "nvim-telescope/telescope.nvim",
-  --  opts = {
-  --    defaults = {
-  --      layout_strategy = "horizontal",
-  --      layout_config = { prompt_position = "top" },
-  --      sorting_strategy = "ascending",
-  --      winblend = 0,
-  --    },
-  --  },
-  --},
-
-  -- add telescope-fzf-native
   {
-    "telescope.nvim",
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-      end,
+    "nvim-telescope/telescope.nvim",
+    lazy = false,
+    opts = {
+      defaults = {
+        layout_strategy = "vertical",
+        layout_config = {
+          prompt_position = "top",
+          mirror = true,
+        },
+        sorting_strategy = "ascending",
+        winblend = 0,
+      },
     },
+    setup = function()
+      require("telescope").load_extension("fzf")
+    end,
   },
-
-  { import = "lazyvim.plugins.extras.lang.typescript" },
 
   -- since `vim.tbl_deep_extend`, can only merge tables and not lists, the code above
   -- would overwrite `ensure_installed` with the new value.
@@ -126,15 +117,16 @@ return {
     end,
   },
 
-  -- add jsonls and schemastore ans setup treesitter for json, json5 and jsonc
-  { import = "lazyvim.plugins.extras.lang.json" },
-
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
     "L3MON4D3/LuaSnip",
+    dependencies = { "rafamadriz/friendly-snippets" },
     keys = function()
       return {}
+    end,
+    config = function()
+      require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
   -- then: setup supertab in cmp
@@ -142,6 +134,17 @@ return {
     "hrsh7th/nvim-cmp",
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
+      -- stylua: ignore
+      require("cmp_nvim_lsp") .default_capabilities({
+        textDocument = {
+          completion = {
+            completionItem = {
+              snippetSupport = false,
+            },
+          },
+        },
+      })
+
       local has_words_before = function()
         unpack = unpack or table.unpack
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -151,8 +154,66 @@ return {
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
+      opts.sources = cmp.config.sources({
+        --{ name = "luasnip", max_item_count = 2 },
+        {
+          name = "nvim_lsp",
+          entry_filter = function(entry)
+            return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+          end,
+        },
+      }, {
+        { name = "luasnip" },
+        { name = "copilot" },
+        { name = "buffer" },
+        { name = "path" },
+      })
+
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        ["<C-U>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-D>"] = cmp.mapping.scroll_docs(4),
+        ["<C-N>"] = cmp.mapping.complete(),
+        ["<C-L>"] = cmp.mapping.complete({
+          config = {
+            sources = {
+              {
+                name = "nvim_lsp",
+                entry_filter = function(entry)
+                  return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+                end,
+              },
+            },
+          },
+        }),
+        ["<C-B>"] = cmp.mapping.complete({
+          config = {
+            sources = {
+              { name = "buffer" },
+            },
+          },
+        }),
+        ["<C-P>"] = cmp.mapping.complete({
+          config = {
+            sources = {
+              { name = "path" },
+            },
+          },
+        }),
+        ["<C-S>"] = cmp.mapping.complete({
+          config = {
+            sources = {
+              { name = "luasnip" },
+            },
+          },
+        }),
+        ["<C-C>"] = cmp.mapping.complete({
+          config = {
+            sources = {
+              { name = "copilot" },
+            },
+          },
+        }),
+        ["Tab"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
             -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
@@ -175,6 +236,8 @@ return {
           end
         end, { "i", "s" }),
       })
+
+      return opts
     end,
   },
 }
