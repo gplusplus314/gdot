@@ -4,7 +4,7 @@ shot.
 
 ## TLDR:
 ```sh
-curl https://raw.githubusercontent.com/gerryhernandez/gdot/main/.gscripts/unix/init_repo.sh | /bin/bash
+curl https://raw.githubusercontent.com/gplusplus314/gdot/main/.gscripts/unix/init_repo.sh | /bin/bash
 ```
 
 This will copy all existing dotfiles that would otherwise be overwritten into
