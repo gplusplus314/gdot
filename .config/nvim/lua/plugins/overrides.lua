@@ -67,7 +67,7 @@ return {
         {
           event = "file_opened",
           handler = function(_)
-            require("neo-tree").close_all()
+            require("neo-tree.command").execute({ action = "close" })
           end,
         },
       },
@@ -115,6 +115,10 @@ return {
         "rust",
       })
     end,
+  },
+
+  {
+    "google/vim-jsonnet",
   },
 
   -- Use <tab> for completion and snippets (supertab)

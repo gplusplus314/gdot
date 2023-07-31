@@ -9,3 +9,4 @@ o.colorcolumn = "80"
 o.cursorline = true
 o.foldmethod = "marker"
 o.textwidth = 80
+o.expandtab = false

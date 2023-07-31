@@ -47,6 +47,7 @@ brew install --cask karabiner-elements # Keyboar manipulation/remapping
 brew install --cask wezterm            # Alternative, experimental terminal
 brew install --cask raycast            # My main launcher
 
+brew install atuin               # CLI history in searchable sqlite
 brew install bat                 # Better cat
 brew install ccache              # Compiler Cache to speed up some compilations
 brew install cmake               # Configurable cross platform make
@@ -111,6 +112,13 @@ pushd ~/Library/Fonts
 wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/SauceCodeProNerdFontMono-Regular.ttf
 wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/SauceCodeProNerdFont-Regular.ttf
 popd
+
+mkdir -p ~/.local/opt
+pushd ~/.local/opt
+git clone https://github.com/larkery/zsh-histdb
+popd
+
+/opt/homebrew/bin/atuin import auto
 
 ##################################
 # The following are interactive: #
