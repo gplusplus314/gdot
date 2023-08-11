@@ -78,15 +78,7 @@ tnoremap("<esc>", "<C-\\><C-N>")
 --{{{ Quick [t]oggles:
 wk.register({ t = { name = "[t]oggle" } }, { prefix = "<leader>" })
 nnoremap("<leader>tw", ":set wrap!<cr>", { desc = "text [w]rap" })
-local function toggle_peek_preview()
-  local peek = require("peek")
-  if peek.is_open() then
-    peek.close()
-  else
-    peek.open()
-  end
-end
-nnoremap("<leader>tm", toggle_peek_preview, { desc = "[m]arkdown preview" })
+nnoremap("<leader>tm", ":MarkdownPreviewToggle<CR>", { desc = "[m]arkdown preview" })
 -- Toggle inline diagnostics
 local inline_diagnostics_enabled = true
 local function toggle_inline_diagnostics()

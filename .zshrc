@@ -110,11 +110,10 @@ alias grep='grep --color'
 # pushd via fzf of telescope-project.nvim
 # "Pushd Project"
 function pp() {
-  DIR=$(cat ~/.local/share/nvim/telescope-projects.txt \
-    | awk -F"=" '{print $1 "\t" $2}' \
-    | fzf -n 1 --with-nth 1 -q "$1" -1 --preview-window 'top:60%' --preview 'echo {} | awk -F"\t" '"'"'{print "\"" $2 "\""}'"'"' | xargs tree -l -C -L 3' \
-    | awk -F"\t" '{print $2}')
-  pushd "$DIR"
+	 local DIR=$(cat ~/.proj | fzf )
+   if [[ $DIR != '' ]]; then
+		 eval "pushd $DIR"
+   fi
 }
 
 alias gdot='git --git-dir=$HOME/.gdot/ --work-tree=$HOME'
