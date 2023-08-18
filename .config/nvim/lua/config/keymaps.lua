@@ -1,7 +1,6 @@
 local wk = require("which-key")
 
 --{{{ Util
--- Stolen from: https://github.com/ThePrimeagen/.dotfiles/blob/master/nvim/.config/nvim/lua/theprimeagen/keymap.lua
 local function bind(op, outer_opts)
   outer_opts = outer_opts or { noremap = true, silent = true }
   return function(lhs, rhs, opts)
@@ -15,6 +14,18 @@ local vnoremap = bind("v")
 local tnoremap = bind("t")
 ---}}}
 
+--{{{ Undo insane LazyVim defaults:
+nnoremap("f", "f")
+nnoremap("F", "F")
+nnoremap("t", "t")
+nnoremap("T", "T")
+nnoremap("/", "/")
+nnoremap("gw", "gw")
+nnoremap("gW", "gW")
+nnoremap(";", ";")
+nnoremap(",", ",")
+--}}}
+
 --{{{ Basic movements and root-level binds
 
 -- Up and down using thumb:
@@ -24,13 +35,12 @@ nnoremap("<BS>", "<Up>")
 -- Buffer management:
 nnoremap("<leader> ", "<cmd>Telescope buffers<cr>", { desc = "switch buffer" })
 nnoremap("<C-W>", ":bdelete<cr>", { desc = "close buffer and switch" })
-nnoremap("<C-P>", ":BufferLineTogglePin<cr>", { desc = "toggle buffer pin" })
 nnoremap("<Home>", ":BufferLineCyclePrev<cr>", { desc = "previous buffer" })
 nnoremap("<End>", ":BufferLineCycleNext<cr>", { desc = "next buffer" })
 nnoremap("<S-Home>", ":BufferLineMovePrev<cr>", { desc = "previous buffer" })
 nnoremap("<S-End>", ":BufferLineMoveNext<cr>", { desc = "next buffer" })
 nnoremap("<C-P>", ":BufferLineTogglePin<cr>", { desc = "toggle buffer pin" })
-nnoremap("<C-D>", ":BufferLineGroupClose ungrouped<cr>", { desc = "close all non-pinned buffers" })
+nnoremap("<C-X>", ":BufferLineGroupClose ungrouped<cr>", { desc = "close all non-pinned buffers" })
 
 -- Keep visual selection while indenting:
 vnoremap("<", "<gv")
@@ -46,8 +56,6 @@ vnoremap("<leader>p", '"+p')
 vnoremap("<leader>P", '"+P')
 
 -- Move lines up and down in visual mode with <Shift>(up/down):
-vnoremap("J", ":m '>+1<CR>gv=gv")
-vnoremap("K", ":m '<-2<CR>gv=gv")
 vnoremap("<S-Down>", ":m '>+1<CR>gv=gv")
 vnoremap("<S-Up>", ":m '<-2<CR>gv=gv")
 
@@ -106,4 +114,8 @@ end, { desc = "[c]opilot" })
 wk.register({ s = { name = "[s]earch" } }, { prefix = "<leader>" })
 nnoremap("<leader>sp", "<cmd>Telescope builtin<cr>", { desc = "telescope [p]ickers" })
 nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "find [f]iles" })
+--}}}
+
+--{{{ [T]esting:
+wk.register({ T = { name = "[T]esting" } }, { prefix = "<leader>" })
 --}}}
