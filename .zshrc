@@ -98,6 +98,9 @@ alias vim=nvim
 
 alias cat=bat
 
+alias k=kubectl
+alias kn=k9s
+
 # Colorize the ls output ##
 alias ls='ls --color=auto'
 # Use a long listing format ##
@@ -107,7 +110,6 @@ alias l.='ls -d .* --color=auto'
 # colorful grep
 alias grep='grep --color'
 
-# pushd via fzf of telescope-project.nvim
 # "Pushd Project"
 function pp() {
 	 local DIR=$(cat ~/.proj | fzf )
@@ -129,6 +131,7 @@ function colors256() {
 #{{{ Initializers
 source ~/.fzf.zsh
 eval "$(atuin init zsh --disable-up-arrow)"
+source <(kubectl completion zsh)
 #}}}
 
 #{{{ Keybinds
@@ -213,8 +216,13 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   export PATH="$HOME/Library/Python/3.10/bin:$PATH"
 
   export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+	[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+	[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+	# sft autocomplete
+	export PROG=sft
+	source ~/Library/Application\ Support/ScaleFT/sft_zsh_autocomplete
+	unset PROG
 fi
 #}}}
 
