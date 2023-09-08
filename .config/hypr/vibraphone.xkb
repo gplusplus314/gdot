@@ -1,0 +1,14 @@
+// vim:syntax=xkb
+xkb_keymap {
+	xkb_keycodes  { include "evdev+aliases(qwerty)"	};
+	xkb_types     { include "complete"	};
+	xkb_compat    { include "complete"	};
+	xkb_symbols "swap_ctrl_super"  {
+		include "pc+us+inet(evdev)"
+		replace key <LCTL>  { [ Super_L   ] };
+		replace key <LWIN>  { [ Control_L ] };
+		replace key <RCTL>  { [ Super_R   ] };
+		replace key <RWIN>  { [ Control_R ] };
+	};
+	xkb_geometry  { include "pc(pc105)"	};
+};

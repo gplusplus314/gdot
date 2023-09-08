@@ -17,17 +17,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/usr/local/opt/protobuf@3/bin:$PATH"
 
-machine=$(uname -m)
-if [[ "$machine" == "arm64" ]]; then
-    export BREW_PREFIX="/opt/homebrew"
-elif [[ "$machine" == "x86_64" ]]; then
-    export BREW_PREFIX="/usr/local"
-else
-    echo "Unknown architecture: $machine"
-    exit 1
-fi
-eval "$($BREW_PREFIX/bin/brew shellenv)"
-
 export PATH="$(python3 -m site --user-base)/bin:$PATH"
 
 export GPG_TTY=$TTY
@@ -77,8 +66,6 @@ export FZF_COMPLETION_OPTS="--preview-window 'top:60%' --preview '[ -d {} ] && t
 
 # Tell Qt apps to use the qt5ct them for DaRk MoDe!!111one
 export QT_QPA_PLATFORMTHEME=qt5ct
-
-export DOOMDIR="~/.doom.d"
 
 export FZF_DEFAULT_OPTS=" \
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
@@ -210,8 +197,18 @@ fzf-history-histdb-widget () {
 # Keep OS-Specific config SECOND TO LAST so it can override generics:
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # linux-specific stuff
-  source /usr/share/nvm/init-nvm.sh
 elif [[ "$OSTYPE" == "darwin"* ]]; then
+  machine=$(uname -m)
+  if [[ "$machine" == "arm64" ]]; then
+      export BREW_PREFIX="/opt/homebrew"
+  elif [[ "$machine" == "x86_64" ]]; then
+      export BREW_PREFIX="/usr/local"
+  else
+      echo "Unknown architecture: $machine"
+      exit 1
+  fi
+  eval "$($BREW_PREFIX/bin/brew shellenv)"
+
   export PATH="$HOME/.gscripts/macos:$PATH"
   export PATH="$HOME/Library/Python/3.10/bin:$PATH"
 
