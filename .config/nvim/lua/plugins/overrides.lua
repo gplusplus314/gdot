@@ -1,50 +1,4 @@
 return {
-  {
-    "nvim-neotest/neotest",
-    opts = {
-      -- Can be a list of adapters like what neotest expects,
-      -- or a list of adapter names,
-      -- or a table of adapter names, mapped to adapter configs.
-      -- The adapter will then be automatically loaded with the config.
-      adapters = {},
-      -- Example for loading neotest-go with a custom config
-      -- adapters = {
-      --   ["neotest-go"] = {
-      --     args = { "-tags=integration" },
-      --   },
-      -- },
-      status = { virtual_text = true },
-      output = { open_on_run = true },
-      quickfix = {
-        open = function()
-          if require("lazyvim.util").has("trouble.nvim") then
-            vim.cmd("Trouble quickfix")
-          else
-            vim.cmd("copen")
-          end
-        end,
-      },
-    },
-    -- stylua: ignore
-    keys = {
-      { "<leader>Tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File" },
-      { "<leader>TT", function() require("neotest").run.run(vim.loop.cwd()) end, desc = "Run All Test Files" },
-      { "<leader>Tr", function() require("neotest").run.run() end, desc = "Run Nearest" },
-      { "<leader>Ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary" },
-      { "<leader>To", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output" },
-      { "<leader>TO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
-      { "<leader>TS", function() require("neotest").run.stop() end, desc = "Stop" },
-    },
-  },
-
-  {
-    "mfussenegger/nvim-dap",
-    optional = true,
-    -- stylua: ignore
-    keys = {
-      { "<leader>Td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
-    },
-  },
 
   {
     "folke/persistence.nvim",
@@ -124,7 +78,7 @@ return {
   {
     "simrat39/symbols-outline.nvim",
     cmd = "SymbolsOutline",
-    keys = { { "<leader>ts", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+    keys = { { "<leader>tS", "<cmd>SymbolsOutline<cr>", desc = "[S]ymbols Outline" } },
     config = true,
   },
 
@@ -218,13 +172,13 @@ return {
         --{ name = "luasnip", max_item_count = 2 },
         {
           name = "nvim_lsp",
-          entry_filter = function(entry)
-            return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
-          end,
+          --entry_filter = function(entry)
+          --  return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+          --end,
         },
       }, {
         { name = "luasnip" },
-        { name = "copilot" },
+        --{ name = "copilot" },
         { name = "buffer" },
         { name = "path" },
       })
@@ -234,18 +188,20 @@ return {
         ["<C-D>"] = cmp.mapping.scroll_docs(4),
         ["<C-N>"] = cmp.mapping.complete(),
         ["<C-L>"] = cmp.mapping.complete({
+          ---@diagnostic disable-next-line: missing-fields
           config = {
             sources = {
               {
                 name = "nvim_lsp",
-                entry_filter = function(entry)
-                  return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
-                end,
+                --entry_filter = function(entry)
+                --  return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+                --end,
               },
             },
           },
         }),
         ["<C-B>"] = cmp.mapping.complete({
+          ---@diagnostic disable-next-line: missing-fields
           config = {
             sources = {
               { name = "buffer" },
@@ -253,6 +209,7 @@ return {
           },
         }),
         ["<C-P>"] = cmp.mapping.complete({
+          ---@diagnostic disable-next-line: missing-fields
           config = {
             sources = {
               { name = "path" },
@@ -260,6 +217,7 @@ return {
           },
         }),
         ["<C-S>"] = cmp.mapping.complete({
+          ---@diagnostic disable-next-line: missing-fields
           config = {
             sources = {
               { name = "luasnip" },
@@ -267,12 +225,29 @@ return {
           },
         }),
         ["<C-C>"] = cmp.mapping.complete({
+          ---@diagnostic disable-next-line: missing-fields
           config = {
             sources = {
               { name = "copilot" },
             },
           },
         }),
+        ["<Right>"] = cmp.mapping(function(fallback)
+          -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+          -- they way you will only jump inside the snippet region
+          if luasnip.expand_or_locally_jumpable() then
+            luasnip.expand_or_jump()
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+        ["<Left>"] = cmp.mapping(function(fallback)
+          if luasnip.jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
         --["<Tab>"] = cmp.mapping(function(fallback)
         --  if cmp.visible() then
         --    cmp.select_next_item()
