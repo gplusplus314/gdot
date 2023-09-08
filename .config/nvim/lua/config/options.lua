@@ -10,3 +10,5 @@ o.cursorline = true
 o.foldmethod = "marker"
 o.textwidth = 80
 o.expandtab = false
+
+vim.lsp.set_log_level("debug")
