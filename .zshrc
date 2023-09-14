@@ -10,15 +10,63 @@ source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
 #}}}
 
-#{{{ Settings
+#{{{ Cross Platform Helpers
+G_ARCH=$(uname -m) # "arm64", "x86_64"
+if [[ "$G_ARCH" != "arm64" && "$G_ARCH" != "x86_64" ]]; then
+	echo "Unsupported architecture: $G_ARCH"
+	exit 1
+fi
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+	export G_OS="linux"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+	export G_OS="macos"
+else
+	echo "Unknown OS: $OSTYPE"
+	exit 1
+fi
+#}}}
+
+#{{{ PATH (and things that affect it)
 export PATH="$HOME/.dotfiles/bin/all:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/usr/local/opt/protobuf@3/bin:$PATH"
-
 export PATH="$(python3 -m site --user-base)/bin:$PATH"
+if [[ "$G_OS" == "macos" ]]; then
+  export PATH="$HOME/.gscripts/macos:$PATH"
+  if [[ "$G_ARCH" == "arm64" ]]; then
+      export BREW_PREFIX="/opt/homebrew"
+  elif [[ "$G_ARCH" == "x86_64" ]]; then
+      export BREW_PREFIX="/usr/local"
+  fi
+  eval "$($BREW_PREFIX/bin/brew shellenv)"
+  if [[ ! "$PATH" == *$BREW_PREFIX/opt/fzf/bin* ]]; then
+    PATH="${PATH:+${PATH}:}$BREW_PREFIX/opt/fzf/bin"
+  fi
+fi
+#}}}
 
+#{{{ Initializers
+autoload -Uz compinit
+compinit
+# Setup fzf
+if [[ "$G_OS" == "linux" ]]; then
+	if [ -n "${commands[fzf-share]}" ]; then
+		source "$(fzf-share)/key-bindings.zsh"
+		source "$(fzf-share)/completion.zsh"
+	else
+		echo "unable to set up fzf key bindings and completion"
+	fi
+elif [[ "$G_OS" == "macos" ]]; then
+  source "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
+  source "$BREW_PREFIX/opt/fzf/shell/completion.zsh" 2> /dev/null
+fi
+eval "$(atuin init zsh --disable-up-arrow)"
+source <(kubectl completion zsh)
+#}}}
+
+#{{{ Settings
 export GPG_TTY=$TTY
 
 export ZSH_THEME_TERM_TITLE_IDLE="%~"
@@ -43,7 +91,6 @@ compinit
 set -o ignoreeof
 
 export EDITOR='env EDITOR_INVOKED=1 nvim'
-export NEOVIDE_FRAMELESS=true
 export TERMINAL=alacritty
 
 export FZF_DEFAULT_COMMAND='rg --files'
@@ -63,9 +110,6 @@ function __gfzf_compgen_preview() {
   [ -d $1 ] && tree -l -C -L 3 $1 || [ -f $1 ] && bat --color=always --style=header,grid,numbers $1
 }
 export FZF_COMPLETION_OPTS="--preview-window 'top:60%' --preview '[ -d {} ] && tree -l -C -L 3 {} || [ -f {} ] && bat --color=always --style=header,grid,numbers {} 2> /dev/null'"
-
-# Tell Qt apps to use the qt5ct them for DaRk MoDe!!111one
-export QT_QPA_PLATFORMTHEME=qt5ct
 
 export FZF_DEFAULT_OPTS=" \
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
@@ -97,14 +141,6 @@ alias l.='ls -d .* --color=auto'
 # colorful grep
 alias grep='grep --color'
 
-# "Pushd Project"
-function pp() {
-	 local DIR=$(cat ~/.proj | fzf )
-   if [[ $DIR != '' ]]; then
-		 eval "pushd $DIR"
-   fi
-}
-
 alias gdot='git --git-dir=$HOME/.gdot/ --work-tree=$HOME'
 alias lgit='lazygit'
 
@@ -113,12 +149,6 @@ function colors256() {
     printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
   done
 }
-#}}}
-
-#{{{ Initializers
-source ~/.fzf.zsh
-eval "$(atuin init zsh --disable-up-arrow)"
-source <(kubectl completion zsh)
 #}}}
 
 #{{{ Keybinds
@@ -132,6 +162,8 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^v" edit-command-line
 
+# Standard ctrl-a and ctrl-e to move to beginning and end of line, but dealing
+# with weirdness in Alacritty
 bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
 
@@ -149,12 +181,15 @@ function zle-fg() {
 zle -N zle-fg
 bindkey "^z" zle-fg
 
-function zle-pp() {
-  pp
+function zle-pushdproj() {
+	local DIR=$(cat ~/.proj | fzf )
+	if [[ $DIR != '' ]]; then
+		eval "pushd $DIR"
+	fi
   reset-prompt
 }
-zle -N zle-pp
-bindkey "^p" zle-pp
+zle -N zle-pushdproj
+bindkey "^p" zle-pushdproj
 
 function zle-fzff() {
   local output
@@ -162,65 +197,20 @@ function zle-fzff() {
 }
 zle -N zle-fzff
 bindkey "^f" zle-fzff
+
 function zle-fzfd() {
   local output
   output=$(FZF_DEFAULT_COMMAND='fd -td -L' fzf --preview-window 'top:60%' --preview 'tree -l -C -L 3 {}' +m < /dev/tty) && LBUFFER+=${(q-)output}
 }
 zle -N zle-fzfd
 bindkey "^d" zle-fzfd
+
 function zle-fzfh() {
   local output
   output=$(FZF_DEFAULT_COMMAND='fd -td -L --base-directory ~' fzf --preview-window 'top:60%' --preview 'tree -l -C -L 3 ~/{}' +m < /dev/tty) && LBUFFER+=${(q-)output}
 }
 zle -N zle-fzfh
 bindkey "^h" zle-fzfh
-
-fzf-history-histdb-widget () {
-   local selected num
-    setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
-    selected=($(_zsh_histdb_like | awk '{ cmd=$0; sub(/^[ \t]*[0-9]+\**[ \t]+/, "", cmd); if (!seen[cmd]++) print $0 }' |
-     FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} ${FZF_DEFAULT_OPTS-} -n2..,.. --scheme=history --bind=ctrl-r:toggle-sort,ctrl-z:ignore ${FZF_CTRL_R_OPTS-} --query=${(qqq)LBUFFER} +m" $(__fzfcmd))) 
-    BUFFER=$selected
-    local ret=$? 
-    if [ -n "$selected" ]; then
-      num=$selected[1] 
-      if [ -n "$num" ]; then
-        zle vi-fetch-history -n $num
-      fi
-    fi
-    zle reset-prompt
-    return $ret
-}
-#}}}
-
-#{{{ OS-Specific Overrides
-# Keep OS-Specific config SECOND TO LAST so it can override generics:
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  # linux-specific stuff
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-  machine=$(uname -m)
-  if [[ "$machine" == "arm64" ]]; then
-      export BREW_PREFIX="/opt/homebrew"
-  elif [[ "$machine" == "x86_64" ]]; then
-      export BREW_PREFIX="/usr/local"
-  else
-      echo "Unknown architecture: $machine"
-      exit 1
-  fi
-  eval "$($BREW_PREFIX/bin/brew shellenv)"
-
-  export PATH="$HOME/.gscripts/macos:$PATH"
-  export PATH="$HOME/Library/Python/3.10/bin:$PATH"
-
-  export NVM_DIR="$HOME/.nvm"
-	[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-	[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-	# sft autocomplete
-	export PROG=sft
-	source ~/Library/Application\ Support/ScaleFT/sft_zsh_autocomplete
-	unset PROG
-fi
 #}}}
 
 #{{{ Machine-Specific Overrides
