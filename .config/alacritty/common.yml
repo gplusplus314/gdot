@@ -161,7 +161,7 @@ font:
     style: Bold Italic
 
   # Point size
-  size: 8.0
+  size: 16.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -246,22 +246,22 @@ colors:
     #  background: '#000000'
 
   # Keyboard hints
-  #hints:
+  hints:
     # First character in the hint label
     #
     # Allowed values are CellForeground/CellBackground, which reference the
     # affected cell, or hexadecimal colors like #ff00ff.
-    #start:
-    #  foreground: '#1d1f21'
-    #  background: '#e9ff5e'
+    start:
+      foreground: '#000000'
+      background: '#00FF00'
 
     # All characters after the first one in the hint label
     #
     # Allowed values are CellForeground/CellBackground, which reference the
     # affected cell, or hexadecimal colors like #ff00ff.
-    #end:
-    #  foreground: '#e9ff5e'
-    #  background: '#1d1f21'
+    end:
+      foreground: '#00FF00'
+      background: '#000000'
 
   # Line indicator
   #
@@ -405,7 +405,7 @@ cursor:
     #   - Off: Disable blinking by default
     #   - On: Enable blinking by default
     #   - Always: Force the cursor to always blink
-    #blinking: Off
+    blinking: Off
 
   # Vi mode cursor style
   #
@@ -443,10 +443,10 @@ live_config_reload: true
 # Default:
 #   - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
-#  args:
-#    - --login
+shell:
+  program: /usr/bin/zsh
+  args:
+    - --login
 
 # Startup directory
 #
@@ -475,10 +475,10 @@ mouse:
 # Hints
 #
 # Terminal hints can be used to find text or hyperlink in the visible part of
-# the terminal and pipe it to other applications.
+# th terminal and pipe it to other applications.
 hints:
   # Keys used for the hint labels.
-  alphabet: "jfkdls;ahgurieowpq"
+  alphabet: "ntesufiroaywdhcmg" # Colemak-DH Friendly
 
   # List with all available hints
   #
@@ -775,23 +775,6 @@ key_bindings:
   #- { key: Home,      mods: Shift,   mode: ~Alt,        action: ScrollToTop    }
   #- { key: End,       mods: Shift,   mode: ~Alt,        action: ScrollToBottom }
 
-  # Fast/easy tmux window navigation
-  - { key: Key1,      mods: Control,                    chars: "\x02\x31" }
-  - { key: Key2,      mods: Control,                    chars: "\x02\x32" }
-  - { key: Key3,      mods: Control,                    chars: "\x02\x33" }
-  - { key: Key4,      mods: Control,                    chars: "\x02\x34" }
-  - { key: Key5,      mods: Control,                    chars: "\x02\x35" }
-  - { key: Key6,      mods: Control,                    chars: "\x02\x36" }
-  - { key: Key7,      mods: Control,                    chars: "\x02\x37" }
-  - { key: Key8,      mods: Control,                    chars: "\x02\x38" }
-  - { key: Key9,      mods: Control,                    chars: "\x02\x39" }
-  - { key: Key0,      mods: Control,                    chars: "\x02\x30" }
-  - { key: T,         mods: Control,                    chars: "\x02\x74" }
-  - { key: W,         mods: Control|Shift,              chars: "\x02\x77" }
-  - { key: F19,                                         chars: "\x02\x1b\x5b\x44" }
-  - { key: F17,                                         chars: "\x02\x1b\x5b\x43" }
-  # 1b5b33337e
-  
   # Vi Mode
   #- { key: Space,  mods: Shift|Control, mode: ~Search,    action: ToggleViMode            }
   #- { key: Space,  mods: Shift|Control, mode: Vi|~Search, action: ScrollToBottom          }

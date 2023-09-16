@@ -120,12 +120,12 @@ wget "$PREFIX/SourceCodePro/Bold-Italic/SauceCodeProNerdFontMono-BoldItalic.ttf"
 wget "$PREFIX/SourceCodePro/Bold-Italic/SauceCodeProNerdFont-BoldItalic.ttf"
 popd
 
-mkdir -p ~/.local/opt
-pushd ~/.local/opt
-git clone https://github.com/larkery/zsh-histdb
-popd
-
 /opt/homebrew/bin/atuin import auto
+
+# Init Alacritty config
+pushd ~/.config/alacritty
+./init.sh
+popd
 
 ##################################
 # The following are interactive: #
