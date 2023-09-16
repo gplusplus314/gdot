@@ -109,8 +109,15 @@ rm ~/tmux-256color.info
 sudo sh -c "echo $BREW_PATH/bin/zsh >> /etc/shells"
 
 pushd ~/Library/Fonts
-wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/SauceCodeProNerdFontMono-Regular.ttf
-wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/SauceCodeProNerdFont-Regular.ttf
+PREFIX="https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts"
+wget "$PREFIX/SourceCodePro/Regular/SauceCodeProNerdFontMono-Regular.ttf"
+wget "$PREFIX/SourceCodePro/Regular/SauceCodeProNerdFont-Regular.ttf"
+wget "$PREFIX/SourceCodePro/Bold/SauceCodeProNerdFontMono-Bold.ttf"
+wget "$PREFIX/SourceCodePro/Bold/SauceCodeProNerdFont-Bold.ttf"
+wget "$PREFIX/SourceCodePro/Italic/SauceCodeProNerdFontMono-Italic.ttf"
+wget "$PREFIX/SourceCodePro/Italic/SauceCodeProNerdFont-Italic.ttf"
+wget "$PREFIX/SourceCodePro/Bold-Italic/SauceCodeProNerdFontMono-BoldItalic.ttf"
+wget "$PREFIX/SourceCodePro/Bold-Italic/SauceCodeProNerdFont-BoldItalic.ttf"
 popd
 
 mkdir -p ~/.local/opt
