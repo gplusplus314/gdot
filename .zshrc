@@ -56,7 +56,8 @@ if [[ "$G_OS" == "linux" ]]; then
 		source "$(fzf-share)/key-bindings.zsh"
 		source "$(fzf-share)/completion.zsh"
 	else
-		echo "unable to set up fzf key bindings and completion"
+    source /usr/share/fzf/key-bindings.zsh
+    source /usr/share/fzf/completion.zsh
 	fi
 elif [[ "$G_OS" == "macos" ]]; then
   source "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"

@@ -40,6 +40,7 @@ paci ncurses             # TUI tooling
 paci neovim              # NeoVim terminal-based text editor
 paci nodejs              # "JavaScript... on a SeRvEr!?!?"
 paci noto-fonts-emoji    # Emoji fonts from Google
+paci npm                 # Defitely not node package manager
 paci pacman-contrib      # For building AUR related things
 paci python-pip          # Package manager for Python
 paci python3             # A snake that lives on land above C level
