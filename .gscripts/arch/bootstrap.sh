@@ -28,8 +28,7 @@ paci git                 # Git version control
 paci github-cli          # GitHub CLI
 paci go                  # A gopher who lives on land above C level
 paci gopls               # A very polite languang server for Go
-paci hyprland            # Tiling window manager for Wayland
-paci hyprpaper           # Wallpaper util
+paci kubectl             # Some people say "cube cuddle"
 paci llvm                # Next-gen compiler backend
 paci lolcat              # The purrfect addition to the CLI
 paci lua-language-server # As the name implies
@@ -67,8 +66,6 @@ paci xdg-utils           # Desktop integrations
 paci yarn                # Package manager for Node
 paci zip                 # Technologic
 paci zsh                 # Interactive shell of choice
-
-paci xdg-desktop-portal-hyprland # hyprland-specific XDG Portals
 
 # Control monitor input programmatically
 paci ddcutil
@@ -141,11 +138,7 @@ sudo chsh -s $(which zsh) $USER
 # Bend both time and space
 timedatectl set-timezone "$(curl --fail https://ipapi.co/timezone)"
 
-# Init Alacritty config
+# Link Alacritty config
 pushd ~/.config/alacritty
-./init.sh
+ln -s linux.yml alacritty.yml
 popd
-
-#{{{ Steam
-paci lib32-mesa # 32 bit OpenGL for AMD GPUs
-#}}}
