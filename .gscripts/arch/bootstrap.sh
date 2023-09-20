@@ -15,6 +15,7 @@ paci atuin               # CLI history in searchable sqlite
 paci base-devel          # Base development packages
 paci bash                # What you shouldn't do until you try it
 paci bat                 # Better cat
+paci bear                # Generates compile databases for clangd
 paci cargo               # Rust package manager
 paci ccache              # Compiler Cache to speed up some compilations
 paci clang               # Compiler for C-family languages
@@ -28,6 +29,7 @@ paci git                 # Git version control
 paci github-cli          # GitHub CLI
 paci go                  # A gopher who lives on land above C level
 paci gopls               # A very polite languang server for Go
+paci jq                  # Manipulate JSON in the CLI
 paci kubectl             # Some people say "cube cuddle"
 paci llvm                # Next-gen compiler backend
 paci lolcat              # The purrfect addition to the CLI
@@ -138,7 +140,13 @@ sudo chsh -s $(which zsh) $USER
 # Bend both time and space
 timedatectl set-timezone "$(curl --fail https://ipapi.co/timezone)"
 
-# Link Alacritty config
+# Init Alacritty config
 pushd ~/.config/alacritty
 ln -s linux.yml alacritty.yml
+cat <<EOF >alacritty.yml
+import:
+  - ~/.config/alacritty/linux.yml
+
+# Local-machine-specific config after this line
+EOF
 popd
