@@ -45,6 +45,7 @@ paci noto-fonts-emoji    # Emoji fonts from Google
 paci npm                 # Defitely not node package manager
 paci pacman-contrib      # For building AUR related things
 paci pipewire            # Audio stack
+paci python-pipx         # Install Python packages with automagic virtualenv
 paci polkit-kde-agent    # Essentially a "sudo GUI" for gui apps
 paci python-pip          # Package manager for Python
 paci python3             # A snake that lives on land above C level
@@ -86,6 +87,9 @@ paci \
 	avr-gcc \
 	avr-libc \
 	dfu-programmer
+
+# for ZMK keyboard development
+pipx install west
 
 # Install Paru AUR helper from source
 mkdir -p src/aur.archlinux.org
