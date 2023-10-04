@@ -50,19 +50,6 @@ fi
 #{{{ Initializers
 autoload -Uz compinit
 compinit
-# Setup fzf
-if [[ "$G_OS" == "linux" ]]; then
-	if [ -n "${commands[fzf-share]}" ]; then
-		source "$(fzf-share)/key-bindings.zsh"
-		source "$(fzf-share)/completion.zsh"
-	else
-    source /usr/share/fzf/key-bindings.zsh
-    source /usr/share/fzf/completion.zsh
-	fi
-elif [[ "$G_OS" == "macos" ]]; then
-  source "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
-  source "$BREW_PREFIX/opt/fzf/shell/completion.zsh" 2> /dev/null
-fi
 eval "$(atuin init zsh --disable-up-arrow)"
 source <(kubectl completion zsh)
 #}}}
