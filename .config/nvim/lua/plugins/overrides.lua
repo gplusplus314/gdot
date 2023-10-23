@@ -40,9 +40,9 @@ return {
         delete = "ds", -- Delete surrounding
         find = "''", -- Find surrounding (to the right)
         find_left = "''", -- Find surrounding (to the left)
-        highlight = "sh", -- Highlight surrounding
+        --highlight = "sh", -- Highlight surrounding
         replace = "cs", -- Replace surrounding
-        update_n_lines = "sn", -- Update `n_lines`
+        --update_n_lines = "sn", -- Update `n_lines`
 
         suffix_last = "p", -- Suffix to search with "prev" method
         suffix_next = "n", -- Suffix to search with "next" method
@@ -279,5 +279,16 @@ return {
 
       return opts
     end,
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      setup = {
+        clangd = function(_, opts)
+          opts.capabilities.offsetEncoding = { "utf-16" }
+        end,
+      },
+    },
   },
 }
