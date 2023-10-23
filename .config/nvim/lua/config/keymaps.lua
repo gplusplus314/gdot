@@ -96,13 +96,13 @@ end
 toggle_inline_diagnostics()
 nnoremap("<leader>ti", toggle_inline_diagnostics, { desc = "[i]nline diagnostics" })
 -- Copilot:
-local copilot_enabled = true
+local copilot_enabled = false
 nnoremap("<leader>tc", function()
   if copilot_enabled then
-    vim.cmd("Copilot disable")
+    --vim.cmd("Copilot disable")
     vim.notify("Copilot disabled", vim.log.levels.INFO, nil)
   else
-    vim.cmd("Copilot enable")
+    --vim.cmd("Copilot enable")
     vim.notify("Copilot enabled", vim.log.levels.INFO, nil)
   end
   copilot_enabled = not copilot_enabled
@@ -119,3 +119,9 @@ nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "find [f]iles" 
 --{{{ [T]esting:
 wk.register({ T = { name = "[T]esting" } }, { prefix = "<leader>" })
 --}}}
+
+return {
+  isCopilotEnabled = function()
+    return copilot_enabled
+  end,
+}

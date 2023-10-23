@@ -175,6 +175,12 @@ return {
           --  return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
           --end,
         },
+        {
+          name = "copilot",
+          entry_filter = function()
+            return require("config.keymaps").isCopilotEnabled()
+          end,
+        },
       }, {
         { name = "luasnip" },
         --{ name = "copilot" },
