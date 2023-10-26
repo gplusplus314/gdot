@@ -1,3 +1,7 @@
+-- Keymaps are automatically loaded on the VeryLazy event
+-- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
+
 local wk = require("which-key")
 
 --{{{ Util
@@ -40,7 +44,11 @@ nnoremap("<End>", ":BufferLineCycleNext<cr>", { desc = "next buffer" })
 nnoremap("<S-Home>", ":BufferLineMovePrev<cr>", { desc = "previous buffer" })
 nnoremap("<S-End>", ":BufferLineMoveNext<cr>", { desc = "next buffer" })
 nnoremap("<C-P>", ":BufferLineTogglePin<cr>", { desc = "toggle buffer pin" })
-nnoremap("<C-X>", ":BufferLineGroupClose ungrouped<cr>", { desc = "close all non-pinned buffers" })
+nnoremap(
+  "<C-X>",
+  ":BufferLineGroupClose ungrouped<cr>",
+  { desc = "close all non-pinned buffers" }
+)
 
 -- Keep visual selection while indenting:
 vnoremap("<", "<gv")
@@ -69,12 +77,6 @@ nnoremap("<C-Down>", "<C-W>j")
 nnoremap("<C-Up>", "<C-W>k")
 nnoremap("<C-Right>", "<C-W>l")
 
--- CD to current file/buffer directory
-nnoremap("<leader>cd", ":cd %:p:h<CR>")
-
--- Leap
---require("leap").add_default_mappings()
-
 -- Save and quit in style!
 nnoremap("ZZ", ":wqa<CR>")
 
@@ -83,45 +85,37 @@ tnoremap("<esc>", "<C-\\><C-N>")
 
 --}}}
 
---{{{ Quick [t]oggles:
-wk.register({ t = { name = "[t]oggle" } }, { prefix = "<leader>" })
-nnoremap("<leader>tw", ":set wrap!<cr>", { desc = "text [w]rap" })
-nnoremap("<leader>tm", ":MarkdownPreviewToggle<CR>", { desc = "[m]arkdown preview" })
--- Toggle inline diagnostics
-local inline_diagnostics_enabled = true
-local function toggle_inline_diagnostics()
-  inline_diagnostics_enabled = not inline_diagnostics_enabled
-  vim.diagnostic.config({ virtual_text = inline_diagnostics_enabled })
-end
-toggle_inline_diagnostics()
-nnoremap("<leader>ti", toggle_inline_diagnostics, { desc = "[i]nline diagnostics" })
+--{{{ [o]ther
 -- Copilot:
+wk.register("<leader>o", { name = "[o]ther" })
 local copilot_enabled = false
-nnoremap("<leader>tc", function()
-  if copilot_enabled then
-    --vim.cmd("Copilot disable")
-    vim.notify("Copilot disabled", vim.log.levels.INFO, nil)
-  else
-    --vim.cmd("Copilot enable")
-    vim.notify("Copilot enabled", vim.log.levels.INFO, nil)
-  end
+nnoremap("<leader>oc", function()
   copilot_enabled = not copilot_enabled
-end, { desc = "[c]opilot" })
+  if copilot_enabled then
+    vim.notify("Copilot enabled", vim.log.levels.INFO, nil)
+  else
+    vim.notify("Copilot disabled", vim.log.levels.INFO, nil)
+  end
+end, { desc = "toggle [c]opilot" })
 
 --}}}
 
 --{{{ [s]earching:
 wk.register({ s = { name = "[s]earch" } }, { prefix = "<leader>" })
-nnoremap("<leader>sp", "<cmd>Telescope builtin<cr>", { desc = "telescope [p]ickers" })
-nnoremap("<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "find [f]iles" })
---}}}
-
---{{{ [T]esting:
-wk.register({ T = { name = "[T]esting" } }, { prefix = "<leader>" })
+nnoremap(
+  "<leader>sp",
+  "<cmd>Telescope builtin<cr>",
+  { desc = "telescope [p]ickers" }
+)
+nnoremap(
+  "<leader>sf",
+  "<cmd>Telescope find_files<cr>",
+  { desc = "find [f]iles" }
+)
 --}}}
 
 return {
-  isCopilotEnabled = function()
+  is_copilot_enabled = function()
     return copilot_enabled
   end,
 }
