@@ -84,6 +84,7 @@ pipx install west # Build system used by ZMK
 # Language-specific packages:
 paci lua54-luacheck
 go install github.com/go-delve/delve/cmd/dlv@latest
+sudo zypper -n install -t pattern devel_C_C++
 
 # Make Zsh look purrdy
 pushd ~/.config
@@ -97,4 +98,3 @@ bat cache --build
 
 # Switch to Zsh
 sudo chsh -s $(which zsh) $USER
-
