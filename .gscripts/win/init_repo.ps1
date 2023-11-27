@@ -1,8 +1,13 @@
+$erroractionpreference = "stop"
+
 # Set main and backup directory paths
 $MAIN_DIR = "$HOME\.gdot"
 $BACKUP_DIR = "$HOME\.gdot_backup"
 
 Set-Location $HOME
+
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh | iex
 
 git clone --bare https://github.com/gplusplus314/gdot .gdot
 

@@ -1,3 +1,5 @@
+$erroractionpreference = "stop"
+
 # This is annoying to install, but just get it out of the way. It must be
 # attended.
 winget install Microsoft.VisualStudio.2022.Community
@@ -5,11 +7,9 @@ winget install Microsoft.VisualStudio.2022.Community
 # This must also be attended. May as well do it now.
 wsl --install -d "openSUSE-Tumbleweed" 
 
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm get.scoop.sh | iex
-
 scoop bucket add main
 scoop bucket add extras
+scoop bucket add 'nerd-fonts'
 
 $packages = @(
   "autohotkey" # keyboard hotkey daemon
@@ -31,9 +31,10 @@ $packages = @(
   "wezterm" # terminal emulator
   "winget" # Package Manager for things Scoop can't do
 
-  "nerd-fonts/SourceCodePro-NF"
-  "nerd-fonts/SourceCodePro-NF-Mono"
-  "nerd-fonts/SourceCodePro-NF-Propo"
+  # Fonts
+  "SourceCodePro-NF"
+  "SourceCodePro-NF-Mono"
+  "SourceCodePro-NF-Propo"
 )
 $str = $packages -join " "
 scoop install $str
