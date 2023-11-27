@@ -28,6 +28,7 @@ $packages = @(
   "starship" # cli prompt
   "sysinternals" # internals for the sys
   "ungoogled-chromium" # browser
+  "vcredist2022" # dep for other things
   "wezterm" # terminal emulator
   "winget" # Package Manager for things Scoop can't do
 
@@ -44,7 +45,7 @@ git config --global core.autocrlf false
 
 # link NeoVim configuration
 $winNvim = Join-Path $env:LOCALAPPDATA "nvim"
-$unixNvim = Join-Path $HOME ".config" "nvim"
+$unixNvim = Join-Path (Join-Path $HOME ".config") "nvim"
 New-Item -ItemType SymbolicLink -Path $winNvim -Target $unixNvim
 
 # Dark mode:
