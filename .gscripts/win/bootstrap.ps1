@@ -1,5 +1,11 @@
 $erroractionpreference = "stop"
 
+$response = Read-Host "This script is not perfectly idempotent. Do you want to continue? (Y/N)"
+if ($response -ne 'Y' -and $response -ne 'y') {
+    Write-Host "Exiting script."
+    exit
+}
+
 scoop bucket add extras
 scoop bucket add 'nerd-fonts'
 
@@ -35,6 +41,7 @@ scoop install $str
 winget install Microsoft.VisualStudio.2022.Community `
   --override "--passive --config $HOME\.gscripts\win\vs2022.vsconfig"
 wsl --install -d "openSUSE-Tumbleweed"
+winget uninstall -id 9MSSGKG348SP # Get rid of Widgets
 
 # link NeoVim configuration
 $winNvim = Join-Path $env:LOCALAPPDATA "nvim"
@@ -59,14 +66,17 @@ Set-ItemProperty -Path $Path -Name MouseThreshold1 -Value 0
 Set-ItemProperty -Path $Path -Name MouseThreshold2 -Value 0
 
 # Disable a bunch of default Windows hotkeys:
-$Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+$Path = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+if (-not (Test-Path $Path)) {
+    New-Item -Path $Path -Force
+}
 Set-ItemProperty -Path $Path -Name NoWinKeys -Value 1
 
 # Set the wallpaper
-Set-ItemProperty -path "HKCU:\Control Panel\Desktop\" -name wallpaper -value $HOME\Pictures\wallpaper\win11dark.png
-
-# Get rid of Widgets
-winget uninstall -id 9MSSGKG348SP
+Set-ItemProperty `
+  -Path "HKCU:\Control Panel\Desktop\" `
+  -name wallpaper `
+  -value $HOME\Pictures\wallpaper\win11dark.png
 
 # Disable the search in taskbar
 $splat = @{
@@ -106,9 +116,8 @@ $Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
 $v=(Get-ItemProperty -Path $Path).Settings
 $v[8]=3
 Set-ItemProperty -Path $Path -Name Settings -Value $v
-Stop-Process -f -ProcessName explorer
 
 # Restart explorer so the rest of the settings take effect:
-taskkill /f /im explorer.exe
+Stop-Process -f -ProcessName explorer
 start explorer.exe
 
