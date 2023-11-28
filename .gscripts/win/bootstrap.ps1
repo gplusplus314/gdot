@@ -12,7 +12,7 @@ function Invoke-ElevatedCommand {
         [string]$CommandString
     )
 
-    Start-Process powershell.exe -ArgumentList "-NoProfile -Command $CommandString" -Verb RunAs
+    Start-Process powershell.exe -ArgumentList "-NoProfile -Command $CommandString" -Verb RunAs -Wait
 }
 
 function Ensure-RegistryKey {
