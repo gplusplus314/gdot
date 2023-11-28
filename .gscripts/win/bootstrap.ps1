@@ -32,9 +32,8 @@ $str = $packages -join " "
 scoop install $str
 
 # These require attendance:
-winget install Microsoft.VisualStudio.2022.BuildTools
-winget install Microsoft.VisualStudio.2022.Community
-scoop install vcredist2022
+winget install Microsoft.VisualStudio.2022.Community `
+  --override "--passive --config $HOME\.gscripts\win\vs2022.vsconfig"
 wsl --install -d "openSUSE-Tumbleweed"
 
 # link NeoVim configuration
@@ -58,13 +57,6 @@ $Path = "HKCU:\Control Panel\Mouse"
 Set-ItemProperty -Path $Path -Name MouseSpeed -Value 0
 Set-ItemProperty -Path $Path -Name MouseThreshold1 -Value 0
 Set-ItemProperty -Path $Path -Name MouseThreshold2 -Value 0
-
-# Auto hide taskbar:
-$Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
-$v=(Get-ItemProperty -Path $p).Settings
-$v[8]=3
-Set-ItemProperty -Path $p -Name Settings -Value $v
-Stop-Process -f -ProcessName explorer
 
 # Disable a bunch of default Windows hotkeys:
 $Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
@@ -108,6 +100,13 @@ $splat = @{
     ErrorAction = 'Stop'
 }
 Set-ItemProperty @splat
+
+# Auto hide taskbar:
+$Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
+$v=(Get-ItemProperty -Path $Path).Settings
+$v[8]=3
+Set-ItemProperty -Path $Path -Name Settings -Value $v
+Stop-Process -f -ProcessName explorer
 
 # Restart explorer so the rest of the settings take effect:
 taskkill /f /im explorer.exe
