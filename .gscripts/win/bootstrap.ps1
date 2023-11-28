@@ -1,14 +1,5 @@
 $erroractionpreference = "stop"
 
-# This is annoying to install, but just get it out of the way. It must be
-# attended.
-winget install Microsoft.VisualStudio.2022.Community
-winget install Microsoft.VisualStudio.2022.BuildTools
-
-# This must also be attended. May as well do it now.
-wsl --install -d "openSUSE-Tumbleweed"
-
-scoop bucket add main
 scoop bucket add extras
 scoop bucket add 'nerd-fonts'
 
@@ -23,14 +14,12 @@ $packages = @(
   "neovim" # editor
   "obsidian" # notes
   "powertoys" # tweaks
-  "radare2" # TUI RE tool
   "ripgrep" # fast grep
-  "rizin" # CLI RE toolkit
+  "rizin" # CLI/TUI RE toolkit
   "rustup-msvc" # rust
   "starship" # cli prompt
   "sysinternals" # internals for the sys
   "ungoogled-chromium" # browser
-  "vcredist2022" # dep for other things
   "wezterm" # terminal emulator
   "winget" # Package Manager for things Scoop can't do
 
@@ -42,10 +31,16 @@ $packages = @(
 $str = $packages -join " "
 scoop install $str
 
+# These require attendance:
+winget install Microsoft.VisualStudio.2022.BuildTools
+winget install Microsoft.VisualStudio.2022.Community
+scoop install vcredist2022
+wsl --install -d "openSUSE-Tumbleweed"
+
 # link NeoVim configuration
 $winNvim = Join-Path $env:LOCALAPPDATA "nvim"
 $unixNvim = Join-Path (Join-Path $HOME ".config") "nvim"
-New-Item -ItemType SymbolicLink -Path $winNvim -Target $unixNvim
+New-Item -ItemType Junction -Path $winNvim -Target $unixNvim
 
 # This is annoying. Turn it off.
 git config --global core.autocrlf false
@@ -68,8 +63,8 @@ Set-ItemProperty -Path $Path -Name MouseThreshold2 -Value 0
 $Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
 $v=(Get-ItemProperty -Path $p).Settings
 $v[8]=3
-&Set-ItemProperty -Path $p -Name Settings -Value $v
-&Stop-Process -f -ProcessName explorer
+Set-ItemProperty -Path $p -Name Settings -Value $v
+Stop-Process -f -ProcessName explorer
 
 # Disable a bunch of default Windows hotkeys:
 $Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
@@ -79,7 +74,7 @@ Set-ItemProperty -Path $Path -Name NoWinKeys -Value 1
 Set-ItemProperty -path "HKCU:\Control Panel\Desktop\" -name wallpaper -value $HOME\Pictures\wallpaper\win11dark.png
 
 # Get rid of Widgets
-winget uninstall –id 9MSSGKG348SP
+winget uninstall -id 9MSSGKG348SP
 
 # Disable the search in taskbar
 $splat = @{
