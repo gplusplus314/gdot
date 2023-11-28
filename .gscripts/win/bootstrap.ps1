@@ -6,6 +6,29 @@ if ($response -ne 'Y' -and $response -ne 'y') {
     exit
 }
 
+function Invoke-ElevatedCommand {
+    param(
+        [Parameter(Mandatory)]
+        [string]$CommandString
+    )
+
+    Start-Process powershell.exe -ArgumentList "-NoProfile -Command $CommandString" -Verb RunAs
+}
+
+function Ensure-RegistryKey {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$KeyPath
+    )
+
+    if (-not (Test-Path $KeyPath)) {
+        New-Item -Path $KeyPath -Force
+        Write-Host "Registry key created: $KeyPath"
+    } else {
+        Write-Host "Registry key already exists: $KeyPath"
+    }
+}
+
 scoop bucket add extras
 scoop bucket add 'nerd-fonts'
 
@@ -76,11 +99,9 @@ Set-ItemProperty `
   -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" `
   -Name "Flags" -Type String -Value "122"
 $Path = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
-if (-not (Test-Path $Path)) {
-    New-Item -Path $Path -Force
-}
+Ensure-RegistryKey -KeyPath $Path
 $command = "Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name NoWinKeys -Value 1"
-Start-Process powershell.exe -ArgumentList "-Command `"$command`"" -Verb RunAs
+Invoke-ElevatedCommand -CommandString $command
 
 # Set the wallpaper
 Set-ItemProperty `
@@ -119,6 +140,7 @@ $splat = @{
     Force       = $True
     ErrorAction = 'Stop'
 }
+Ensure-RegistryKey -KeyPath $splat.Path
 Set-ItemProperty @splat
 
 # Auto hide taskbar:
