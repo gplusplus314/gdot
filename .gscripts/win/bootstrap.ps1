@@ -39,9 +39,12 @@ $packages = @(
   "discord" # chat
   "flow-launcher" # launcher
   "git" # version/source control
+  "go" # gopher
   "komorebi" # tiling window manager
   "llvm" # compiler toolchain
+  "luarocks" # moon rocks
   "neovim" # editor
+  "nodejs" # javascript thingy
   "obsidian" # notes
   "powertoys" # tweaks
   "ripgrep" # fast grep
@@ -130,18 +133,6 @@ $splat = @{
     Force       = $True
     ErrorAction = 'Stop'
 }
-Set-ItemProperty @splat
-
-# Remove "Gallery" from file explorer
-$splat = @{
-    Path        = 'HKCU:\SOFTWARE\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}'
-    Name        = 'System.IsPinnedToNameSpaceTree'
-    Value       = 0
-    Type        = 'DWord'
-    Force       = $True
-    ErrorAction = 'Stop'
-}
-Ensure-RegistryKey -KeyPath $splat.Path
 Set-ItemProperty @splat
 
 # Auto hide taskbar:
