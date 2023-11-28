@@ -66,11 +66,21 @@ Set-ItemProperty -Path $Path -Name MouseThreshold1 -Value 0
 Set-ItemProperty -Path $Path -Name MouseThreshold2 -Value 0
 
 # Disable a bunch of default Windows hotkeys:
+Set-ItemProperty `
+  -Path "HKCU:\Control Panel\Accessibility\StickyKeys" `
+  -Name "Flags" -Type String -Value "506"
+Set-ItemProperty `
+  -Path "HKCU:\Control Panel\Accessibility\ToggleKeys" `
+  -Name "Flags" -Type String -Value "58"
+Set-ItemProperty `
+  -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" `
+  -Name "Flags" -Type String -Value "122"
 $Path = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
 if (-not (Test-Path $Path)) {
     New-Item -Path $Path -Force
 }
-Set-ItemProperty -Path $Path -Name NoWinKeys -Value 1
+$command = "Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name NoWinKeys -Value 1"
+Start-Process powershell.exe -ArgumentList "-Command `"$command`"" -Verb RunAs
 
 # Set the wallpaper
 Set-ItemProperty `
