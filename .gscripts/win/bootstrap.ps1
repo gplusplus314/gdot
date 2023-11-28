@@ -22,7 +22,8 @@ function Ensure-RegistryKey {
     )
 
     if (-not (Test-Path $KeyPath)) {
-        New-Item -Path $KeyPath -Force
+        $command = "New-Item -Path $KeyPath -Force"
+	Invoke-ElevatedCommand -CommandString $command
         Write-Host "Registry key created: $KeyPath"
     } else {
         Write-Host "Registry key already exists: $KeyPath"
