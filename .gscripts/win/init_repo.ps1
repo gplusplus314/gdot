@@ -1,6 +1,5 @@
 $erroractionpreference = "stop"
 
-# Set main and backup directory paths
 $MAIN_DIR = "$HOME\.gdot"
 $BACKUP_DIR = "$HOME\.gdot_backup"
 
@@ -8,11 +7,9 @@ Set-Location $HOME
 
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 irm get.scoop.sh | iex
-
-git clone --bare https://github.com/gplusplus314/gdot .gdot
+scoop install git
 
 Remove-Item $MAIN_DIR -Recurse -Force -ErrorAction SilentlyContinue
-
 git clone --bare https://github.com/gplusplus314/gdot $MAIN_DIR
 
 function gdot {
@@ -36,6 +33,5 @@ function doCheckout {
 }
 doCheckout
 
-# Configure git to not show untracked files
 gdot config status.showUntrackedFiles no
 
