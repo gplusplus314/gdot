@@ -207,6 +207,3 @@ if [ -f "$HOME/.zshrc_local" ]; then
   source $HOME/.zshrc_local
 fi
 #}}}
-###start-marker|{"name":"orcsource","description":"Allows Outreach specific shell hooks"}
-source "$HOME/.outreach/outreachrc.sh"
-###end-marker

@@ -3,9 +3,10 @@ $erroractionpreference = "stop"
 # This is annoying to install, but just get it out of the way. It must be
 # attended.
 winget install Microsoft.VisualStudio.2022.Community
+winget install Microsoft.VisualStudio.2022.BuildTools
 
 # This must also be attended. May as well do it now.
-wsl --install -d "openSUSE-Tumbleweed" 
+wsl --install -d "openSUSE-Tumbleweed"
 
 scoop bucket add main
 scoop bucket add extras
@@ -18,6 +19,7 @@ $packages = @(
   "flow-launcher" # launcher
   "git" # version/source control
   "komorebi" # tiling window manager
+  "llvm" # compiler toolchain
   "neovim" # editor
   "obsidian" # notes
   "powertoys" # tweaks
@@ -40,13 +42,13 @@ $packages = @(
 $str = $packages -join " "
 scoop install $str
 
-# This is annoying. Turn it off.
-git config --global core.autocrlf false
-
 # link NeoVim configuration
 $winNvim = Join-Path $env:LOCALAPPDATA "nvim"
 $unixNvim = Join-Path (Join-Path $HOME ".config") "nvim"
 New-Item -ItemType SymbolicLink -Path $winNvim -Target $unixNvim
+
+# This is annoying. Turn it off.
+git config --global core.autocrlf false
 
 # Dark mode:
 Set-ItemProperty `
@@ -75,4 +77,44 @@ Set-ItemProperty -Path $Path -Name NoWinKeys -Value 1
 
 # Set the wallpaper
 Set-ItemProperty -path "HKCU:\Control Panel\Desktop\" -name wallpaper -value $HOME\Pictures\wallpaper\win11dark.png
+
+# Get rid of Widgets
+winget uninstall –id 9MSSGKG348SP
+
+# Disable the search in taskbar
+$splat = @{
+    Path        = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search'
+    Name        = 'SearchBoxTaskbarMode'
+    Value       = 0
+    Type        = 'DWord'
+    Force       = $True
+    ErrorAction = 'Stop'
+}
+Set-ItemProperty @splat
+
+# Disable rounded window corners
+$splat = @{
+    Path        = 'HKCU:\SOFTWARE\Microsoft\Windows\DWM'
+    Name        = 'UseWindowFrameStagingBuffer'
+    Value       = 0
+    Type        = 'DWord'
+    Force       = $True
+    ErrorAction = 'Stop'
+}
+Set-ItemProperty @splat
+
+# Remove "Gallery" from file explorer
+$splat = @{
+    Path        = 'HKCU:\SOFTWARE\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}'
+    Name        = 'System.IsPinnedToNameSpaceTree'
+    Value       = 0
+    Type        = 'DWord'
+    Force       = $True
+    ErrorAction = 'Stop'
+}
+Set-ItemProperty @splat
+
+# Restart explorer so the rest of the settings take effect:
+taskkill /f /im explorer.exe
+start explorer.exe
 
