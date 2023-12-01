@@ -31,30 +31,40 @@ function Ensure-RegistryKey {
 }
 
 scoop bucket add extras
+scoop bucket add games
 scoop bucket add 'nerd-fonts'
 
 $packages = @(
   "autohotkey" # keyboard hotkey daemon
   "cutter" # GUI for Rizin
+  "cru" # custom resolution utility
   "discord" # chat
-  "flow-launcher" # launcher
+  "firefox" # not-chrome
+  "firefoxpwa" # PWA support for Firefox
   "git" # version/source control
   "go" # gopher
   "komorebi" # tiling window manager
   "llvm" # compiler toolchain
   "luarocks" # moon rocks
-  "neovim" # editor
+  "neovim" # best editor
   "nodejs" # javascript thingy
   "obsidian" # notes
   "powertoys" # tweaks
+  "privacy.sexy" # privacy tools
   "ripgrep" # fast grep
   "rizin" # CLI/TUI RE toolkit
   "rustup-msvc" # rust
   "starship" # cli prompt
+  "steam" # what comes out when you open a Valve
+  "steamcmd" # steam cli
+  "sunshine" # low latency desktop streaming server
   "sysinternals" # internals for the sys
-  "ungoogled-chromium" # browser
+  "ungoogled-chromium" # less-bad-chrome
+  "vscode" # backup editor
   "wezterm" # terminal emulator
   "winget" # Package Manager for things Scoop can't do
+  "x64dbga" # debugger
+  "zig" # modern C alternative, plus good tools
 
   # Fonts
   "SourceCodePro-NF"
@@ -66,9 +76,17 @@ scoop install $str
 
 # These require attendance:
 winget install Microsoft.VisualStudio.2022.Community `
-  --override "--passive --config $HOME\.gscripts\win\vs2022.vsconfig"
-wsl --install -d "openSUSE-Tumbleweed"
-winget uninstall -id 9MSSGKG348SP # Get rid of Widgets
+  --override "--passive --config $HOME\.gscripts\win\vs2022.vsconfig" `
+  --accept-package-agreements --accept-source-agreements
+wsl --install -d "openSUSE-Tumbleweed" `
+  --accept-package-agreements --accept-source-agreements
+
+# Get rid of Widgets
+winget uninstall -id 9MSSGKG348SP
+Set-ItemProperty `
+  -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" `
+  -Name "TaskbarDa" -Value 0
+
 
 # link NeoVim configuration
 $winNvim = Join-Path $env:LOCALAPPDATA "nvim"
@@ -86,12 +104,6 @@ Set-ItemProperty `
   -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize `
   -Name SystemUsesLightTheme -Value 0 -Type Dword -Force
 
-# Turn off mouse acceleration:
-$Path = "HKCU:\Control Panel\Mouse"
-Set-ItemProperty -Path $Path -Name MouseSpeed -Value 0
-Set-ItemProperty -Path $Path -Name MouseThreshold1 -Value 0
-Set-ItemProperty -Path $Path -Name MouseThreshold2 -Value 0
-
 # Disable a bunch of default Windows hotkeys:
 Set-ItemProperty `
   -Path "HKCU:\Control Panel\Accessibility\StickyKeys" `
@@ -107,11 +119,11 @@ Ensure-RegistryKey -KeyPath $Path
 $command = "Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name NoWinKeys -Value 1"
 Invoke-ElevatedCommand -CommandString $command
 
-# Set the wallpaper
-Set-ItemProperty `
-  -Path "HKCU:\Control Panel\Desktop\" `
-  -name wallpaper `
-  -value $HOME\Pictures\wallpaper\win11dark.png
+# Auto hide taskbar:
+$Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
+$v=(Get-ItemProperty -Path $Path).Settings
+$v[8]=3
+Set-ItemProperty -Path $Path -Name Settings -Value $v
 
 # Disable the search in taskbar
 $splat = @{
@@ -124,22 +136,79 @@ $splat = @{
 }
 Set-ItemProperty @splat
 
-# Disable rounded window corners
-$splat = @{
-    Path        = 'HKCU:\SOFTWARE\Microsoft\Windows\DWM'
-    Name        = 'UseWindowFrameStagingBuffer'
-    Value       = 0
-    Type        = 'DWord'
-    Force       = $True
-    ErrorAction = 'Stop'
-}
-Set-ItemProperty @splat
+# Set the wallpaper
+$wallpaperPath = "$HOME\Pictures\wallpaper\win11dark.png"
+Add-Type -TypeDefinition @"
+    using System;
+    using System.Runtime.InteropServices;
+    public class Wallpaper {
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+    }
+"@ -Name "Win32" -Namespace "Wallpaper"
+[Wallpaper.Win32]::SystemParametersInfo(20, 0, $wallpaperPath, 3)
 
-# Auto hide taskbar:
-$Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
-$v=(Get-ItemProperty -Path $Path).Settings
-$v[8]=3
-Set-ItemProperty -Path $Path -Name Settings -Value $v
+
+# Turn off mouse acceleration:
+$Path = "HKCU:\Control Panel\Mouse"
+Set-ItemProperty -Path $Path -Name MouseSpeed -Value 0
+Set-ItemProperty -Path $Path -Name MouseThreshold1 -Value 0
+Set-ItemProperty -Path $Path -Name MouseThreshold2 -Value 0
+
+# Disable rounded corners
+$Path = "HKCU:\SOFTWARE\Microsoft\Windows\DWM"
+$Name = "RoundCornerPreference"
+$Value = "0"
+if (-not (Test-Path $Path)) {
+    New-Item -Path $Path -Force | Out-Null
+}
+Set-ItemProperty -Path $Path -Name $Name -Value $Value
+
+# Disable Chat
+$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+$Name = "HideSCAHealth"
+$Value = "1"
+if (-not (Test-Path $Path)) {
+    New-Item -Path $Path -Force | Out-Null
+}
+Set-ItemProperty -Path $Path -Name $Name -Value $Value
+
+# Disable Widgets
+$Name = "TaskbarDa"
+$Value = "0"
+Set-ItemProperty -Path $Path -Name $Name -Value $Value
+
+# Disable Task View
+$Name = "HideTaskViewButton"
+$Value = "1"
+Set-ItemProperty -Path $Path -Name $Name -Value $Value
+
+# Disable rounded window corners
+$Path = "HKCU:\SOFTWARE\Microsoft\Windows\DWM"
+$Name = "RoundCornerPreference"
+$Value = "0"  # 0 to disable, 1 to enable
+if (-not (Test-Path $Path)) {
+    New-Item -Path $Path -Force | Out-Null
+}
+Set-ItemProperty -Path $Path -Name $Name -Value $Value
+
+# Show file extensions in Windows Explorer
+$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+$Name = "HideFileExt"
+$Value = "0"  # 0 to show extensions, 1 to hide
+if (-not (Test-Path $Path)) {
+    New-Item -Path $Path -Force | Out-Null
+}
+Set-ItemProperty -Path $Path -Name $Name -Value $Value
+
+# Hide the "Recommended" section of the Start Menu
+$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\StartMenu"
+$Name = "Start_ShowRecommended"
+$Value = "0"  # 0 to hide, 1 to show
+if (-not (Test-Path $Path)) {
+    New-Item -Path $Path -Force | Out-Null
+}
+Set-ItemProperty -Path $Path -Name $Name -Value $Value
 
 # Restart explorer so the rest of the settings take effect:
 Stop-Process -f -ProcessName explorer
