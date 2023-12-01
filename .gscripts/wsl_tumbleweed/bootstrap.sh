@@ -44,7 +44,7 @@ paca jq                     # Manipulate JSON in the CLI
 paca kubernetes-client      # Cube cuddle
 paca liberation-fonts       # OSS compatible Microsoft fonts
 paca llvm                   # Next-gen compiler backend
-paca ruby3.2-rubygem-lolcat # The purrfect addition to the CLI
+# paca ruby3.2-rubygem-lolcat # TODO: package dependencies broken
 paca lua54                  # As the name implies
 paca lua54-luarocks         # Package manager for Lua
 paca man-pages              # Manual pages
