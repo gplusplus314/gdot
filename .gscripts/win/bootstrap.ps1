@@ -41,6 +41,7 @@ $packages = @(
   "discord" # chat
   "firefox" # not-chrome
   "firefoxpwa" # PWA support for Firefox
+	"gh" # github cli
   "git" # version/source control
   "go" # gopher
   "komorebi" # tiling window manager
@@ -51,6 +52,7 @@ $packages = @(
   "obsidian" # notes
   "powertoys" # tweaks
   "privacy.sexy" # privacy tools
+  "pwsh" # powershell core
   "ripgrep" # fast grep
   "rizin" # CLI/TUI RE toolkit
   "rustup-msvc" # rust
@@ -63,7 +65,7 @@ $packages = @(
   "vscode" # backup editor
   "wezterm" # terminal emulator
   "winget" # Package Manager for things Scoop can't do
-  "x64dbga" # debugger
+  "x64dbg" # debugger
   "zig" # modern C alternative, plus good tools
 
   # Fonts
@@ -75,11 +77,11 @@ $str = $packages -join " "
 scoop install $str
 
 # These require attendance:
-winget install Microsoft.VisualStudio.2022.Community `
-  --override "--passive --config $HOME\.gscripts\win\vs2022.vsconfig" `
-  --accept-package-agreements --accept-source-agreements
-wsl --install -d "openSUSE-Tumbleweed" `
-  --accept-package-agreements --accept-source-agreements
+#winget install Microsoft.VisualStudio.2022.Community `
+#  --override "--passive --config $HOME\.gscripts\win\vs2022.vsconfig" `
+#  --accept-package-agreements --accept-source-agreements
+#wsl --install -d "openSUSE-Tumbleweed" `
+#  --accept-package-agreements --accept-source-agreements
 
 # Get rid of Widgets
 winget uninstall -id 9MSSGKG348SP
@@ -87,11 +89,10 @@ Set-ItemProperty `
   -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" `
   -Name "TaskbarDa" -Value 0
 
-
 # link NeoVim configuration
 $winNvim = Join-Path $env:LOCALAPPDATA "nvim"
 $unixNvim = Join-Path (Join-Path $HOME ".config") "nvim"
-New-Item -ItemType Junction -Path $winNvim -Target $unixNvim
+#New-Item -ItemType Junction -Path $winNvim -Target $unixNvim
 
 # This is annoying. Turn it off.
 git config --global core.autocrlf false
@@ -136,19 +137,6 @@ $splat = @{
 }
 Set-ItemProperty @splat
 
-# Set the wallpaper
-$wallpaperPath = "$HOME\Pictures\wallpaper\win11dark.png"
-Add-Type -TypeDefinition @"
-    using System;
-    using System.Runtime.InteropServices;
-    public class Wallpaper {
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-    }
-"@ -Name "Win32" -Namespace "Wallpaper"
-[Wallpaper.Win32]::SystemParametersInfo(20, 0, $wallpaperPath, 3)
-
-
 # Turn off mouse acceleration:
 $Path = "HKCU:\Control Panel\Mouse"
 Set-ItemProperty -Path $Path -Name MouseSpeed -Value 0
@@ -171,17 +159,22 @@ $Value = "1"
 if (-not (Test-Path $Path)) {
     New-Item -Path $Path -Force | Out-Null
 }
-Set-ItemProperty -Path $Path -Name $Name -Value $Value
+$command = "Set-ItemProperty -Path $Path -Name $Name -Value $Value"
+Invoke-ElevatedCommand -CommandString $command
 
 # Disable Widgets
+$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
 $Name = "TaskbarDa"
 $Value = "0"
-Set-ItemProperty -Path $Path -Name $Name -Value $Value
+$command = "Set-ItemProperty -Path $Path -Name $Name -Value $Value"
+Invoke-ElevatedCommand -CommandString $command
 
 # Disable Task View
+$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
 $Name = "HideTaskViewButton"
 $Value = "1"
-Set-ItemProperty -Path $Path -Name $Name -Value $Value
+$command = "Set-ItemProperty -Path $Path -Name $Name -Value $Value"
+Invoke-ElevatedCommand -CommandString $command
 
 # Disable rounded window corners
 $Path = "HKCU:\SOFTWARE\Microsoft\Windows\DWM"
