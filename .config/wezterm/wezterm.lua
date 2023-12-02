@@ -21,7 +21,7 @@ return {
 		"SauceCodePro Nerd Font",
 	}),
 	keys = require("keymap"),
-	font_size = 16.0,
+	font_size = 12.0,
 	adjust_window_size_when_changing_font_size = false,
 	default_cursor_style = "SteadyBar",
 	window_decorations = "RESIZE",

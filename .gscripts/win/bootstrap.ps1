@@ -77,11 +77,11 @@ $str = $packages -join " "
 scoop install $str
 
 # These require attendance:
-#winget install Microsoft.VisualStudio.2022.Community `
-#  --override "--passive --config $HOME\.gscripts\win\vs2022.vsconfig" `
-#  --accept-package-agreements --accept-source-agreements
-#wsl --install -d "openSUSE-Tumbleweed" `
-#  --accept-package-agreements --accept-source-agreements
+winget install Microsoft.VisualStudio.2022.Community `
+  --override "--passive --config $HOME\.gscripts\win\vs2022.vsconfig" `
+  --accept-package-agreements --accept-source-agreements
+wsl --install -d "openSUSE-Tumbleweed" `
+  --accept-package-agreements --accept-source-agreements
 
 # Get rid of Widgets
 winget uninstall -id 9MSSGKG348SP
@@ -92,7 +92,7 @@ Set-ItemProperty `
 # link NeoVim configuration
 $winNvim = Join-Path $env:LOCALAPPDATA "nvim"
 $unixNvim = Join-Path (Join-Path $HOME ".config") "nvim"
-#New-Item -ItemType Junction -Path $winNvim -Target $unixNvim
+New-Item -ItemType Junction -Path $winNvim -Target $unixNvim
 
 # This is annoying. Turn it off.
 git config --global core.autocrlf false
@@ -137,67 +137,16 @@ $splat = @{
 }
 Set-ItemProperty @splat
 
-# Turn off mouse acceleration:
+# Turn off mouse acceleration (does not turn off "enhance pointer precision", unfortunately)
 $Path = "HKCU:\Control Panel\Mouse"
 Set-ItemProperty -Path $Path -Name MouseSpeed -Value 0
 Set-ItemProperty -Path $Path -Name MouseThreshold1 -Value 0
 Set-ItemProperty -Path $Path -Name MouseThreshold2 -Value 0
 
-# Disable rounded corners
-$Path = "HKCU:\SOFTWARE\Microsoft\Windows\DWM"
-$Name = "RoundCornerPreference"
-$Value = "0"
-if (-not (Test-Path $Path)) {
-    New-Item -Path $Path -Force | Out-Null
-}
-Set-ItemProperty -Path $Path -Name $Name -Value $Value
-
-# Disable Chat
-$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-$Name = "HideSCAHealth"
-$Value = "1"
-if (-not (Test-Path $Path)) {
-    New-Item -Path $Path -Force | Out-Null
-}
-$command = "Set-ItemProperty -Path $Path -Name $Name -Value $Value"
-Invoke-ElevatedCommand -CommandString $command
-
-# Disable Widgets
-$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-$Name = "TaskbarDa"
-$Value = "0"
-$command = "Set-ItemProperty -Path $Path -Name $Name -Value $Value"
-Invoke-ElevatedCommand -CommandString $command
-
-# Disable Task View
-$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-$Name = "HideTaskViewButton"
-$Value = "1"
-$command = "Set-ItemProperty -Path $Path -Name $Name -Value $Value"
-Invoke-ElevatedCommand -CommandString $command
-
-# Disable rounded window corners
-$Path = "HKCU:\SOFTWARE\Microsoft\Windows\DWM"
-$Name = "RoundCornerPreference"
-$Value = "0"  # 0 to disable, 1 to enable
-if (-not (Test-Path $Path)) {
-    New-Item -Path $Path -Force | Out-Null
-}
-Set-ItemProperty -Path $Path -Name $Name -Value $Value
-
 # Show file extensions in Windows Explorer
 $Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 $Name = "HideFileExt"
 $Value = "0"  # 0 to show extensions, 1 to hide
-if (-not (Test-Path $Path)) {
-    New-Item -Path $Path -Force | Out-Null
-}
-Set-ItemProperty -Path $Path -Name $Name -Value $Value
-
-# Hide the "Recommended" section of the Start Menu
-$Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\StartMenu"
-$Name = "Start_ShowRecommended"
-$Value = "0"  # 0 to hide, 1 to show
 if (-not (Test-Path $Path)) {
     New-Item -Path $Path -Force | Out-Null
 }
