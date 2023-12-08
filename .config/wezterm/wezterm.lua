@@ -1,5 +1,4 @@
 local wezterm = require("wezterm")
-local launch_menu = require("launch_menu")
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	local title = tab.get_title()
@@ -16,7 +15,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	}
 end)
 
-return {
+local config = {
 	font = wezterm.font_with_fallback({
 		"SauceCodePro Nerd Font",
 	}),
@@ -55,5 +54,11 @@ return {
 			},
 		},
 	},
-	launch_menu = launch_menu.get(),
+	launch_menu = require("launch_menu")(),
 }
+
+if string.find(wezterm.target_triple, "windows") then
+	config.default_prog = { "nu.exe" }
+end
+
+return config

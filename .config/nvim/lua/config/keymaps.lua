@@ -2,7 +2,13 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-local wk = require("which-key")
+-- Shim WhichKey in VSCode
+local wk = nil
+if vim.g.vscode then
+  wk = { register = function() end }
+else
+  wk = require("which-key")
+end
 
 --{{{ Util
 local function bind(op, outer_opts)
@@ -50,6 +56,13 @@ nnoremap(
   { desc = "close all non-pinned buffers" }
 )
 
+-- Open Neotree to the current buffer's file:
+nnoremap(
+  "<leader>e",
+  ":Neotree toggle reveal<cr>",
+  { desc = "open [e]xplorer" }
+)
+
 -- Keep visual selection while indenting:
 vnoremap("<", "<gv")
 vnoremap(">", ">gv")
@@ -79,9 +92,6 @@ nnoremap("<C-Right>", "<C-W>l")
 
 -- Save and quit in style!
 nnoremap("ZZ", ":wqa<CR>")
-
--- GTFO the embedded terminal
-tnoremap("<esc>", "<C-\\><C-N>")
 
 --}}}
 

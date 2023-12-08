@@ -11,6 +11,7 @@ scoop install git
 
 # This is annoying. Turn it off.
 git config --global core.autocrlf false
+git config --global core.eol lf
 
 Remove-Item $MAIN_DIR -Recurse -Force -ErrorAction SilentlyContinue
 git clone --bare https://github.com/gplusplus314/gdot $MAIN_DIR

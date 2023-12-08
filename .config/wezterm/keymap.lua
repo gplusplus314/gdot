@@ -125,10 +125,6 @@ local function makeCommonKeymap(keymappings)
 	})
 end
 
-local function isMac()
-	return string.find(wezterm.target_triple, "apple")
-end
-
 local function makeKeymap()
 	local keymappings = {}
 	if string.find(wezterm.target_triple, "apple") then

@@ -4,14 +4,6 @@
     "actions": 
     [
         {
-            "command": 
-            {
-                "action": "switchToTab",
-                "index": 7
-            },
-            "keys": "alt+8"
-        },
-        {
             "command": "unbound",
             "keys": "ctrl+c"
         },
@@ -74,6 +66,14 @@
         {
             "command": 
             {
+                "action": "switchToTab",
+                "index": 7
+            },
+            "keys": "alt+8"
+        },
+        {
+            "command": 
+            {
                 "action": "splitPane",
                 "split": "auto",
                 "splitMode": "duplicate"
@@ -83,9 +83,10 @@
         {
             "command": 
             {
-                "action": "newTab"
+                "action": "switchToTab",
+                "index": 4294967295
             },
-            "keys": "alt+t"
+            "keys": "alt+9"
         },
         {
             "command": 
@@ -97,10 +98,9 @@
         {
             "command": 
             {
-                "action": "switchToTab",
-                "index": 4294967295
+                "action": "newTab"
             },
-            "keys": "alt+9"
+            "keys": "alt+t"
         },
         {
             "command": 
@@ -127,17 +127,17 @@
         {
             "command": 
             {
-                "action": "prevTab"
-            },
-            "keys": "alt+comma"
-        },
-        {
-            "command": 
-            {
                 "action": "switchToTab",
                 "index": 2
             },
             "keys": "alt+3"
+        },
+        {
+            "command": 
+            {
+                "action": "prevTab"
+            },
+            "keys": "alt+comma"
         },
         {
             "command": 
@@ -226,40 +226,22 @@
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
-                "guid": "{9ad00433-bd45-5a90-b809-ccb94a7101f2}",
-                "hidden": false,
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{a9aa0f0e-f309-5793-a7f2-e4c711f7c97c}",
-                "hidden": false,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{99a7ca11-7aa9-5d1d-bc56-fc33e18aee79}",
-                "hidden": false,
-                "name": "Developer Command Prompt for VS 2022 (2)",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{06cd5a7f-d8f6-58d4-bb56-e3ec15b65562}",
-                "hidden": false,
-                "name": "Developer PowerShell for VS 2022 (2)",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
                 "guid": "{bc2da056-dd06-5879-b969-1dfcefc8d2c7}",
                 "hidden": false,
                 "name": "openSUSE-Tumbleweed",
                 "source": "Windows.Terminal.Wsl"
             },
             {
-                "guid": "{aab79973-318f-43b6-a9bc-b4096493753f}",
+                "guid": "{d8e4d63d-717d-5fb5-b798-eff3ea5f9184}",
                 "hidden": false,
-                "name": "Nushell",
-                "source": "nu"
+                "name": "Developer Command Prompt for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{d2ffbe17-9727-5022-8e9e-85256b77470f}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
             }
         ]
     },

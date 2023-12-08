@@ -41,6 +41,8 @@ $packages = @(
   "discord" # chat
   "firefox" # not-chrome
   "firefoxpwa" # PWA support for Firefox
+	"fzf" # fuzzyfind
+	"gcc" # c compiler
 	"gh" # github cli
   "git" # version/source control
   "go" # gopher
@@ -96,6 +98,26 @@ New-Item -ItemType Junction -Path $winNvim -Target $unixNvim
 
 # This is annoying. Turn it off.
 git config --global core.autocrlf false
+git config --global core.eol lf
+
+function Clone-GitRepo {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$Url
+    )
+    $parsedUrl = $Url -replace 'https?://', ''
+    $directoryPath = $parsedUrl.Replace('/', '\')
+    $fullPath = Join-Path $HOME "src\$directoryPath"
+    if (!(Test-Path $fullPath)) {
+        New-Item -ItemType Directory -Path $fullPath -Force
+    }
+    git clone $Url $fullPath
+}
+
+Clone-GitRepo -Url "https://github.com/uutils/coreutils"
+Push-Location "$HOME\src\github.com\uutils\coreutils"
+make install
+Pop-Location
 
 # Dark mode:
 Set-ItemProperty `

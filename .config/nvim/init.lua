@@ -5,7 +5,7 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("g_" .. name, { clear = true })
 end
 
-if not vim.env.EDITOR_INVOKED then
+if not vim.g.vscode and not vim.env.EDITOR_INVOKED then
   vim.api.nvim_create_autocmd({ "VimEnter" }, {
     group = augroup("restore_session"),
     callback = function()

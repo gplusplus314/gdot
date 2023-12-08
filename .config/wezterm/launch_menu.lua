@@ -4,6 +4,14 @@ local function get()
 
 	if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 		table.insert(launch_menu, {
+			label = "NuShell",
+			args = { "nu.exe" },
+		})
+		table.insert(launch_menu, {
+			label = "Command Prompt",
+			args = { "cmd.exe" },
+		})
+		table.insert(launch_menu, {
 			label = "PowerShell",
 			args = { "pwsh.exe" },
 		})
@@ -26,6 +34,4 @@ local function get()
 	return launch_menu
 end
 
-return {
-	get = get,
-}
+return get
