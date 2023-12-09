@@ -758,4 +758,11 @@ $env.config = {
     ]
 }
 
+### My added stuff ###
+
+$env.HOME = $'($env.HOMEDRIVE)($env.HOMEPATH)'
+
 use ~/.cache/starship/init.nu
+
+alias gdot = git $'--git-dir=($env.HOME)/.gdot' $'--work-tree=($env.HOME)/'
+#alias gdot = git --git-dir=~/.gdot/ --work-tree=~

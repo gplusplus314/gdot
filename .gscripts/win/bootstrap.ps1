@@ -119,6 +119,10 @@ Push-Location "$HOME\src\github.com\uutils\coreutils"
 make install
 Pop-Location
 
+# Cache Starship for NuShell
+mkdir ~/.cache/starship
+starship init nu | save -f ~/.cache/starship/init.nu
+
 # Dark mode:
 Set-ItemProperty `
   -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize `
