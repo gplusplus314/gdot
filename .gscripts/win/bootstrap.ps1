@@ -129,6 +129,9 @@ Push-Location "$HOME\src\github.com\uutils\coreutils"
 make install
 Pop-Location
 
+Clone-GitRepo -Url "https://github.com/gplusplus314/Whim"
+Clone-GitRepo -Url "https://github.com/gplusplus314/gkey"
+
 # Cache Starship for NuShell
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
