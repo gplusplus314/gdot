@@ -162,6 +162,12 @@ void DoConfig(IContext context)
 	context.KeybindManager.SetKeybind("whim.floating_layout.toggle_window_floating",
 		new Keybind(IKeybind.Win, VIRTUAL_KEY.VK_F));
 
+	// Close the in-focus window:
+	context.CommandManager.Add("close_focused_window", "close focused window",
+		() => context.WorkspaceManager.ActiveWorkspace.LastFocusedWindow.Close() );
+	context.KeybindManager.SetKeybind("whim.custom.close_focused_window",
+		new Keybind(IKeybind.Win, VIRTUAL_KEY.VK_Q));
+
 	context.KeybindManager.SetKeybind("whim.command_palette.toggle",
 		new Keybind(IKeybind.WinShift, VIRTUAL_KEY.VK_P));
 }
