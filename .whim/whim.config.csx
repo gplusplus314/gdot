@@ -170,6 +170,9 @@ void DoConfig(IContext context)
 
 	context.KeybindManager.SetKeybind("whim.command_palette.toggle",
 		new Keybind(IKeybind.WinShift, VIRTUAL_KEY.VK_P));
+	
+	// Window Rules
+	context.FilterManager.AddProcessFileNameFilter("Flow.Launcher.exe");
 }
 
 // We return doConfig here so that Whim can call it when it loads.
