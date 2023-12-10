@@ -102,6 +102,13 @@ $env.NU_PLUGIN_DIRS = [
 
 
 ### My added stuff: ###
+$env.HOME = $'($env.HOMEDRIVE)($env.HOMEPATH)'
+
+$env.Path = ($env.Path | split row (char esep) | prepend '~/src/github.com/uutils/coreutils/target/release')
+
+$env.TERM = "xterm-256color"
 
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
+
+zoxide init nushell --no-cmd | save -f ~/.zoxide.nu

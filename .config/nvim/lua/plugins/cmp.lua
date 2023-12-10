@@ -1,4 +1,22 @@
 return {
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        nushell = {
+          mason = false,
+        },
+      },
+    },
+    --setup = {
+    --  nushell = function(_, opts)
+    --    -- print/show opts to user:
+    --    --vim.api.nvim_echo({ "opts:", opts }, true, {})
+    --    --opts.single_file_support = true
+    --    return false
+    --  end,
+    --},
+  },
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {

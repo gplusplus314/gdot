@@ -759,10 +759,13 @@ $env.config = {
 }
 
 ### My added stuff ###
-
-$env.HOME = $'($env.HOMEDRIVE)($env.HOMEPATH)'
-
 use ~/.cache/starship/init.nu
+source ~/.local/share/atuin/init.nu
+source ~/.zoxide.nu
 
 alias gdot = git $'--git-dir=($env.HOME)/.gdot' $'--work-tree=($env.HOME)/'
-#alias gdot = git --git-dir=~/.gdot/ --work-tree=~
+alias vi = nvim
+
+alias z = __zoxide_zi
+alias za = __zoxide_z
+alias zd = zoxide remove (zoxide query -i)

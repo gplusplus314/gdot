@@ -35,15 +35,21 @@ scoop bucket add games
 scoop bucket add 'nerd-fonts'
 
 $packages = @(
-  "autohotkey" # keyboard hotkey daemon
-  "cutter" # GUI for Rizin
-  "cru" # custom resolution utility
-  "discord" # chat
-  "firefox" # not-chrome
-  "firefoxpwa" # PWA support for Firefox
+	"bat" # better cat
+	"fd" # find stuffs
 	"fzf" # fuzzyfind
 	"gcc" # c compiler
 	"gh" # github cli
+	"grep" # old habits die hard
+	"jq" # cli json query
+	"poppler" # pdf renderer
+	"unar" # universal unarchiver
+	"zoxide" # z
+  "autohotkey" # keyboard hotkey daemon
+  "cru" # custom resolution utility
+  "cutter" # GUI for Rizin
+  "firefox" # not-chrome
+  "firefoxpwa" # PWA support for Firefox
   "git" # version/source control
   "go" # gopher
   "komorebi" # tiling window manager
@@ -99,6 +105,10 @@ New-Item -ItemType Junction -Path $winNvim -Target $unixNvim
 # This is annoying. Turn it off.
 git config --global core.autocrlf false
 git config --global core.eol lf
+
+# Shell history tool
+cargo install atuin
+nu -c 'atuin init nu | save ~/.local/share/atuin/init.nu'
 
 function Clone-GitRepo {
     param (

@@ -3,7 +3,7 @@ local wezterm = require("wezterm")
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	local title = tab.get_title()
 	if title == nil then
-		title = tab.active_pane.title
+		title = tab.active_pane.current_working_dir
 	end
 	if tab.is_active then
 		return {
@@ -15,11 +15,14 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	}
 end)
 
+local keymap = require("keymap")
+
 local config = {
 	font = wezterm.font_with_fallback({
 		"SauceCodePro Nerd Font",
 	}),
-	keys = require("keymap"),
+	keys = keymap.keys,
+	key_tables = keymap.key_tables,
 	font_size = 12.0,
 	adjust_window_size_when_changing_font_size = false,
 	default_cursor_style = "SteadyBar",
