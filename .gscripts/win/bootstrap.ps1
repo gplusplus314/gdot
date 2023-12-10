@@ -44,7 +44,6 @@ $packages = @(
 	"jq" # cli json query
 	"poppler" # pdf renderer
 	"unar" # universal unarchiver
-	"zoxide" # z
   "autohotkey" # keyboard hotkey daemon
   "cru" # custom resolution utility
   "cutter" # GUI for Rizin

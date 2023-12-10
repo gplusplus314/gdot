@@ -111,4 +111,16 @@ $env.TERM = "xterm-256color"
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
 
-zoxide init nushell --no-cmd | save -f ~/.zoxide.nu
+alias gdot = git $'--git-dir=($env.HOME)/.gdot' $'--work-tree=($env.HOME)/'
+alias vi = nvim
+
+def za [] { 
+	pwd | lines | save ~/.proj --append 
+	open ~/.proj | lines | uniq | save ~/.proj --force
+}
+
+def z --env [query = ""] {
+	let path = open ~/.proj | str replace $'($env.HOME)' '~' -a | fzf --reverse --height=5 -1 -q $query
+	cd $path
+}
+
