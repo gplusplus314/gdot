@@ -9,7 +9,17 @@ if not vim.g.vscode and not vim.env.EDITOR_INVOKED then
   vim.api.nvim_create_autocmd({ "VimEnter" }, {
     group = augroup("restore_session"),
     callback = function()
-      require("persistence").load()
+      -- Super nasty workaround for getting Globals to load from the
+      -- session file in Windows. I don't care, it works. I have better things
+      -- to do.
+      local timer = vim.loop.new_timer()
+      timer:start(
+        1,
+        0,
+        vim.schedule_wrap(function()
+          require("persistence").load()
+        end)
+      )
     end,
     nested = true,
   })

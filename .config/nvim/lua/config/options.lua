@@ -10,5 +10,6 @@ o.cursorline = true
 o.foldmethod = "marker"
 o.textwidth = 80
 o.expandtab = false
+o.sessionoptions = "buffers,curdir,tabpages,winsize,globals,skiprtp,folds"
 
 vim.lsp.set_log_level("debug")
