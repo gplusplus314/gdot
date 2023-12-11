@@ -1,0 +1,62 @@
+let mapleader=" "
+
+set scrolloff=20
+set colorcolumn=80
+set cursorline
+set foldmethod=marker
+set textwidth=80
+set noexpandtab
+set backspace=indent,eol,start
+set relativenumber
+set number
+set incsearch
+set smartcase
+set selectmode=mouse,key
+
+" Up and down with thumb
+nnoremap <BS> k
+nnoremap <CR> j
+
+" Keep visual selection while indenting:
+vnoremap < <gv
+vnoremap > >gv
+
+" Paste without yank in visual mode:
+vnoremap p "_dP
+
+" Copy visual selection to system clipboard:
+vnoremap <Leader>y "+y
+" Paste from system clipboard:
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
+
+" Move lines up and down in visual mode with Shift+(Up/Down):
+vnoremap <S-Down> :m '>+1<CR>gv=gv
+vnoremap <S-Up> :m '<-2<CR>gv=gv
+
+" Delete characters without clobbering default register:
+nnoremap x "_x
+nnoremap X "_X
+
+" Write all buffers
+nnoremap ZZ :wa<CR>
+
+" explorer
+nnoremap <Leader>E :vsc View.SolutionExplorer<CR>
+
+" Buffer management
+nnoremap <End> :vsc Window.NextTab<CR>
+nnoremap <Home> :vsc Window.PreviousTab<CR>
+nnoremap <Leader>| :vsc Window.Split<CR>
+nnoremap <Leader>- :vsc Window.SplitHorizontal<CR>
+
+" search
+nnoremap <Leader>ss :vsc Edit.GoToSymbol<CR>
+nnoremap <Leader>sf :vsc Edit.GoToFile<CR>
+nnoremap <Leader>sg :vsc Edit.GoToAll<CR>
+nnoremap <Leader>sG :vsc Edit.FindInFiles<CR>
+
+" Copilot
+inoremap <Leader>oc <C-o>:vsc Edit.Copilot.ToggleGlobally<CR>
+inoremap <Leader>oC <C-o>:vsc Edit.Copilot.Open<CR>
+
