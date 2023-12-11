@@ -158,6 +158,10 @@ Ensure-RegistryKey -KeyPath $Path
 $command = "Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name NoWinKeys -Value 1"
 Invoke-ElevatedCommand -CommandString $command
 
+# Remove stupid Widgets
+$command = 'Get-AppxPackage -AllUsers | Where-Object {$_.Name -like "*WebExperience*"} | Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue'
+Invoke-ElevatedCommand -CommandString $command
+
 # Auto hide taskbar:
 $Path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
 $v=(Get-ItemProperty -Path $Path).Settings
