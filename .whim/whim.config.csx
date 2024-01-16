@@ -1,14 +1,15 @@
 #nullable enable
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\whim.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.Bar\Whim.Bar.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.CommandPalette\Whim.CommandPalette.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.FloatingLayout\Whim.FloatingLayout.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.Gaps\Whim.Gaps.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Release\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\whim.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.Bar\Whim.Bar.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.CommandPalette\Whim.CommandPalette.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.FloatingLayout\Whim.FloatingLayout.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.Gaps\Whim.Gaps.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.SliceLayout\Whim.SliceLayout.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
+#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
 
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ using Whim.FloatingLayout;
 using Whim.FocusIndicator;
 using Whim.Gaps;
 using Whim.LayoutPreview;
+using Whim.SliceLayout;
 using Whim.TreeLayout;
 using Whim.TreeLayout.Bar;
 using Whim.TreeLayout.CommandPalette;
@@ -90,12 +92,25 @@ void DoConfig(IContext context)
 	context.PluginManager.AddPlugin(layoutPreviewPlugin);
 
 	context.KeybindManager.Clear();
+	
+	SliceLayoutPlugin sliceLayoutPlugin = new(context);
 
 	// Set up layout engines.
 	context.WorkspaceManager.CreateLayoutEngines = () => new CreateLeafLayoutEngine[]
 	{
+		(id) => SliceLayouts.CreatePrimaryStackLayout(context, sliceLayoutPlugin, id),
 		(id) => new TreeLayoutEngine(context, treeLayoutPlugin, id),
-		(id) => new ColumnLayoutEngine(id)
+		//(id) => new ColumnLayoutEngine(id),
+		//(id) => new SliceLayoutEngine(
+        //    context,
+        //    sliceLayoutPlugin,
+        //    id,
+        //    new ParentArea(
+        //        isRow: true, 
+        //        (0.5, new SliceArea(order: 0, maxChildren: 1)),
+        //        (0.5, new OverflowArea())
+        //    )
+        //) { Name = "main on left" },
 	};
 	
 	// Set up workspaces.
