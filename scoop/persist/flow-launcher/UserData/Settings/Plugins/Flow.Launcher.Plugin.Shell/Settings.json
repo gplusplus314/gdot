@@ -1,12 +1,12 @@
 {
-  "Shell": 0,
+  "Shell": 3,
   "ReplaceWinR": false,
   "LeaveShellOpen": false,
   "RunAsAdministrator": true,
   "ShowOnlyMostUsedCMDs": false,
   "ShowOnlyMostUsedCMDsNumber": 5,
   "CommandHistory": {
-    "echo hi": 1,
+    "reg add \u0022HKLM\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting\\LocalDumps\u0022 /v DumpFolder /t REG_EXPAND_SZ /d D:\\dumps /f": 1,
     "cmd": 1
   }
 }

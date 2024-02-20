@@ -1,15 +1,15 @@
 #nullable enable
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\whim.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.Bar\Whim.Bar.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.CommandPalette\Whim.CommandPalette.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.FloatingLayout\Whim.FloatingLayout.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.Gaps\Whim.Gaps.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.SliceLayout\Whim.SliceLayout.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
-#r "C:\Users\g\src\github.com\gplusplus314\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
+#r "WHIM_PATH\whim.dll"
+#r "WHIM_PATH\plugins\Whim.Bar\Whim.Bar.dll"
+#r "WHIM_PATH\plugins\Whim.CommandPalette\Whim.CommandPalette.dll"
+#r "WHIM_PATH\plugins\Whim.FloatingLayout\Whim.FloatingLayout.dll"
+#r "WHIM_PATH\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
+#r "WHIM_PATH\plugins\Whim.Gaps\Whim.Gaps.dll"
+#r "WHIM_PATH\plugins\Whim.SliceLayout\Whim.SliceLayout.dll"
+#r "WHIM_PATH\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
+#r "WHIM_PATH\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
+#r "WHIM_PATH\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
+#r "WHIM_PATH\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
 
 using System;
 using System.Collections.Generic;
@@ -102,15 +102,15 @@ void DoConfig(IContext context)
 		(id) => new TreeLayoutEngine(context, treeLayoutPlugin, id),
 		//(id) => new ColumnLayoutEngine(id),
 		//(id) => new SliceLayoutEngine(
-        //    context,
-        //    sliceLayoutPlugin,
-        //    id,
-        //    new ParentArea(
-        //        isRow: true, 
-        //        (0.5, new SliceArea(order: 0, maxChildren: 1)),
-        //        (0.5, new OverflowArea())
-        //    )
-        //) { Name = "main on left" },
+		//    context,
+		//    sliceLayoutPlugin,
+		//    id,
+		//    new ParentArea(
+		//        isRow: true, 
+		//        (0.5, new SliceArea(order: 0, maxChildren: 1)),
+		//        (0.5, new OverflowArea())
+		//    )
+		//) { Name = "main on left" },
 	};
 	
 	// Set up workspaces.
@@ -188,6 +188,8 @@ void DoConfig(IContext context)
 	
 	// Window Rules
 	context.FilterManager.AddProcessFileNameFilter("Flow.Launcher.exe");
+	context.FilterManager.AddProcessFileNameFilter("cs2.exe");
+	context.FilterManager.AddProcessFileNameFilter("vconsole2.exe");
 }
 
 // We return doConfig here so that Whim can call it when it loads.

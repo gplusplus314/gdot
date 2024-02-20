@@ -113,6 +113,7 @@ starship init nu | save -f ~/.cache/starship/init.nu
 
 alias gdot = git $'--git-dir=($env.HOME)/.gdot' $'--work-tree=($env.HOME)/'
 alias vi = nvim
+alias cat = bat
 
 def za [] { 
 	pwd | lines | save ~/.proj --append 

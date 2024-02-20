@@ -1,8 +1,0 @@
-{
-  "OpenInNewBrowserWindow": true,
-  "BrowserPath": null,
-  "LoadChromeBookmark": false,
-  "LoadFirefoxBookmark": true,
-  "LoadEdgeBookmark": false,
-  "CustomChromiumBrowsers": []
-}

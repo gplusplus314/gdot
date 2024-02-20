@@ -1,18 +1,18 @@
 {
   "Hotkey": "Alt \u002B Space",
   "OpenResultModifiers": "Ctrl",
-  "ColorScheme": "Dark",
+  "ColorScheme": "System",
   "ShowOpenResultHotkey": true,
-  "WindowSize": 700,
+  "WindowSize": 730,
   "PreviewHotkey": "Ctrl \u002B P",
   "Language": "en",
   "Theme": "Violet",
   "UseDropShadowEffect": false,
-  "QueryBoxFont": "Microsoft Sans Serif",
+  "QueryBoxFont": "SauceCodePro Nerd Font",
   "QueryBoxFontStyle": null,
   "QueryBoxFontWeight": null,
   "QueryBoxFontStretch": null,
-  "ResultFont": "Microsoft Sans Serif",
+  "ResultFont": "SauceCodePro Nerd Font",
   "ResultFontStyle": null,
   "ResultFontWeight": null,
   "ResultFontStretch": null,
@@ -24,10 +24,10 @@
   "TimeFormat": "hh:mm tt",
   "DateFormat": "MM\u0027/\u0027dd ddd",
   "FirstLaunch": false,
-  "SettingWindowWidth": 1260,
-  "SettingWindowHeight": 1396,
-  "SettingWindowTop": 34,
-  "SettingWindowLeft": 1290,
+  "SettingWindowWidth": 1676,
+  "SettingWindowHeight": 1104.6666666666665,
+  "SettingWindowTop": 228,
+  "SettingWindowLeft": 712,
   "SettingWindowState": 0,
   "CustomExplorerIndex": 0,
   "CustomExplorerList": [
@@ -100,12 +100,12 @@
   "AlwaysStartEn": false,
   "QuerySearchPrecision": "Regular",
   "AutoUpdates": false,
-  "WindowLeft": 990,
-  "WindowTop": 348,
+  "WindowLeft": 512.6666666666666,
+  "WindowTop": 262,
   "CustomWindowLeft": 0,
   "CustomWindowTop": 0,
   "MaxResultsToShow": 5,
-  "ActivateTimes": 123,
+  "ActivateTimes": 633,
   "CustomPluginHotkeys": [],
   "CustomShortcuts": [],
   "DontPromptUpdateMsg": false,
@@ -120,17 +120,17 @@
   "CustomScreenNumber": 1,
   "IgnoreHotkeysOnFullscreen": false,
   "Proxy": {
-    "Enabled": false,
-    "Server": null,
-    "Port": 0,
+    "Enabled": true,
+    "Server": "proxy.valve.org",
+    "Port": 3128,
     "UserName": null,
     "Password": null
   },
   "LastQueryMode": "Selected",
-  "AnimationSpeed": "Medium",
+  "AnimationSpeed": "Slow",
   "CustomAnimationLength": 360,
   "PluginSettings": {
-    "PythonExecutablePath": "C:\\Users\\g\\scoop\\apps\\python\\current\\pythonw.exe",
+    "PythonExecutablePath": "C:\\Users\\gerryh\\scoop\\apps\\flow-launcher\\current\\app-1.16.2\\UserData\\Environments\\Python\\PythonEmbeddable-v3.11.4\\pythonw.exe",
     "NodeExecutablePath": "",
     "Plugins": {
       "0ECADE17459B49F587BF81DC3A125110": {
@@ -159,13 +159,13 @@
         "Version": "3.1.3",
         "ActionKeywords": [
           "*",
-          "doc:",
           "*",
           "*",
-          "*"
+          "f",
+          "g"
         ],
         "Priority": 0,
-        "Disabled": true
+        "Disabled": false
       },
       "6A122269676E40EB86EB543B945932B9": {
         "ID": "6A122269676E40EB86EB543B945932B9",
@@ -212,7 +212,7 @@
         "Name": "Shell",
         "Version": "3.1.1",
         "ActionKeywords": [
-          ":"
+          "\u003E"
         ],
         "Priority": 0,
         "Disabled": false
@@ -235,7 +235,7 @@
           "*"
         ],
         "Priority": 0,
-        "Disabled": true
+        "Disabled": false
       },
       "565B73353DBF4806919830B9202EE3BF": {
         "ID": "565B73353DBF4806919830B9202EE3BF",
@@ -265,7 +265,7 @@
           "bd"
         ],
         "Priority": 0,
-        "Disabled": true
+        "Disabled": false
       },
       "5043CETYU6A748679OPA02D27D99677A": {
         "ID": "5043CETYU6A748679OPA02D27D99677A",
@@ -287,12 +287,12 @@
         "Priority": 0,
         "Disabled": false
       },
-      "54545DC7B3A542DBB6C7DA50DEAD455B": {
-        "ID": "54545DC7B3A542DBB6C7DA50DEAD455B",
-        "Name": "GamesLauncher",
-        "Version": "1.7.1",
+      "4D5DF575E4964C6AAADCF86134F09CC0": {
+        "ID": "4D5DF575E4964C6AAADCF86134F09CC0",
+        "Name": "Steam Search",
+        "Version": "9.0.1",
         "ActionKeywords": [
-          "g"
+          "st"
         ],
         "Priority": 0,
         "Disabled": false

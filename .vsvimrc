@@ -8,6 +8,7 @@ set backspace=indent,eol,start
 set relativenumber
 set number
 set incsearch
+set ignorecase
 set smartcase
 set selectmode=mouse,key
 set hlsearch
@@ -44,11 +45,16 @@ nnoremap ZZ :wa<CR>
 nno <Esc> :noh<CR><Esc>
 
 " explorer
-nnoremap <Leader>e :vsc View.SolutionExplorer<CR>
+nnoremap <Leader>e :vsc SolutionExplorer.SyncWithActiveDocument<CR>
 
 " Buffer management
 nnoremap <End> :vsc Window.NextTab<CR>
 nnoremap <Home> :vsc Window.PreviousTab<CR>
+nnoremap <C-w> :q<CR>
+
+" Split/Pane/Window nav
+nnoremap <C-Right> :vsc Window.NextDocumentWindow<CR>
+nnoremap <C-Left> :vsc Window.PreviousDocumentWindow<CR>
 
 " search
 nnoremap <Leader>ss :vsc Edit.GoToSymbol<CR>
@@ -69,3 +75,12 @@ nnoremap <Leader>db :vsc Debug.ToggleBreakpoint<CR>
 nnoremap <Leader>do :vsc Debug.StepOver<CR>
 nnoremap <Leader>di :vsc Debug.StepInto<CR>
 nnoremap <Leader>dO :vsc Debug.StepOut<CR>
+
+" code nav
+nnoremap gd :vsc Edit.GoToDefinition<CR>
+nnoremap gr :vsc Edit.FindAllReferences<CR>
+nnoremap gI :vsc Edit.GoToImplementation<CR>
+nnoremap <C-o> :vsc View.NavigateBackward<CR>
+nnoremap <C-i> :vsc View.NavigateForward<CR>
+
+source ~\.vsvimrc.local
