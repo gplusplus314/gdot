@@ -18,7 +18,6 @@ function paca() {
 	packages="$packages $@"
 }
 
-paca alacritty           # The stubbornly non-sixel terminal emulator
 paca atuin               # CLI history in searchable sqlite
 paca base-devel          # Base development packages
 paca bash                # What you shouldn't do until you try it
@@ -28,7 +27,6 @@ paca cargo               # Rust package manager
 paca ccache              # Compiler Cache to speed up some compilations
 paca clang               # Compiler for C-family languages
 paca cmake               # Configurable cross platform make
-paca chromium            # For surfing
 paca dfu-util            # DFU-mode firmware flashing for keyboard
 paca ddcutil             # Control monitor input programmatically
 paca fd                  # Alternative to find
@@ -40,6 +38,7 @@ paca github-cli          # GitHub CLI
 paca go                  # A gopher who lives on land above C level
 paca gopls               # A very polite languang server for Go
 paca jq                  # Manipulate JSON in the CLI
+paca kitty               # purrfect terminal emulator
 paca kubectl             # Some people say "cube cuddle"
 paca llvm                # Next-gen compiler backend
 paca lolcat              # The purrfect addition to the CLI
@@ -104,7 +103,6 @@ function auri() {
 	yay -S --needed --noconfirm "$@"
 }
 auri webcord-bin # A better Discord client
-auri zoom        # Mazda's software division
 
 # Language-specific packages:
 sudo luarocks install luacheck
@@ -116,14 +114,14 @@ fi
 sudo mkdir -p /usr/local/share/fonts/nerd
 pushd /usr/local/share/fonts/nerd
 PREFIX="https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts"
-sudo wget "$PREFIX/SourceCodePro/Regular/SauceCodeProNerdFontMono-Regular.ttf"
-sudo wget "$PREFIX/SourceCodePro/Regular/SauceCodeProNerdFont-Regular.ttf"
-sudo wget "$PREFIX/SourceCodePro/Bold/SauceCodeProNerdFontMono-Bold.ttf"
-sudo wget "$PREFIX/SourceCodePro/Bold/SauceCodeProNerdFont-Bold.ttf"
-sudo wget "$PREFIX/SourceCodePro/Italic/SauceCodeProNerdFontMono-Italic.ttf"
-sudo wget "$PREFIX/SourceCodePro/Italic/SauceCodeProNerdFont-Italic.ttf"
-sudo wget "$PREFIX/SourceCodePro/Bold-Italic/SauceCodeProNerdFontMono-BoldItalic.ttf"
-sudo wget "$PREFIX/SourceCodePro/Bold-Italic/SauceCodeProNerdFont-BoldItalic.ttf"
+sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFontMono-Regular.ttf"
+sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFont-Regular.ttf"
+sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFontMono-Bold.ttf"
+sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFont-Bold.ttf"
+sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFontMono-Italic.ttf"
+sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFont-Italic.ttf"
+sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFontMono-BoldItalic.ttf"
+sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFont-BoldItalic.ttf"
 sudo fc-cache
 popd
 
@@ -139,13 +137,3 @@ sudo chsh -s $(which zsh) $USER
 
 # Bend both time and space
 timedatectl set-timezone "$(curl --fail https://ipapi.co/timezone)"
-
-# Init Alacritty config
-pushd ~/.config/alacritty
-cat <<EOF >alacritty.yml
-import:
-  - ~/.config/alacritty/linux.yml
-
-# Local-machine-specific config after this line
-EOF
-popd
