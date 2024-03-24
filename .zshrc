@@ -137,6 +137,20 @@ function colors256() {
     printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
   done
 }
+
+# "add working directory to dirs.txt"
+function addwd() {
+    local current_dir
+    current_dir=$(pwd)
+    if [[ "$current_dir" == "$HOME"* ]]; then
+        current_dir="~${current_dir#$HOME}"
+    fi
+    echo "$current_dir" >> ~/.gscripts/var/dirs.txt
+
+    # Remove duplicate entries in the file
+    awk '!seen[$0]++' ~/.gscripts/dirs.txt > ~/.gscripts/dirs_temp.txt && mv ~/.gscripts/dirs_temp.txt ~/.gscripts/dirs.txt
+}
+
 #}}}
 
 #{{{ Keybinds

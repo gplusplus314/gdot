@@ -1,0 +1,13 @@
+[General]
+ConfigVersion=1
+
+[MainWindow]
+3072x1920 screen: Height=524
+3072x1920 screen: Width=911
+3072x1920 screen: XPosition=1187
+3072x1920 screen: YPosition=791
+ToolBarsMovable=Disabled
+eDP=eDP
+
+[UiSettings]
+ColorScheme=

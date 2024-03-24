@@ -103,12 +103,17 @@ function auri() {
 	yay -S --needed --noconfirm "$@"
 }
 auri webcord-bin # A better Discord client
+auri klassy-git  # kde window decorations with active borders
 
 # Language-specific packages:
 sudo luarocks install luacheck
 if ! [ -x "$(command -v dlv)" ]; then
 	go install github.com/go-delve/delve/cmd/dlv@latest
 fi
+
+# KDE settings management
+pipx install konsave
+konsave -a g
 
 # Fonts for a good terminal experience
 sudo mkdir -p /usr/local/share/fonts/nerd
@@ -123,6 +128,14 @@ sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFont-Italic.ttf"
 sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFontMono-BoldItalic.ttf"
 sudo wget "$PREFIX/SourceCodePro/SauceCodeProNerdFont-BoldItalic.ttf"
 sudo fc-cache
+popd
+
+# DWM-style tiling for KDE 6
+mkdir -p ~/progs
+pushd ~/progs
+git clone https://github.com/zeroxoneafour/polonium.git
+cd polonium
+make
 popd
 
 # Make Zsh look purrdy
