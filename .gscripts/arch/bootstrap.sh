@@ -73,6 +73,7 @@ paca ttf-liberation      # OSS compatible Microsoft fonts
 paca wget                # Gets things from the web
 paca which               # Doesn't show you the way, but shows you a path
 paca wireplumber         # Audio patching
+paca wl-clipboard        # wl-copy/paste cli utils
 paca wofi                # Launcher
 paca xdg-utils           # Desktop integrations
 paca yarn                # Package manager for Node
