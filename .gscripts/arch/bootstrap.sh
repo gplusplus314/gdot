@@ -103,8 +103,16 @@ fi
 function auri() {
 	yay -S --needed --noconfirm "$@"
 }
-auri webcord-bin # A better Discord client
-auri klassy-git  # kde window decorations with active borders
+auri webcord-bin     # A better Discord client
+auri klassy-git      # kde window decorations with active borders
+auri firefox-pwa-bin # pwa support for firefox
+auri ulauncher-git   # launcher
+
+auri onedrive-abraunegg # oss microsoft onedrive client
+sudo systemctl stop onedrive@$USER.service
+sudo systemctl disable onedrive@$USER.service
+systemctl --user enable onedrive
+systemctl --user start onedrive
 
 # Language-specific packages:
 sudo luarocks install luacheck

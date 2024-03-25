@@ -1,3 +1,16 @@
+vim.opt.runtimepath:remove(vim.fn.expand("~/.config/nvim"))
+vim.opt.packpath:remove(vim.fn.expand("~/.local/share/nvim/site"))
+vim.opt.runtimepath:append(vim.fn.expand("~/.config/nvim/conf_pager"))
+vim.opt.packpath:append(vim.fn.expand("~/.local/share/nvim/conf_pager/site"))
+
+local orig_stdpath = vim.fn.stdpath
+vim.fn.stdpath = function(value)
+  if value == "data" then
+    return orig_stdpath("data") .. "/conf_pager"
+  end
+  return orig_stdpath(value)
+end
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -11,26 +24,31 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(
-  -- plugins
+require("lazy").setup({
   {
-    "m00qek/baleia.nvim",
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    config = function(_, _)
+      require("flash").toggle(false)
+    end,
+    ---@type Flash.Config
+    opts = {},
+		-- stylua: ignore
+		keys = {
+			{ "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+			{ "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+			{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+			{ "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+			{ "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+		},
   },
-  -- opts
-  {}
-)
 
---require("baleia").setup({})
---vim.cmd([[
---let s:baleia = luaeval("require('baleia').setup { }")
---function! BaleiaColorize()
---	setlocal modifiable
---	let s:baleia = luaeval("require('baleia').setup({})")
---	command! BaleiaColorize call s:baleia.once(bufnr('%'))
---	setlocal nomodifiable
---endfunction
---command! -buffer BaleiaColorize call BaleiaColorize()
---]])
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+}, {})
+
+require("catppuccin").setup({
+  transparent_background = true, -- disables setting the background color.
+})
 
 --{{{ Util
 local function bind(op, outer_opts)
@@ -46,13 +64,24 @@ local vnoremap = bind("v")
 local tnoremap = bind("t")
 ---}}}
 
+-- set leader key to space
+vim.g.mapleader = " "
+
+vim.cmd.colorscheme("catppuccin-mocha")
+
 --{{{ Pager-Specific things
 
-vim.opt.modifiable = false
-vim.o.scrolloff = 10
+vim.opt.scrolloff = 5
+vim.opt.relativenumber = false
+vim.opt.number = false
+vim.opt.list = false
+vim.opt.showtabline = 0
 
 nnoremap("q", ":qa!<CR>") -- quit like a pager
 nnoremap("i", "") -- disable getting into the command line in terminal mode
+nnoremap("I", "") -- disable getting into the command line in terminal mode
+nnoremap("a", "") -- disable getting into the command line in terminal mode
+nnoremap("A", "") -- disable getting into the command line in terminal mode
 nnoremap("<PageUp>", "1000<C-U>") -- stop pageup from going past the buffer
 nnoremap("<PageDown>", "1000<C-D>") -- stop pagedown from going past the buffer
 
