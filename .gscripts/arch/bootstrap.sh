@@ -108,11 +108,11 @@ auri klassy-git      # kde window decorations with active borders
 auri firefox-pwa-bin # pwa support for firefox
 auri ulauncher-git   # launcher
 
-auri onedrive-abraunegg # oss microsoft onedrive client
-sudo systemctl stop onedrive@$USER.service
-sudo systemctl disable onedrive@$USER.service
-systemctl --user enable onedrive
-systemctl --user start onedrive
+#auri onedrive-abraunegg # oss microsoft onedrive client
+#sudo systemctl stop onedrive@$USER.service
+#sudo systemctl disable onedrive@$USER.service
+#systemctl --user enable onedrive
+#systemctl --user start onedrive
 
 # Language-specific packages:
 sudo luarocks install luacheck
@@ -140,12 +140,14 @@ sudo fc-cache
 popd
 
 # DWM-style tiling for KDE 6
-mkdir -p ~/progs
-pushd ~/progs
-git clone https://github.com/zeroxoneafour/polonium.git
-cd polonium
-make
-popd
+if [ ! -d "$HOME/progs/polonium" ]; then
+	mkdir -p ~/progs
+	pushd ~/progs
+	git clone https://github.com/zeroxoneafour/polonium.git
+	cd polonium
+	make
+	popd
+fi
 
 # Make Zsh look purrdy
 pushd ~/.config
