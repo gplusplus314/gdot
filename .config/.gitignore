@@ -1,0 +1,10 @@
+# ignore all
+/*
+
+# except
+!/.gitignore
+
+!/gdot/
+!/karabiner/
+!/kitty/
+!/vim/

@@ -1,0 +1,61 @@
+# vim: filetype=ruby
+
+# Common Casks
+
+## General
+cask "brave-browser"    # Browser of choice
+cask "discord"          # Chat app
+cask "flameshot"        # Screen shot tool
+cask "kitty"            # Terminal emulator
+
+# macOS Casks
+if OS.mac?
+  cask "karabiner-elements"        # Keyboard manipulation/remapping
+  cask "nikitabobko/tap/aerospace" # Tiling window manager
+  cask "raycast"                   # Launcher
+end
+
+# Linux Casks
+if OS.linux?
+  # TODO: Linux
+end
+
+
+# Common packages
+
+## CLI
+brew "atuin"               # CLI history in searchable sqlite
+brew "bat"                 # Better cat
+brew "uutils-coreutils"    # Modern coreutils rewritten in Rust and MIT licensed
+brew "fd"                  # Alternative to find
+brew "figlet"              # ASCII art text generator
+brew "fzf"                 # TUI/CLI fuzzy finder
+brew "gh"                  # GitHub CLI
+brew "git"                 # Git version control
+brew "lolcat"              # The purrfect addition to the CLI
+brew "neovim"              # NeoVim terminal-based text editor
+brew "ripgrep"             # Fast search tool
+brew "tree"                # Show directory structure visually
+brew "wget"                # Gets things from the web
+brew "zsh"                 # Interactive shell of choice
+
+## Programming
+brew "ccache"              # Compiler Cache to speed up some compilations
+brew "cmake"               # Configurable cross platform make
+brew "go"                  # Go programming language
+brew "gopls"               # Go languago server
+brew "llvm"                # Next-gen compiler backend
+brew "lua-language-server" # As the name implies
+brew "luarocks"            # Package manager for Lua
+brew "marksman"            # Markdown language server
+brew "ncurses"             # TUI tooling
+brew "python3"             # A snake that runs code
+brew "stylua"              # Lua formatter
+brew "tldr"                # Short alternative to man-pages
+brew "zig"                 # Zig Programming language
+
+## ZMK keyboard specific
+brew "dfu-util"            # DFU-mode firmware flashing for keyboard
+brew "dtc"                 # Device Tree Controller - ZMK build dep
+brew "ninja"               # Buid system for CMake - used by ZMK
+

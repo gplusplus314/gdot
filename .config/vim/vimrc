@@ -1,0 +1,80 @@
+"" vim: set filetype=vim
+
+"" Base Vim configuration. This file should define all or most *basic* Vim 
+"" configuration that does not depend on any plugins or
+"" implementation-specific details. This file is intended to be *shared*
+"" across Vim, NeoVim, IDEA-Vim (JetBrains IDEs) and anything else that has
+"" Vim emulation that can load a vimrc file.
+
+"" General
+set history=1000
+set nocompatible
+set modelines=0
+set encoding=utf-8
+set scrolloff=20
+set showmode
+set showcmd
+set hidden
+set wildmenu
+set wildmode=list:longest
+set cursorline
+set ttyfast
+set nowrap
+set ruler
+set backspace=indent,eol,start
+set laststatus=2
+set clipboard=autoselect
+
+" Dir stuff
+set nobackup
+set nowritebackup
+set noswapfile
+set backupdir=~/.config/vim/backups
+set directory=~/.config/vim/swap
+
+" Relative line numbers for easy movement
+set number
+set relativenumber
+
+"" Whitespace rules
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+"" Searching
+set incsearch
+set gdefault
+
+"" Statusbar
+set nocompatible " Disable vi-compatibility
+set laststatus=2 " Always show the statusline
+
+"" Local keys and such
+let mapleader=" "
+let maplocalleader=" "
+
+"" Change cursor on mode
+:autocmd InsertEnter * set cul
+:autocmd InsertLeave * set nocul
+
+"" File-type highlighting and configuration
+syntax on
+filetype on
+filetype plugin on
+filetype indent on
+
+"" Yank/Put using system clipboard
+xnoremap <Leader>y "+y
+nnoremap <Leader>p "+gp
+nnoremap <Leader>P "+gP
+
+"" Navigate around splits
+nnoremap <C-Left>  <C-w>h
+nnoremap <C-Down>  <C-w>j
+nnoremap <C-Up>    <C-w>k
+nnoremap <C-Right> <C-w>l
+
+"" Move buffers
+nnoremap <End> :bnext<cr>
+nnoremap <Home> :bprev<cr>

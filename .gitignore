@@ -1,0 +1,11 @@
+# Ignore everything because our working directory is ~/
+/*
+
+# Except for...
+!/.gitignore
+!/README.md
+!/.config/
+!/.zshrc
+
+# Make sure exceptions always ignore annoying macOS noise
+.DS_Store
