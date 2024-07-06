@@ -4,6 +4,7 @@
 # except
 !/.gitignore
 
+!/aerospace/
 !/gdot/
 !/karabiner/
 !/kitty/

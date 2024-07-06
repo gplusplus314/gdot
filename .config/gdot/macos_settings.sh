@@ -74,9 +74,20 @@ defaults write com.apple.screensaver askForPasswordDelay -int 10
 # Reduce motion for accessibility
 defaults write com.apple.universalaccess reduceMotion -bool true
 
+# Keyboard settings
+# Disable Ctrl + Left Arrow (Mission Control: Move left a space)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 "<dict><key>enabled</key><false/></dict>"
+# Disable Ctrl + Right Arrow (Mission Control: Move right a space)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 80 "<dict><key>enabled</key><false/></dict>"
+# Disable Ctrl + Up Arrow (Mission Control: Mission Control)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 32 "<dict><key>enabled</key><false/></dict>"
+# Disable Ctrl + Down Arrow (Mission Control: Application windows)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 33 "<dict><key>enabled</key><false/></dict>"
+
 echo "Doing one-time imperative configuration steps - Requires Attendance:"
 echo "\t- Setting Brave as default browser..."
 open -W -a "Brave Browser" --args --make-default-browser
 
 echo "All settings have been applied."
+
 
