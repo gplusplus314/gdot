@@ -23,7 +23,8 @@ set nowrap
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
-set clipboard=autoselect
+set colorcolumn=80
+set textwidth=80
 
 " Dir stuff
 set nobackup
@@ -50,9 +51,18 @@ set gdefault
 set nocompatible " Disable vi-compatibility
 set laststatus=2 " Always show the statusline
 
+"" Don't automatically share the clipboard with the system
+set clipboard=
+
+"" Make it easy to see which line the cursor is on
+set cursorline
+
+"" What to save in session:
+set sessionoptions=buffers,curdir,tabpages,winsize,help,globals,skiprtp,folds,options
+
 "" Local keys and such
 let mapleader=" "
-let maplocalleader=" "
+let maplocalleader="\\"
 
 "" Change cursor on mode
 :autocmd InsertEnter * set cul
@@ -63,6 +73,10 @@ syntax on
 filetype on
 filetype plugin on
 filetype indent on
+
+"" Up and down using thumb on split keyboard
+nnoremap <BS> <Up>
+nnoremap <CR> <Down>
 
 "" Yank/Put using system clipboard
 xnoremap <Leader>y "+y
@@ -78,3 +92,21 @@ nnoremap <C-Right> <C-w>l
 "" Move buffers
 nnoremap <End> :bnext<cr>
 nnoremap <Home> :bprev<cr>
+
+" Keep visual selection while indenting:
+vnoremap < <gv
+vnoremap > >gv
+
+" Paste without yank in visual mode:
+vnoremap p "_dP
+
+" Move lines up and down in visual mode with <Shift>(up/down):
+vnoremap <S-Down> :m '>+1<CR>gv=gv
+vnoremap <S-Up> :m '<-2<CR>gv=gv
+
+" Delete characters without clobbering default register:
+nnoremap x "_x
+nnoremap X "_X
+
+" Save and quit in style!
+nnoremap ZZ :wqa<CR>

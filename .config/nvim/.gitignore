@@ -1,0 +1,8 @@
+/*
+
+!/.gitignore
+!/.neoconf.json
+!/init.lua
+!/lazyvim.json
+!/lua/
+!/stylua.toml
