@@ -1,7 +1,10 @@
 #vim: filetype=zsh
 
-: "${GDOT_HOME:=$HOME/.config/gdot}"
-: "${GDOT_GIT_DIR:=$GDOT_HOME/.git_repo}"
+# # Gdot expects these to be exported for other commands to work properly
+export GDOT_HOME="${GDOT_HOME:=$HOME/.config/gdot}"
+export GDOT_GIT_DIR="${GDOT_GIT_DIR:=$GDOT_HOME/.git_repo}"
+export PATH="$GDOT_HOME/bin:$PATH"
+
 
 # # Settings
 
@@ -31,8 +34,6 @@ set -o ignoreeof
 
 # # Aliases and Functions
 
-alias gdot='git --git-dir=$GDOT_GIT_DIR --work-tree=$HOME'
-
 alias vi=nvim
 alias cat=bat
 
@@ -53,3 +54,4 @@ function colors256() {
 
 # # Keybinds
 bindkey -e # use emacs style bindings on readline prompt
+

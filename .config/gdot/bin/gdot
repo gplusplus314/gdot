@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -e
+
+# Assumpions:
+# - $GDOT_HOME is set (see ~/.zshrc)
+# - $GDOT_GIT_DIR is set (see ~/.zshrc)
+if [[ -z "$GDOT_HOME" ]] ; then
+  echo "env var GDOT_HOME not set"
+  exit 1
+fi
+if [[ -z "$GDOT_GIT_DIR" ]] ; then
+  echo "env var GDOT_GIT_DIR not set"
+  exit 1
+fi
+
+OS=$(uname -o)
+if [[ "$OS" == "Darwin" ]]; then
+  SETTINGS_NAME="macos_settings.sh"
+else
+  echo_err "Unexpected operating system: $OS"
+  # TODO: Linux support
+  exit 1
+fi
+
+if [ "$#" == 0 ] ; then
+  echo "Usage: $0 [command] [args]"
+  echo "Gdot Commands:"
+  echo ""
+  echo "  brew      Sync Homebrew bundle file (Brewfile)"
+  echo ""
+  echo "  settings  Apply system settings ($SETTINGS_NAME)"
+  echo ""
+  echo "  gdot      Runs 'everything': brew && settings"
+  echo ""
+  echo "  <git>     Any valid Git commands"
+  echo ""
+fi
+
+COMMAND="$1"
+shift
+
+case "$COMMAND" in
+
+  "brew")
+    brew bundle --file="$GDOT_HOME/Brewfile"
+    ;;
+
+  "settings")
+    "$GDOT_HOME/$SETTINGS_NAME"
+    ;;
+
+  "gdot")
+    gdot brew
+    gdot settings
+    ;;
+
+  *)
+    git --git-dir="$GDOT_GIT_DIR" --work-tree="$HOME" "$COMMAND" "$@"
+    ;;
+
+esac

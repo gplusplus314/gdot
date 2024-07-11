@@ -49,6 +49,7 @@ brew "lua-language-server" # As the name implies
 brew "luarocks"            # Package manager for Lua
 brew "marksman"            # Markdown language server
 brew "ncurses"             # TUI tooling
+brew "node"                # NodeJS, generally useful
 brew "python3"             # A snake that runs code
 brew "stylua"              # Lua formatter
 brew "tldr"                # Short alternative to man-pages

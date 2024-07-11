@@ -61,6 +61,7 @@ echo_err() {
 gdot() {
   git --git-dir="$GDOT_GIT_DIR" --work-tree="$HOME" $@
 }
+export -f gdot
 
 
 # # Setting and checking preconditions
@@ -278,6 +279,8 @@ echo "Applying OS-specific settings..."
 if [[ "$OS" == "Darwin" ]]; then
   echo "  - Setting macOS settings..."
   $GDOT_HOME/macos_settings.sh
+  echo "\t- Setting Brave as default browser..."
+  open -W -a "Brave Browser" --args --make-default-browser
 else
   echo "Unexpected operating system when applying OS-specific settings: $OS"
   # TODO: Linux support
