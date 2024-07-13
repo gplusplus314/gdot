@@ -32,6 +32,10 @@ compinit
 # Don't close the shell on Ctrl-D
 set -o ignoreeof
 
+
+# # Environment and path
+. "$HOME/.cargo/env"
+
 # # Aliases and Functions
 
 alias vi=nvim

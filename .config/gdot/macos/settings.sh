@@ -1,7 +1,12 @@
 #!/bin/bash
 set -e
 
+# Close system preferences if it's open to avoid side effects
+osascript -e 'tell application "System Preferences" to quit'
+
+#
 # Dock settings
+#
 # Enable autohide for the dock
 defaults write com.apple.dock autohide -bool true
 # Disable recent apps in the dock
@@ -11,9 +16,9 @@ defaults write com.apple.dock show-recents -bool false
 # Set the dock icon size to 32
 defaults write com.apple.dock tilesize -int 32
 # Remove all persistent apps from the dock
-defaults delete com.apple.dock persistent-apps > /dev/null 2>&1 || true
+defaults delete com.apple.dock persistent-apps >/dev/null 2>&1 || true
 # Remove all persistent others from the dock
-defaults delete com.apple.dock persistent-others > /dev/null 2>&1 || true
+defaults delete com.apple.dock persistent-others >/dev/null 2>&1 || true
 # Restart the dock to apply changes
 
 # Finder settings
@@ -59,38 +64,35 @@ defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
 # Disable natural scroll direction
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
-# Screencapture settings
-# Set the default screenshot location to the Pictures/screenshots directory
-defaults write com.apple.screencapture location \
-  -string "$HOME/Pictures/screenshots"
-
 # Screensaver settings
 # Set the delay for requiring a password after screensaver starts to 10 seconds
 defaults write com.apple.screensaver askForPasswordDelay -int 10
 
-# Universal access settings - requires sudo
-# Reduce motion for accessibility
-echo "writing to com.apple.universalaccess requires sudo..."
-sudo defaults write com.apple.universalaccess reduceMotion -bool true
+# Universal access settings - requires sudo to write
+current_value=$(defaults read com.apple.universalaccess reduceMotion 2>/dev/null)
+if [[ "$current_value" != "1" ]]; then
+  echo "reduceMotion is not set to true. Using sudo to set it."
+  sudo defaults write com.apple.universalaccess reduceMotion -bool true
+fi
 
-# Keyboard settings
-# Disable Ctrl + Left Arrow (Mission Control: Move left a space)
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
-  -dict-add 79 "<dict><key>enabled</key><false/></dict>"
-# Disable Ctrl + Right Arrow (Mission Control: Move right a space)
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
-  -dict-add 80 "<dict><key>enabled</key><false/></dict>"
-# Disable Ctrl + Up Arrow (Mission Control: Mission Control)
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
-  -dict-add 32 "<dict><key>enabled</key><false/></dict>"
-# Disable Ctrl + Down Arrow (Mission Control: Application windows)
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
-  -dict-add 33 "<dict><key>enabled</key><false/></dict>"
+#
+# Keyboard Shortcuts
+#
+# Effectively, this turns off all shortcuts you can see in System Preferences >
+# Keyboard > Keyboard Shortcuts, except it does enable Spotlight Search via
+# ctrl+cmd+space to get out of the way a bit. Raycast will be used with
+# ctrl+space as the primary launcher.
+#
+# TODO: make this more robust... this will wipe out any changes done in the gui
+# that haven't been exported to the plist file.
+defaults import com.apple.symbolichotkeys \
+  "$GDOT_HOME/macos/com.apple.symbolichotkeys.plist"
 
+#
 # Restart various things to apply changes
+#
 killall SystemUIServer
 killall Finder
 killall Dock
 
 echo "All macOS settings have been applied."
-

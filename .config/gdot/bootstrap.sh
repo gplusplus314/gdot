@@ -8,19 +8,17 @@
 # Bash. It's "good enough" for bootstrapping.
 #
 # This script installs Homebrew and its prerequisites, then installs Git,
-# and then properly clones the GDot Git repo. It defensively backs up 
-# existing dotfiles that conflict with the repo's and defaults to aborting 
+# and then properly clones the GDot Git repo. It defensively backs up
+# existing dotfiles that conflict with the repo's and defaults to aborting
 # if backups already exist to avoid overwriting potentially important
-# dotfiles. Next, it installs packages via Homebrew (Brewfile) and sets 
+# dotfiles. Next, it installs packages via Homebrew (Brewfile) and sets
 # system settings.
 #
 # Linux support is a TODO item.
 
-
 # # Conventions:
-set -e # Fail on error
+set -e     # Fail on error
 cd "$HOME" # Assume script is running in home dir
-
 
 # # Config (either change these values or set them as env vars):
 
@@ -34,7 +32,7 @@ cd "$HOME" # Assume script is running in home dir
 # then the script will automatically set Git's configuration accordingly at
 # the end of bootstrapping. If at least one is not set, no additional Git
 # configuration will be set.
-: "${GDOT_GIT_NAME:=}" # git config user.name
+: "${GDOT_GIT_NAME:=}"  # git config user.name
 : "${GDOT_GIT_EMAIL:=}" # git config user.email
 
 # ## Sane defaults:
@@ -49,7 +47,6 @@ cd "$HOME" # Assume script is running in home dir
 : "${GDOT_CLOBBER_GIT:=n}"
 : "${GDOT_SKIP_CLONE:=n}"
 
-
 # # Convenience:
 prompt_yn() {
   read -p "$1 (y/n): " response
@@ -63,15 +60,14 @@ gdot() {
 }
 export -f gdot
 
-
 # # Setting and checking preconditions
 #
 # Make an effort to exit early. So let's check preconditions while we init
 # some useful variables:
 
 # ## Make the clone-skipping painfully obvious:
-GDOT_GIT_URI=$( [[ "$GDOT_SKIP_CLONE" == "y" ]] \
-  && echo "(skipping - will not clone)" || echo "$GDOT_GIT_URI" )
+GDOT_GIT_URI=$([[ "$GDOT_SKIP_CLONE" == "y" ]] &&
+  echo "(skipping - will not clone)" || echo "$GDOT_GIT_URI")
 
 # ## Used later before writing anything to disk:
 confirm_config() {
@@ -85,7 +81,7 @@ confirm_config() {
   echo "  - Clobber existing backups: $GDOT_CLOBBER_BACKUPS"
   echo "  - Git config user.name: $GDOT_GIT_NAME"
   echo "  - Git config user.email: $GDOT_GIT_EMAIL"
-  
+
   if [[ "$GDOT_SKIP_CONFIRM_CONFIG" == "y" ]]; then
     echo "... GDOT_SKIP_CONFIRM_CONFIG is set; continuing."
     return [[ 0 == 0 ]]
@@ -133,7 +129,7 @@ fi
 
 # Check for pre-existing backup files
 if [[ -d "$GDOT_BACKUP_DIR" && -n "$(ls -A "$GDOT_BACKUP_DIR")" ]]; then
-  if [[ "$GDOT_CLOBBER_BACKUPS" == "y" ]] ; then
+  if [[ "$GDOT_CLOBBER_BACKUPS" == "y" ]]; then
     echo "Backup directory already contains files, but GDOT_CLOBBER_BACKUPS" \
       "is enabled; continuing."
   else
@@ -144,11 +140,11 @@ if [[ -d "$GDOT_BACKUP_DIR" && -n "$(ls -A "$GDOT_BACKUP_DIR")" ]]; then
 fi
 
 # Prompt user before removing the main directory if it exists
-if [[ -d "$GDOT_GIT_DIR" ]] ; then
-  if [[ "$GDOT_CLOBBER_GIT" == "y" ]] ; then
+if [[ -d "$GDOT_GIT_DIR" ]]; then
+  if [[ "$GDOT_CLOBBER_GIT" == "y" ]]; then
     echo "$GDOT_GIT_DIR already exists, but GDOT_CLOBBER_GIT is set. Continuing."
   else
-    if ! prompt_yn "$GDOT_GIT_DIR already exists. Do you want to delete it?" ; then
+    if ! prompt_yn "$GDOT_GIT_DIR already exists. Do you want to delete it?"; then
       echo "Aborted; user doesn't want to delete Git repo."
       exit 1
     fi
@@ -157,21 +153,19 @@ fi
 
 # Let the user sanity check the config
 prompt_config
-if ! confirm_config ; then
+if ! confirm_config; then
   echo_err "Aborted; user said config was wrong."
   exit 1
 fi
 
-
-
 # Now let's install prereqs for bootstrapping:
-if [[ "$OS" == "Darwin" ]] ; then
+if [[ "$OS" == "Darwin" ]]; then
   echo "Installing minimum dependencies to bootstrap macOS. This requires" \
     "user attendance."
   echo "  - Installing Xcode command line tools..."
-  until $(xcode-select --print-path &> /dev/null); do
-    xcode-select --install &> /dev/null
-    sleep 5;
+  until $(xcode-select --print-path &>/dev/null); do
+    xcode-select --install &>/dev/null
+    sleep 5
   done
 else
   echo "Installing minimum dependencies to bootstrap Linux. This requires" \
@@ -179,11 +173,10 @@ else
   # TODO: Linux support
 fi
 
-
 # Cool. Now let's keep bootstrapping...
 
 ## Use Homebrew as much as possible.
-if ! command -v brew &> /dev/null ; then
+if ! command -v brew &>/dev/null; then
   echo "  - Installing Homebrew..."
   sudo -v
   /bin/bash -c "$(curl -fsSL \
@@ -192,7 +185,7 @@ fi
 # Enable brew for this shell session:
 eval "$($BREW_PATH/bin/brew shellenv)"
 
-if ! command -v git &> /dev/null ; then
+if ! command -v git &>/dev/null; then
   echo "  - Installing Git..."
   brew install git
 fi
@@ -209,17 +202,16 @@ else
     "configure Git (name, email, etc)"
 fi
 
-
 echo "Cloning Gdot Git repo..."
 # Git clone Gdot
-if [[ "$GDOT_SKIP_CLONE" == "y" ]] ; then
+if [[ "$GDOT_SKIP_CLONE" == "y" ]]; then
   echo "  - GDOT_SKIP_CLONE is set; skipping Git clone"
 else
   echo "  - Attempting clone..."
   mkdir -p "$GDOT_HOME"
   rm -rf "$GDOT_GIT_DIR"
   git clone --bare "$GDOT_GIT_URI" "$GDOT_GIT_DIR"
-  echo "*" > $GDOT_GIT_DIR/.gitignore # stops `gdot add` from adding
+  echo "*" >$GDOT_GIT_DIR/.gitignore # stops `gdot add` from adding
   retries_remaining=2
   do_checkout() {
     echo "  - Attempting checkout..."
@@ -232,9 +224,9 @@ else
     else
       echo "    - Backing up pre-existing dotfiles..."
       FILES=$(gdot checkout 2>&1 | grep -E "^\s+(\S+)$" | sed -E 's/^\s+//')
-      if [ -n "$FILES" ] ; then
+      if [ -n "$FILES" ]; then
         mkdir -p "$GDOT_BACKUP_DIR/$DIR"
-        echo "*" > "$GDOT_BACKUP_DIR/.gitignore" # stops `gdot add` from adding
+        echo "*" >"$GDOT_BACKUP_DIR/.gitignore" # stops `gdot add` from adding
       fi
       for FILE in $FILES; do
         DIR=$(dirname $FILE)
@@ -242,11 +234,11 @@ else
         mv "$FILE" "$GDOT_BACKUP_DIR/$FILE"
         echo "      $FILE"
       done
-      if [[ $retries_remaining -le 0 ]] ; then
+      if [[ $retries_remaining -le 0 ]]; then
         echo_err "Failed to backup dotfiles. Aborting."
         exit 1
       fi
-      ((retries_remaining=retries_remaining - 1))
+      ((retries_remaining = retries_remaining - 1))
       do_checkout
     fi
   }
@@ -275,6 +267,28 @@ fi
 echo "Executing Homebrew Brewfile..."
 brew bundle --file=$GDOT_HOME/Brewfile
 
+echo "Executing rustup..."
+rustup-init -y
+
+echo "Installing fonts..."
+install_nerdfont() {
+  # download URL from https://www.nerdfonts.com/font-downloads
+  local ZIP_URL=$1
+
+  local TEMP_DIR="/tmp/nerd-fonts"
+
+  # TODO: Linux (this is just for macOS)
+  local FONT_DIR="$HOME/Library/Fonts"
+
+  mkdir -p $TEMP_DIR
+  curl -L $ZIP_URL -o $TEMP_DIR/SourceCodePro.zip
+  unzip $TEMP_DIR/SourceCodePro.zip -d $TEMP_DIR
+  find $TEMP_DIR -name "*.ttf" -exec mv {} $FONT_DIR \;
+  rm -rf $TEMP_DIR
+}
+install_nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/SourceCodePro.zip"
+install_nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
+
 echo "Applying OS-specific settings..."
 if [[ "$OS" == "Darwin" ]]; then
   echo "  - Setting macOS settings..."
@@ -290,4 +304,3 @@ fi
 echo ""
 echo "Done. Bootstrapped configuration. Rebooting is recommended."
 echo "Thank you for choosing Gdot. Buh-bye!"
-
