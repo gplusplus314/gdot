@@ -89,6 +89,13 @@ defaults import com.apple.symbolichotkeys \
   "$GDOT_HOME/macos/com.apple.symbolichotkeys.plist"
 
 #
+# NuShell compatibility workaround
+#
+# Very annoying. See https://github.com/nushell/nushell/issues/12103
+ln -s "$GDOT_HOME/macos/nushell.env.plist" \
+  "$HOME/Library/LaunchAgents/nushell.env.plist"
+
+#
 # Restart various things to apply changes
 #
 killall SystemUIServer

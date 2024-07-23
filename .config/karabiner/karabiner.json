@@ -107,16 +107,6 @@
                     "simple_modifications": [
                         {
                             "from": {
-                                "key_code": "left_control"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_command"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
                                 "key_code": "left_command"
                             },
                             "to": [
@@ -127,11 +117,11 @@
                         },
                         {
                             "from": {
-                                "key_code": "right_control"
+                                "key_code": "left_control"
                             },
                             "to": [
                                 {
-                                    "key_code": "right_command"
+                                    "key_code": "left_command"
                                 }
                             ]
                         },
@@ -142,6 +132,16 @@
                             "to": [
                                 {
                                     "key_code": "right_control"
+                                }
+                            ]
+                        },
+                        {
+                            "from": {
+                                "key_code": "right_control"
+                            },
+                            "to": [
+                                {
+                                    "key_code": "right_command"
                                 }
                             ]
                         }

@@ -34,11 +34,16 @@ set -o ignoreeof
 
 
 # # Environment and path
+HOMEBREW_PREFIX="$(brew --prefix)"
 . "$HOME/.cargo/env"
+export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
+export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
+
 
 # # Aliases and Functions
 
-alias vi=nvim
+alias vim='nvim -u $HOME/.config/vim/vimrc'
+alias vi='nvim -u NONE'
 alias cat=bat
 
 # Colorize the ls output ##

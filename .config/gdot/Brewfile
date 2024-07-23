@@ -1,6 +1,7 @@
 # vim: filetype=ruby
 
 tap "nikitabobko/tap"
+tap "siderolabs/tap"
 
 # Common Casks
 
@@ -37,10 +38,11 @@ brew "gh"                  # GitHub CLI
 brew "git"                 # Git version control
 brew "lolcat"              # The purrfect addition to the CLI
 brew "neovim"              # NeoVim terminal-based text editor
+brew "nushell"             # "Everything is data" interactive shell
 brew "ripgrep"             # Fast search tool
 brew "tree"                # Show directory structure visually
 brew "wget"                # Gets things from the web
-brew "zsh"                 # Interactive shell of choice
+brew "zsh"                 # Ye old faithful interactive shell
 
 ## Programming
 brew "ccache"              # Compiler Cache to speed up some compilations
@@ -59,6 +61,11 @@ brew "rustup-init"         # Rust toolchain
 brew "stylua"              # Lua formatter
 brew "tldr"                # Short alternative to man-pages
 brew "zig"                 # Zig Programming language
+
+## Database related
+brew "kubectl"                 # Kubernetes client
+brew "libpq"                   # Postgres client (psql)
+brew "siderolabs/tap/talosctl" # Talos Linux client
 
 ## ZMK keyboard specific
 brew "dfu-util"            # DFU-mode firmware flashing for keyboard
