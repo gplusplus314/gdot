@@ -68,13 +68,6 @@ defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 # Set the delay for requiring a password after screensaver starts to 10 seconds
 defaults write com.apple.screensaver askForPasswordDelay -int 10
 
-# Universal access settings - requires sudo to write
-current_value=$(defaults read com.apple.universalaccess reduceMotion 2>/dev/null)
-if [[ "$current_value" != "1" ]]; then
-  echo "reduceMotion is not set to true. Using sudo to set it."
-  sudo defaults write com.apple.universalaccess reduceMotion -bool true
-fi
-
 #
 # Keyboard Shortcuts
 #
@@ -92,9 +85,20 @@ defaults import com.apple.symbolichotkeys \
 # NuShell compatibility workaround
 #
 # Very annoying. See https://github.com/nushell/nushell/issues/12103
-ln -s "$GDOT_HOME/macos/nushell.env.plist" \
-  "$HOME/Library/LaunchAgents/nushell.env.plist"
+NUSHELL_PLIST="$HOME/Library/LaunchAgents/nushell.env.plist"
+if [ ! -e "$NUSHELL_PLIST" ]; then
+  ln -s "$GDOT_HOME/macos/nushell.env.plist" \
+    "$NUSHELL_PLIST"
+fi
 
+#
+# Easier icloud navigation via file system
+#
+ICLOUD_DOCS="$HOME/Library/Mobile Documents/com~apple~CloudDocs/"
+if [ ! -e "$HOME/icloud" ]; then
+  # create a symbolic link to the actual iCloud directory
+  ln -s "$ICLOUD_DOCS" "$HOME/icloud"
+fi
 #
 # Restart various things to apply changes
 #
