@@ -78,7 +78,7 @@ PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
 
 # You can uncomment this line to open up terminal with alt + enter shortcut
 # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
-ctrl-enter = 'exec-and-forget open -n -a kitty'
+ctrl-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty -1'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 ctrl-period = 'layout tiles horizontal vertical'
@@ -113,16 +113,16 @@ ctrl-9 = 'workspace 9'
 ctrl-0 = 'workspace 0'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-ctrl-shift-1 = 'move-node-to-workspace 1'
-ctrl-shift-2 = 'move-node-to-workspace 2'
-ctrl-shift-3 = 'move-node-to-workspace 3'
-ctrl-shift-4 = 'move-node-to-workspace 4'
-ctrl-shift-5 = 'move-node-to-workspace 5'
-ctrl-shift-6 = 'move-node-to-workspace 6'
-ctrl-shift-7 = 'move-node-to-workspace 7'
-ctrl-shift-8 = 'move-node-to-workspace 8'
-ctrl-shift-9 = 'move-node-to-workspace 9'
-ctrl-shift-0 = 'move-node-to-workspace 0'
+ctrl-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
+ctrl-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
+ctrl-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
+ctrl-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
+ctrl-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
+ctrl-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
+ctrl-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
+ctrl-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
+ctrl-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
+ctrl-shift-0 = ['move-node-to-workspace 0', 'workspace 0']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 #alt-tab = 'workspace-back-and-forth'

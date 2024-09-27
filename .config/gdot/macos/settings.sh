@@ -64,6 +64,12 @@ defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
 # Disable natural scroll direction
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
+# VSCode Vim emulation key repeat tweak:
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+# Disable special character popup while holding some letters on keyboard
+defaults write -g ApplePressAndHoldEnabled -bool false
+
 # Screensaver settings
 # Set the delay for requiring a password after screensaver starts to 10 seconds
 defaults write com.apple.screensaver askForPasswordDelay -int 10

@@ -1,15 +1,22 @@
+local is_full_nvim = _G.config_mode == "nvim"
 return {
   {
-    "folke/noice.nvim",
-    opts = {
-      messages = {
-        enabled = false,
-      },
-    },
+    "akinsho/bufferline.nvim",
+    lazy = false,
+    event = function()
+      return {}
+    end,
+  },
+  {
+    "folke/persistence.nvim",
+    cond = is_full_nvim,
+    lazy = false,
   },
 
   {
     "nvim-neo-tree/neo-tree.nvim",
+    cond = is_full_nvim,
+    lazy = false,
     opts = {
       event_handlers = {
         {
@@ -18,6 +25,15 @@ return {
             require("neo-tree.command").execute({ action = "close" })
           end,
         },
+      },
+    },
+  },
+
+  {
+    "folke/noice.nvim",
+    opts = {
+      messages = {
+        enabled = false,
       },
     },
   },
@@ -45,7 +61,15 @@ return {
     },
   },
 
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    opts = {
+      transparent_background = not is_full_nvim,
+    },
+  },
+
   {
     "LazyVim/LazyVim",
     opts = {

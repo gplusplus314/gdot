@@ -6,17 +6,27 @@ tap "siderolabs/tap"
 # Common Casks
 
 ## General
-cask "brave-browser"    # Browser of choice
-cask "discord"          # Chat app
-cask "flameshot"        # Screen shot tool
-cask "kitty"            # Terminal emulator
-cask "obsidian"         # Notes system
+cask "1password"               # 1piece
+cask "1password-cli"           # 1piece
+cask "brave-browser"           # Browser of choice
+cask "cyberduck"               # GUI FTP client
+cask "discord"                 # Chat app
+cask "flameshot"               # Screen shot tool
+cask "kitty"                   # Terminal emulator
+cask "obsidian"                # Notes system
+cask "private-internet-access" # VPN
+cask "visual-studio-code"      # Thicc editor, light IDE
 
-# macOS Casks
+# macOS Casks and app store apps
 if OS.mac?
   cask "karabiner-elements"        # Keyboard manipulation/remapping
   cask "nikitabobko/tap/aerospace" # Tiling window manager
   cask "raycast"                   # Launcher
+  cask "gswitch"                   # GPU selector
+  cask "microsoft-remote-desktop"  # MSFT RDP
+
+  brew "mas" # Mac App Store
+  mas "WireGuard", id: 1451685025
 end
 
 # Linux Casks
@@ -42,6 +52,8 @@ brew "nushell"             # "Everything is data" interactive shell
 brew "ripgrep"             # Fast search tool
 brew "tree"                # Show directory structure visually
 brew "wget"                # Gets things from the web
+brew "jq"                  # JSON Query tool
+brew "wireguard-tools"     # wg command
 brew "zsh"                 # Ye old faithful interactive shell
 
 ## Programming
@@ -56,19 +68,32 @@ brew "luarocks"            # Package manager for Lua
 brew "marksman"            # Markdown language server
 brew "ncurses"             # TUI tooling
 brew "node"                # NodeJS, generally useful
+brew "pipx"                # Python binaries package manager
 brew "python3"             # A snake that runs code
-brew "rustup-init"         # Rust toolchain
+brew "rustup"              # Rust toolchain
 brew "stylua"              # Lua formatter
+brew "tio"                 # Serial IO/TTY
 brew "tldr"                # Short alternative to man-pages
+brew "yarn"                # NPM alternative, ish
 brew "zig"                 # Zig Programming language
 
-## Database related
+## Infrastructure related
 brew "kubectl"                 # Kubernetes client
 brew "libpq"                   # Postgres client (psql)
 brew "siderolabs/tap/talosctl" # Talos Linux client
+brew "pulumi"                  # Infrastructure as Code platform
 
-## ZMK keyboard specific
-brew "dfu-util"            # DFU-mode firmware flashing for keyboard
-brew "dtc"                 # Device Tree Controller - ZMK build dep
-brew "ninja"               # Buid system for CMake - used by ZMK
-
+## ZMK dependencies
+brew "ccache"
+brew "cmake"
+brew "dfu-util"
+brew "dtc"
+brew "dtc"
+brew "gperf"
+brew "libmagic"
+brew "ninja"
+brew "ninja"
+brew "python3"
+brew "qemu"
+brew "west"
+brew "wget"

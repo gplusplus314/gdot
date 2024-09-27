@@ -6,7 +6,22 @@
 -- Add non-NeoVim-specific options and keybinds there so they can be
 -- shared with other Vim implementations that can read a vimrc.
 
+if _G.config_mode ~= "nvim" then
+  return
+end
+
 local wk = require("which-key")
+
+--{{{ Change some LazyVim defaults
+-- These are already in my base vimrc, but LazyVim overwrites them.
+wk.add({
+  -- Split navigation with ctrl+arrows:
+  { "<C-Left>", "<C-w>h", desc = "Navigate left" },
+  { "<C-Down>", "<C-w>j", desc = "Navigate down" },
+  { "<C-Up>", "<C-w>k", desc = "Navigate up" },
+  { "<C-Right>", "<C-w>l", desc = "Navigate right" },
+})
+--}}}
 
 --{{{ Buffer management:
 wk.add({
@@ -44,6 +59,7 @@ wk.add({
   { "<leader>sp", "<cmd>Telescope builtin<cr>", desc = "telescope [p]ickers" },
   { "<leader>sf", "<cmd>Telescope find_files<cr>", desc = "find [f]iles" },
 })
+
 --}}}
 
 return {

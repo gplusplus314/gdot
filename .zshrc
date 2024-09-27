@@ -38,10 +38,12 @@ HOMEBREW_PREFIX="$(brew --prefix)"
 . "$HOME/.cargo/env"
 export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
 export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 
 # # Aliases and Functions
 
+alias lvim='NVIM_APPNAME=lvim nvim -u $HOME/.config/lvim/init.lua'
 alias vim='nvim -u $HOME/.config/vim/vimrc'
 alias vi='nvim -u NONE'
 alias cat=bat
