@@ -81,7 +81,7 @@ brew "zig"                 # Zig Programming language
 brew "kubectl"                 # Kubernetes client
 brew "libpq"                   # Postgres client (psql)
 brew "siderolabs/tap/talosctl" # Talos Linux client
-brew "pulumi"                  # Infrastructure as Code platform
+brew "terraform"               # Infrastructure as Code platform
 
 ## ZMK dependencies
 brew "ccache"
