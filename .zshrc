@@ -82,3 +82,7 @@ function colors256() {
 # # Keybinds
 bindkey -e # use emacs style bindings on readline prompt
 
+# Command history search
+export ATUIN_NOBIND="true"
+eval "$(atuin init zsh)"
+bindkey '^r' atuin-search

@@ -102,4 +102,7 @@ killall SystemUIServer
 killall Finder
 killall Dock
 
+# Homebrew Services
+brew services start borders # JankyBorders
+
 echo "All macOS settings have been applied."

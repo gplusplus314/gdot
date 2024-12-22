@@ -1,6 +1,5 @@
 # vim: filetype=ruby
 
-tap "nikitabobko/tap"
 tap "siderolabs/tap"
 
 # Common Casks
@@ -19,6 +18,8 @@ cask "visual-studio-code"      # Thicc editor, light IDE
 
 # macOS Casks and app store apps
 if OS.mac?
+  brew "FelixKratz/formulae/borders" # JankyBorders
+
   cask "karabiner-elements"        # Keyboard manipulation/remapping
   cask "nikitabobko/tap/aerospace" # Tiling window manager
   cask "raycast"                   # Launcher
