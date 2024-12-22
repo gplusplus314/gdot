@@ -34,7 +34,23 @@ set -o ignoreeof
 
 
 # # Environment and path
-HOMEBREW_PREFIX="$(brew --prefix)"
+
+#!/bin/bash
+
+# Determine Homebrew prefix based on system type
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    if [[ "$(uname -m)" == "arm64" ]]; then
+        # Apple Silicon Mac
+        HOMEBREW_PREFIX="/opt/homebrew"
+    else
+        # Intel Mac
+        HOMEBREW_PREFIX="/usr/local"
+    fi
+else
+    echo "Unsupported system."
+    exit 1
+fi
+export PATH="$HOMEBREW_PREFIX/bin:$PATH"
 . "$HOME/.cargo/env"
 export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
 export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"

@@ -88,16 +88,6 @@ defaults import com.apple.symbolichotkeys \
   "$GDOT_HOME/macos/com.apple.symbolichotkeys.plist"
 
 #
-# NuShell compatibility workaround
-#
-# Very annoying. See https://github.com/nushell/nushell/issues/12103
-NUSHELL_PLIST="$HOME/Library/LaunchAgents/nushell.env.plist"
-if [ ! -e "$NUSHELL_PLIST" ]; then
-  ln -s "$GDOT_HOME/macos/nushell.env.plist" \
-    "$NUSHELL_PLIST"
-fi
-
-#
 # Easier icloud navigation via file system
 #
 ICLOUD_DOCS="$HOME/Library/Mobile Documents/com~apple~CloudDocs/"

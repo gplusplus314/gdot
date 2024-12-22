@@ -141,7 +141,9 @@ fi
 
 # Prompt user before removing the main directory if it exists
 if [[ -d "$GDOT_GIT_DIR" ]]; then
-  if [[ "$GDOT_CLOBBER_GIT" == "y" ]]; then
+  if [[ "$GDOT_SKIP_CLONE" == "y" ]]; then
+    echo "GDOT_SKIP_CLONE is set; skipping Git clone"
+  elif [[ "$GDOT_CLOBBER_GIT" == "y" ]]; then
     echo "$GDOT_GIT_DIR already exists, but GDOT_CLOBBER_GIT is set. Continuing."
   else
     if ! prompt_yn "$GDOT_GIT_DIR already exists. Do you want to delete it?"; then
@@ -292,7 +294,7 @@ install_nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2
 echo "Applying OS-specific settings..."
 if [[ "$OS" == "Darwin" ]]; then
   echo "  - Setting macOS settings..."
-  $GDOT_HOME/macos_settings.sh
+  $GDOT_HOME/macos/settings.sh
   echo "\t- Setting Brave as default browser..."
   open -W -a "Brave Browser" --args --make-default-browser
 else
