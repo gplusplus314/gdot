@@ -35,6 +35,12 @@ default-root-container-orientation = 'auto'
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 key-mapping.preset = 'qwerty'
 
+on-focus-changed = [
+  'exec-and-forget [ $(aerospace list-windows --workspace focused | wc -l) -eq 1 ] && borders width=0.0 || borders width=6.0',
+  'move-mouse window-lazy-center'
+]
+
+
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
@@ -146,3 +152,4 @@ ctrl-left = ['join-with left', 'mode main']
 ctrl-down = ['join-with down', 'mode main']
 ctrl-up = ['join-with up', 'mode main']
 ctrl-right = ['join-with right', 'mode main']
+
