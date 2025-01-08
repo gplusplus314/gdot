@@ -48,14 +48,23 @@ brew "fzf"                 # TUI/CLI fuzzy finder
 brew "gh"                  # GitHub CLI
 brew "git"                 # Git version control
 brew "lolcat"              # The purrfect addition to the CLI
-brew "neovim"              # NeoVim terminal-based text editor
 brew "nushell"             # "Everything is data" interactive shell
 brew "ripgrep"             # Fast search tool
 brew "tree"                # Show directory structure visually
 brew "wget"                # Gets things from the web
 brew "jq"                  # JSON Query tool
-brew "wireguard-tools"     # wg command
 brew "zsh"                 # Ye old faithful interactive shell
+
+## TUI
+brew "neovim"              # NeoVim terminal-based text editor
+brew "ranger"              # Terminal file manager
+
+# Ranger (TUI File manager) deps
+brew "pillow"              # Image manipulation library
+brew "mupdf"               # PDF rocessing
+brew "pandoc"              # MS/Open Office processing
+brew "catdoc"              # RTF and DOC processing
+
 
 ## Programming
 brew "ccache"              # Compiler Cache to speed up some compilations
@@ -93,8 +102,10 @@ brew "dtc"
 brew "gperf"
 brew "libmagic"
 brew "ninja"
-brew "ninja"
 brew "python3"
 brew "qemu"
 brew "west"
 brew "wget"
+
+## Networking
+brew "wireguard-tools"     # wg command

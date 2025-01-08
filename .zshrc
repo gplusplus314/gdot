@@ -9,7 +9,7 @@ export PATH="$GDOT_HOME/bin:$PATH"
 # # Settings
 
 export GPG_TTY=$TTY
-export EDITOR=vim
+export EDITOR='nvim -u $HOME/.config/vim/vimrc'
 
 export ZSH_THEME_TERM_TITLE_IDLE="%~"
 export ZSH_THEME_TERM_TAB_TITLE_IDLE="%~"
@@ -63,6 +63,9 @@ alias lvim='NVIM_APPNAME=lvim nvim -u $HOME/.config/lvim/init.lua'
 alias vim='nvim -u $HOME/.config/vim/vimrc'
 alias vi='nvim -u NONE'
 alias cat=bat
+if [[ "$KITTY_WINDOW_ID" != "" ]]; then
+  alias ssh='kitty ssh'
+fi
 
 # Colorize the ls output ##
 alias ls='ls --color=auto'
@@ -77,6 +80,26 @@ function colors256() {
   for i in {0..255}; do
     printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
   done
+}
+
+# Allow Ranger to `cd` your current shell by exiting with capital Q
+function ranger {
+  local IFS=$'\t\n'
+  local tempfile="$(mktemp -t tmp.XXXXXX)"
+  local ranger_cmd=(
+    command
+    ranger
+    --cmd="map Q quitallcd $tempfile"
+  )
+  
+  ${ranger_cmd[@]} "$@"
+  local target_dir=$(cat -- "$tempfile" | tr -d ' ')
+  local cwd=$(echo -n `pwd` | tr -d ' ')
+  if [[ -f "$tempfile" ]] && [[ "$target_dir" != "" ]] && \
+      [[ "$target_dir" != "$cwd" ]]; then
+    cd -- "$target_dir"
+  fi
+  command rm -f -- "$tempfile" 2>/dev/null
 }
 
 # # Keybinds

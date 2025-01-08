@@ -26,23 +26,35 @@ if [ "$#" == 0 ]; then
   echo "Usage: $0 [command] [args]"
   echo "Gdot Commands:"
   echo ""
-  echo "  brew      Sync Homebrew bundle file (Brewfile)"
+  echo "  brew          Sync Homebrew bundle file (Brewfile)"
+  echo "  brew edit     Edit Homebrew bundle file (Brewfile)"
   echo ""
-  echo "  settings  Apply system settings ($SETTINGS_SCRIPT)"
+  echo "  tm            Apply Time Machine exclusions (macOS)"
   echo ""
-  echo '  sync      Runs "everything": brew && settings'
+  echo "  settings      Apply system settings ($SETTINGS_SCRIPT)"
   echo ""
-  echo "  [git cmd] Any valid Git commands"
+  echo '  sync          Runs "everything": brew && settings'
+  echo ""
+  echo "  [git cmd]     Any valid Git commands"
   echo ""
 fi
 
 COMMAND="$1"
 shift
+SUBCOMMAND="$1"
 
 case "$COMMAND" in
 
 "brew")
-  brew bundle --file="$GDOT_HOME/Brewfile"
+  if [[ "$SUBCOMMAND" == "edit" ]]; then
+    $EDITOR "$GDOT_HOME/Brewfile"
+  else
+    brew bundle --file="$GDOT_HOME/Brewfile"
+  fi
+  ;;
+
+"tm")
+  "$GDOT_HOME/macos/time_machine.py.sh"
   ;;
 
 "settings")

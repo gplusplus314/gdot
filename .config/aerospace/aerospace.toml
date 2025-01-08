@@ -87,48 +87,60 @@ PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
 #ctrl-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty -1'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-ctrl-period = 'layout tiles horizontal vertical'
-ctrl-comma = 'layout accordion horizontal vertical'
+ctrl-alt-cmd-period = 'layout tiles horizontal vertical'
+ctrl-alt-cmd-comma = 'layout accordion horizontal vertical'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-ctrl-left = 'focus left'
-ctrl-down = 'focus down'
-ctrl-up = 'focus up'
-ctrl-right = 'focus right'
+ctrl-alt-cmd-left = 'focus left'
+ctrl-alt-cmd-down = 'focus down'
+ctrl-alt-cmd-up = 'focus up'
+ctrl-alt-cmd-right = 'focus right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
-ctrl-shift-left = 'move left'
-ctrl-shift-down = 'move down'
-ctrl-shift-up = 'move up'
-ctrl-shift-right = 'move right'
+ctrl-alt-cmd-shift-left = 'move left'
+ctrl-alt-cmd-shift-down = 'move down'
+ctrl-alt-cmd-shift-up = 'move up'
+ctrl-alt-cmd-shift-right = 'move right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
-ctrl-minus = 'resize smart -50'
-ctrl-equal = 'resize smart +50'
+ctrl-alt-cmd-minus = 'resize smart -50'
+ctrl-alt-cmd-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-ctrl-1 = 'workspace 1'
-ctrl-2 = 'workspace 2'
-ctrl-3 = 'workspace 3'
-ctrl-4 = 'workspace 4'
-ctrl-5 = 'workspace 5'
-ctrl-6 = 'workspace 6'
-ctrl-7 = 'workspace 7'
-ctrl-8 = 'workspace 8'
-ctrl-9 = 'workspace 9'
-ctrl-0 = 'workspace 0'
+ctrl-alt-cmd-1 = 'workspace 1'
+ctrl-alt-cmd-2 = 'workspace 2'
+ctrl-alt-cmd-3 = 'workspace 3'
+ctrl-alt-cmd-4 = 'workspace 4'
+ctrl-alt-cmd-5 = 'workspace 5'
+ctrl-alt-cmd-6 = 'workspace 6'
+ctrl-alt-cmd-7 = 'workspace 7'
+ctrl-alt-cmd-8 = 'workspace 8'
+ctrl-alt-cmd-9 = 'workspace 9'
+ctrl-alt-cmd-0 = 'workspace 0'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-ctrl-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
-ctrl-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
-ctrl-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
-ctrl-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
-ctrl-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
-ctrl-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
-ctrl-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
-ctrl-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
-ctrl-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
-ctrl-shift-0 = ['move-node-to-workspace 0', 'workspace 0']
+ctrl-alt-cmd-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
+ctrl-alt-cmd-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
+ctrl-alt-cmd-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
+ctrl-alt-cmd-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
+ctrl-alt-cmd-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
+ctrl-alt-cmd-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
+ctrl-alt-cmd-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
+ctrl-alt-cmd-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
+ctrl-alt-cmd-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
+ctrl-alt-cmd-shift-0 = ['move-node-to-workspace 0', 'workspace 0']
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = 'main'
+7 = ['secondary', 'main']
+8 = ['secondary', 'main']
+9 = ['secondary', 'main']
+0 = 'main'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 #alt-tab = 'workspace-back-and-forth'
@@ -136,7 +148,7 @@ ctrl-shift-0 = ['move-node-to-workspace 0', 'workspace 0']
 #alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-ctrl-semicolon = 'mode service'
+ctrl-alt-cmd-quote = 'mode service'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-ctrles
@@ -148,8 +160,8 @@ r = ['flatten-workspace-tree', 'mode main'] # reset layout
 f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
 
-ctrl-left = ['join-with left', 'mode main']
-ctrl-down = ['join-with down', 'mode main']
-ctrl-up = ['join-with up', 'mode main']
-ctrl-right = ['join-with right', 'mode main']
+left = ['join-with left', 'mode main']
+down = ['join-with down', 'mode main']
+up = ['join-with up', 'mode main']
+right = ['join-with right', 'mode main']
 

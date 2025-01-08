@@ -74,6 +74,11 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 # Set the delay for requiring a password after screensaver starts to 10 seconds
 defaults write com.apple.screensaver askForPasswordDelay -int 10
 
+# Disable blinking cursor
+defaults write -g NSTextInsertionPointBlinkPeriod -float 10000
+defaults write -g NSTextInsertionPointBlinkPeriodOn -float 10000
+defaults write -g NSTextInsertionPointBlinkPeriodOff -float 10000
+
 #
 # Keyboard Shortcuts
 #
