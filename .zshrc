@@ -101,6 +101,43 @@ function ranger {
   fi
   command rm -f -- "$tempfile" 2>/dev/null
 }
+alias r='ranger'
+
+# Clone a Git repo into ~/src/..., using its url as the mkdir -p
+gclone() {
+  local git_url="$1"
+  local base_dir="$HOME/src"
+
+  if [[ -z "$git_url" ]]; then
+    echo "Usage: clone_with_structure <git_url>"
+    return 1
+  fi
+
+  local domain=$(echo "$git_url" | awk -F '[/:]' '{print $4}')
+
+  local os_type="$(uname -s)"
+  case "$os_type" in
+    Linux)
+      repo_path=$(echo "$git_url" | sed -r 's|https?://[^/]+/||; s|\.git$||')
+      ;;
+
+    Darwin|FreeBSD|OpenBSD|NetBSD)
+      repo_path=$(echo "$git_url" | sed -E 's|https?://[^/]+/||; s|\.git$||')
+      ;;
+
+    *)
+      echo "Unsupported OS: $os_type"
+      return 1
+      ;;
+  esac
+
+  local target_dir="$base_dir/$domain/$repo_path"
+  mkdir -p "$(dirname "$target_dir")"
+
+  git clone "$git_url" "$target_dir" && echo "Repository cloned to: $target_dir"
+}
+
+
 
 # # Keybinds
 bindkey -e # use emacs style bindings on readline prompt
