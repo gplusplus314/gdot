@@ -63,8 +63,6 @@ brew "ranger"              # Terminal file manager
 brew "pillow"              # Image manipulation library
 brew "mupdf"               # PDF rocessing
 brew "pandoc"              # MS/Open Office processing
-brew "catdoc"              # RTF and DOC processing
-
 
 ## Programming
 brew "ccache"              # Compiler Cache to speed up some compilations
@@ -79,6 +77,7 @@ brew "marksman"            # Markdown language server
 brew "ncurses"             # TUI tooling
 brew "node"                # NodeJS, generally useful
 brew "pipx"                # Python binaries package manager
+brew "poetry"              # Python dependency manager
 brew "python3"             # A snake that runs code
 brew "rustup"              # Rust toolchain
 brew "stylua"              # Lua formatter

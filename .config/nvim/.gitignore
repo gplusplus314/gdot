@@ -3,6 +3,7 @@
 !/.gitignore
 !/.neoconf.json
 !/init.lua
+!/init_pager.lua
 !/lazyvim.json
 !/lua/
 !/stylua.toml
