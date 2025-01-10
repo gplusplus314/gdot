@@ -41,18 +41,21 @@ end
 ## CLI
 brew "atuin"               # CLI history in searchable sqlite
 brew "bat"                 # Better cat
-brew "uutils-coreutils"    # Modern coreutils rewritten in Rust and MIT licensed
+brew "direnv"              # Automatically source .envrc upon dir navigation
 brew "fd"                  # Alternative to find
 brew "figlet"              # ASCII art text generator
 brew "fzf"                 # TUI/CLI fuzzy finder
 brew "gh"                  # GitHub CLI
 brew "git"                 # Git version control
+brew "jq"                  # JSON Query tool
 brew "lolcat"              # The purrfect addition to the CLI
 brew "nushell"             # "Everything is data" interactive shell
 brew "ripgrep"             # Fast search tool
+brew "starship"            # Prompt
 brew "tree"                # Show directory structure visually
+brew "uutils-coreutils"    # Modern coreutils rewritten in Rust and MIT licensed
 brew "wget"                # Gets things from the web
-brew "jq"                  # JSON Query tool
+brew "zoxide"              # Smart `cd` alternative
 brew "zsh"                 # Ye old faithful interactive shell
 
 ## TUI
@@ -78,6 +81,7 @@ brew "ncurses"             # TUI tooling
 brew "node"                # NodeJS, generally useful
 brew "pipx"                # Python binaries package manager
 brew "poetry"              # Python dependency manager
+brew "pyenv"               # Python version manager
 brew "python3"             # A snake that runs code
 brew "rustup"              # Rust toolchain
 brew "stylua"              # Lua formatter
@@ -85,6 +89,12 @@ brew "tio"                 # Serial IO/TTY
 brew "tldr"                # Short alternative to man-pages
 brew "yarn"                # NPM alternative, ish
 brew "zig"                 # Zig Programming language
+# Apple-specific:
+brew "fastlane"            # Build tool for Apple platform apps
+brew "swiftformat"         # Formatter for Swift
+brew "swiftlint"           # Linter for Swift
+brew "xcbeautify"          # Beautifier for XCode things
+brew "xcode-build-server"  # Do Xcode things outside of Xcode
 
 ## Infrastructure related
 brew "kubectl"                 # Kubernetes client

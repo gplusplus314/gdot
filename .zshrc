@@ -56,8 +56,16 @@ export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
 export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
+eval "$(zoxide init --hook none zsh)"
 
 # # Aliases and Functions
+
+# This will make nvim open a file in the "outer" nvim instance if this alias
+# is executed in an embedded terminal within nvim. Otherwise, a new instance
+# will start, as 
+alias nvim='nvim --server $NVIM --remote' 
 
 alias lvim='NVIM_APPNAME=lvim nvim -u $HOME/.config/lvim/init.lua'
 alias vim='nvim -u $HOME/.config/vim/vimrc'
