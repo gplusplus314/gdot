@@ -8,5 +8,20 @@ if vim.g.vscode then
   _G.config_mode = "vscode"
 end
 
--- bootstrap lazy.nvim, LazyVim and your plugins
+if _G.config_mode == "nvim" then
+  -- If invoked without args or any piped stdin, restore the session
+  -- automatically.
+  local args = vim.fn.argv()
+  if #args == 0 and not vim.g.started_with_stdin then
+    vim.api.nvim_create_autocmd("VimEnter", {
+      nested = true,
+      once = true,
+      callback = function()
+        require("persistence").load()
+      end,
+    })
+  end
+end
+
+-- bootstrap lazy.nvim, Lnoa zyVim and your plugins
 require("config.lazy")

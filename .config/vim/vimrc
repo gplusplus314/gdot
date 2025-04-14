@@ -27,21 +27,21 @@ set colorcolumn=80
 set textwidth=80
 
 " Dir stuff
-set nobackup
-set nowritebackup
-set noswapfile
-set backupdir=~/.config/vim/backups
-set directory=~/.config/vim/swap
+set backupdir=~/.local/state/vim/backups//
+set directory=~/.local/state/vim/swap//
+set undodir=~/.local/state/vim/undo//
 
 " Relative line numbers for easy movement
 set number
 set relativenumber
 
 "" Whitespace rules
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=0
+set noexpandtab
+set list
+set listchars=eol:¬,tab:▸ˍ,trail:·
 
 "" Searching
 set incsearch
@@ -90,7 +90,7 @@ nnoremap <C-Down>  <C-w>j
 nnoremap <C-Up>    <C-w>k
 nnoremap <C-Right> <C-w>l
 
-"" Move buffers
+"" Navigate buffers
 nnoremap <End> :bnext<cr>
 nnoremap <Home> :bprev<cr>
 
@@ -111,3 +111,4 @@ nnoremap X "_X
 
 " Save and quit in style!
 nnoremap ZZ :wqa<CR>
+
