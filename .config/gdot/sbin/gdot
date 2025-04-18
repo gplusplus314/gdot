@@ -1,28 +1,31 @@
-#!/usr/bin/env bash
+#!/bin/sh
+# vi: fs=sh
 set -e
 
 # Assumpions:
 # - $GDOT_HOME is set (see ~/.zshrc)
 # - $GDOT_GIT_DIR is set (see ~/.zshrc)
-if [[ -z "$GDOT_HOME" ]]; then
+if [ -z "$GDOT_HOME" ]; then
   echo "env var GDOT_HOME not set"
   exit 1
 fi
-if [[ -z "$GDOT_GIT_DIR" ]]; then
+if [ -z "$GDOT_GIT_DIR" ]; then
   echo "env var GDOT_GIT_DIR not set"
   exit 1
 fi
 
 OS=$(uname -o)
-if [[ "$OS" == "Darwin" ]]; then
+if [ "$OS" = "Darwin" ]; then
   SETTINGS_SCRIPT="macos/settings.sh"
+elif [ "$OS" = "FreeBSD" ]; then
+  SETTINGS_SCRIPT="none" # none for FreeBSD
 else
-  echo_err "Unexpected operating system: $OS"
+  echo "Unexpected operating system: $OS"
   # TODO: Linux support
   exit 1
 fi
 
-if [ "$#" == 0 ]; then
+if [ "$#" = 0 ]; then
   echo "Usage: $0 [command] [args]"
   echo "Gdot Commands:"
   echo ""
@@ -46,24 +49,46 @@ SUBCOMMAND="$1"
 case "$COMMAND" in
 
 "brew")
-  if [[ "$SUBCOMMAND" == "edit" ]]; then
-    $EDITOR "$GDOT_HOME/Brewfile"
+  if [ "$OS" -ne "Darwin" ]; then
+    echo "$COMMAND is only for macOS; detected $OS"
+    exit 1
+  fi
+  BREWFILE="$GDOT_HOME/macos/Brewfile"
+  if [ "$SUBCOMMAND" = "edit" ]; then
+    $EDITOR "$BREWFILE"
   else
-    brew bundle --file="$GDOT_HOME/Brewfile"
+    brew bundle --file="$BREWFILE"
   fi
   ;;
 
 "tm")
-  "$GDOT_HOME/macos/time_machine.py.sh"
+  if [ "$OS" -ne "Darwin" ]; then
+    echo "$COMMAND is only for macOS; detected $OS"
+    exit 1
+  fi
+  TM_FILE="$GDOT_HOME/macos/time_machine.py.sh"
+  if [ "$SUBCOMMAND" = "edit" ]; then
+    $EDITOR "$TM_FILE"
+  else
+    "$TM_FILE"
+  fi
   ;;
 
 "settings")
-  "$GDOT_HOME/$SETTINGS_SCRIPT"
+  if [ "$OS" = "Darwin" ]; then
+    "$GDOT_HOME/$SETTINGS_SCRIPT"
+  else
+	echo "No settings file for $OS"
+  fi
   ;;
 
 "sync")
-  gdot brew
-  gdot settings
+  if [ "$OS" -ne "Darwin" ]; then
+    gdot brew
+    gdot settings
+  else
+	  echo "No sync for OS: $OS"
+  fi
   ;;
 
 *)

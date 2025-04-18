@@ -3,7 +3,7 @@
 # # Gdot expects these to be exported for other commands to work properly
 export GDOT_HOME="${GDOT_HOME:=$HOME/.config/gdot}"
 export GDOT_GIT_DIR="${GDOT_GIT_DIR:=$GDOT_HOME/.git_repo}"
-export PATH="$GDOT_HOME/bin:$PATH"
+export PATH="$GDOT_HOME/sbin:$PATH"
 
 
 # # Settings
@@ -55,7 +55,7 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 
 # FreeBSD
 elif [[ "$(uname -s)" == "FreeBSD" ]]; then
-  echo "FreeBSD WIP"
+	# FreeBSD WIP
 
 else
   echo "Unexpected host system; dotfiles might not work as expected."

@@ -38,7 +38,6 @@ brew "gh"                  # GitHub CLI
 brew "git"                 # Git version control
 brew "jq"                  # JSON Query tool
 brew "lolcat"              # The purrfect addition to the CLI
-brew "nushell"             # "Everything is data" interactive shell
 brew "ripgrep"             # Fast search tool
 brew "starship"            # Prompt
 brew "tldr"                # Short alternative to man-pages
