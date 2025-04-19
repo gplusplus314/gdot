@@ -274,12 +274,12 @@ else
       echo "    - Dotfiles written to disk..."
     else
       echo "    - Backing up pre-existing dotfiles..."
-      if [ "$OS" = "FreeBSD" ]; then¬
+      if [ "$OS" = "FreeBSD" ]; then
         FILES=$(gdot checkout 2>&1 | grep -E "^[[:space:]]+(\S+)$" | \
-          sed -E 's/^[[:space:]]+//')¬
+          sed -E 's/^[[:space:]]+//')
       else¬
-        FILES=$(gdot checkout 2>&1 | grep -E "^\s+(\S+)$" | sed -E 's/^\s+//')¬
-      fi¬
+        FILES=$(gdot checkout 2>&1 | grep -E "^\s+(\S+)$" | sed -E 's/^\s+//')
+      fi
       if [ -n "$FILES" ]; then
         mkdir -p "$GDOT_BACKUP_DIR/$DIR"
         echo "*" > "$GDOT_BACKUP_DIR/.gitignore" # stops `gdot add` from adding
