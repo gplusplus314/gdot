@@ -266,13 +266,20 @@ else
   retries_remaining=2
   do_checkout() {
     echo "  - Attempting checkout..."
+	set +e
     gdot checkout > /dev/null 2>&1
+	set -e
     checkout_result=$?
     if [ $checkout_result -eq 0 ]; then
       echo "    - Dotfiles written to disk..."
     else
       echo "    - Backing up pre-existing dotfiles..."
-      FILES=$(gdot checkout 2>&1 | grep -E "^\s+(\S+)$" | sed -E 's/^\s+//')
+      if [ "$OS" = "FreeBSD" ]; then¬
+        FILES=$(gdot checkout 2>&1 | grep -E "^[[:space:]]+(\S+)$" | \
+          sed -E 's/^[[:space:]]+//')¬
+      else¬
+        FILES=$(gdot checkout 2>&1 | grep -E "^\s+(\S+)$" | sed -E 's/^\s+//')¬
+      fi¬
       if [ -n "$FILES" ]; then
         mkdir -p "$GDOT_BACKUP_DIR/$DIR"
         echo "*" > "$GDOT_BACKUP_DIR/.gitignore" # stops `gdot add` from adding
