@@ -224,6 +224,8 @@ if ! command -v git >/dev/null 2>&1; then
 	TMP_SCRIPT="/tmp/gdot_freebsd_bootstrap.sh"
 	cat << EOF > $TMP_SCRIPT
 #!/bin/sh
+echo "Boostrapping pkg..."
+env ASSUME_ALWAYS_YES=YES pkg bootstrap
 echo "Installing git..."
 pkg update
 pkg install -y git
@@ -233,6 +235,7 @@ echo "Cloning fresh ports tree from Git repository..."
 git clone --depth 1 https://git.FreeBSD.org/ports.git /usr/ports
 echo "Ports tree successfully updated."
 EOF
+    chmod +x $TMP_SCRIPT
     su -m root -c "$TMP_SCRIPT"
 	rm $TMP_SCRIPT
   else

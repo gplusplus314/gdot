@@ -5,6 +5,8 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+pkg update
+
 PACKAGES=""
 addp() {
 	PACKAGES="$PACKAGES $1"
@@ -68,5 +70,4 @@ addp "sysutils/kubectl"              # Kubernetes client
 addp "databases/postgresql17-client" # Postgres client (psql)
 addp "sysutils/terraform"            # Infrastructure as Code platform
 
-pkg update
 pkg install -y $PACKAGES
