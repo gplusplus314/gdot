@@ -266,9 +266,9 @@ else
   retries_remaining=2
   do_checkout() {
     echo "  - Attempting checkout..."
-	set +e
-    gdot checkout > /dev/null 2>&1
-	set -e
+    set +e
+    gdot checkout
+    set -e
     checkout_result=$?
     if [ $checkout_result -eq 0 ]; then
       echo "    - Dotfiles written to disk..."
@@ -277,7 +277,7 @@ else
       if [ "$OS" = "FreeBSD" ]; then
         FILES=$(gdot checkout 2>&1 | grep -E "^[[:space:]]+(\S+)$" | \
           sed -E 's/^[[:space:]]+//')
-      else¬
+      else
         FILES=$(gdot checkout 2>&1 | grep -E "^\s+(\S+)$" | sed -E 's/^\s+//')
       fi
       if [ -n "$FILES" ]; then
