@@ -62,6 +62,7 @@ else
 fi
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 [ -d "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 

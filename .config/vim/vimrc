@@ -73,6 +73,9 @@ filetype on
 filetype plugin on
 filetype indent on
 
+"" Make sure .editorconfig support is enabled
+let g:editorconfig = v:true
+
 "" Up and down using thumb on split keyboard
 nnoremap <BS> <Up>
 nnoremap <CR> <Down>

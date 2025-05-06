@@ -1,6 +1,13 @@
 local is_full_nvim = _G.config_mode == "nvim"
 return {
   {
+    "neovim/nvim-lspconfig",
+    opts = {
+      inlay_hints = { enabled = false },
+    },
+  },
+
+  {
     "akinsho/bufferline.nvim",
     lazy = false,
     event = function()
