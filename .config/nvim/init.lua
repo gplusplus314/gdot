@@ -1,5 +1,4 @@
--- modes:
---   nvim : default, full nvim
+-- modes: nvim : default, full nvim
 --   editor : Turns off IDE-like features and feels closer to vanilla Vim
 --   pager : Makes Nvim act like a pager, somewhat.
 --   vscode : VSCode extension for NeoVim integration
