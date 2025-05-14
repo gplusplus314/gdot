@@ -135,34 +135,28 @@ gclone() {
   local base_dir="$HOME/src"
 
   if [[ -z "$git_url" ]]; then
-    echo "Usage: clone_with_structure <git_url>"
+    echo "Usage: gclone <git_url>"
     return 1
   fi
 
-  local domain=$(echo "$git_url" | awk -F '[/:]' '{print $4}')
+  local domain repo_path
 
-  local os_type="$(uname -s)"
-  case "$os_type" in
-    Linux)
-      repo_path=$(echo "$git_url" | sed -r 's|https?://[^/]+/||; s|\.git$||')
-      ;;
-
-    Darwin|FreeBSD|OpenBSD|NetBSD)
-      repo_path=$(echo "$git_url" | sed -E 's|https?://[^/]+/||; s|\.git$||')
-      ;;
-
-    *)
-      echo "Unsupported OS: $os_type"
-      return 1
-      ;;
-  esac
+  if [[ "$git_url" =~ ^git@([^:]+):(.+)\.git$ ]]; then
+    domain="${match[1]}"
+    repo_path="${match[2]}"
+  elif [[ "$git_url" =~ ^https?://([^/]+)/(.+)\.git$ ]]; then
+    domain="${match[1]}"
+    repo_path="${match[2]}"
+  else
+    echo "Unsupported Git URL format: $git_url"
+    return 1
+  fi
 
   local target_dir="$base_dir/$domain/$repo_path"
   mkdir -p "$(dirname "$target_dir")"
 
   git clone "$git_url" "$target_dir" && echo "Repository cloned to: $target_dir"
 }
-
 
 # # Keybinds
 bindkey -e # use emacs style bindings on readline prompt

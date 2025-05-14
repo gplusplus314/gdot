@@ -39,7 +39,7 @@ cd "$HOME" # Assume script is running in home dir
 : "${GDOT_GIT_EMAIL:=}" # git config user.email
 
 # ## Sane defaults:
-: "${GDOT_GIT_URI:=https://github.com/gplusplus314/gdot.git}"
+: "${GDOT_GIT_URI:=git@github.com:gplusplus314/gdot.git}"
 : "${GDOT_HOME:=$HOME/.config/gdot}"
 : "${GDOT_GIT_DIR:=$GDOT_HOME/.git_repo}"
 : "${GDOT_BACKUP_DIR:=$GDOT_HOME/.backup}"
@@ -335,6 +335,8 @@ if [ "$OS" = "Darwin" ]; then
 elif [ "$OS" = "FreeBSD" ]; then
   echo "Installing FreeBSD packages (requires root)..."
   su -m root -c "$GDOT_HOME/freebsd/pkg_install.sh"
+  echo "Installing built-from-source apps..."
+  "$GDOT_HOME/freebsd/src_apps.sh"
 else
   echo "Unexpected operating system when installing packages: $OS"
   # TODO: Linux support
