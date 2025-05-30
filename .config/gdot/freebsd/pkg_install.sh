@@ -69,4 +69,6 @@ addp "databases/postgresql17-client" # Postgres client (psql)
 addp "sysutils/kubectl"              # Kubernetes client
 addp "sysutils/terraform"            # Infrastructure as Code platform
 
+set -x
 pkg install -y $PACKAGES
+set +x
