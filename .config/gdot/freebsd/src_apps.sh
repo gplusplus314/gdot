@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+cd ~/
+mkdir -p src
+cd src
+
+mkdir -p github.com/LuaLS
+cd github.com/LuaLS
+git clone https://github.com/LuaLS/lua-language-server-rust.git
+cd lua-language-server-rust
+git submodule update --init --recursive
+cargo build --release -p luals
+mkdir -p ~/.local/bin
+ln -s $(pwd)/target/release/lua-language-server ~/.local/bin/lua-language-server

@@ -27,6 +27,9 @@ return {
         taplo = {
           mason = false,
         },
+        buf_ls = {
+          mason = false,
+        },
       },
     },
   },
