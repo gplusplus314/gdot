@@ -5,7 +5,6 @@ export GDOT_HOME="${GDOT_HOME:=$HOME/.config/gdot}"
 export GDOT_GIT_DIR="${GDOT_GIT_DIR:=$GDOT_HOME/.git_repo}"
 export PATH="$GDOT_HOME/sbin:$PATH"
 
-
 # # Settings
 
 export GPG_TTY=$TTY
@@ -63,6 +62,8 @@ fi
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
+
+export XDG_CONFIG_HOME="$HOME/.config"
 
 [ -d "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 

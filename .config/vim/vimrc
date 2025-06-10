@@ -41,7 +41,7 @@ set shiftwidth=4
 set softtabstop=0
 set noexpandtab
 set list
-set listchars=eol:¬,tab:▸ˍ,trail:·
+set listchars=tab:▸ˍ,trail:·
 
 "" Searching
 set incsearch
@@ -79,8 +79,8 @@ let g:editorconfig = v:true
 "" Up and down using thumb on split keyboard
 nnoremap <BS> <Up>
 nnoremap <CR> <Down>
-vnoremap <BS> <Up>
-vnoremap <CR> <Down>
+xnoremap <BS> <Up>
+xnoremap <CR> <Down>
 
 "" Yank/Put using system clipboard
 xnoremap <Leader>y "+y
@@ -98,15 +98,15 @@ nnoremap <End> :bnext<cr>
 nnoremap <Home> :bprev<cr>
 
 " Keep visual selection while indenting:
-vnoremap < <gv
-vnoremap > >gv
+xnoremap < <gv
+xnoremap > >gv
 
 " Paste without yank in visual mode:
-vnoremap p "_dP
+xnoremap p "_dP
 
 " Move lines up and down in visual mode with <Shift>(up/down):
-vnoremap <S-Down> :m '>+1<CR>gv=gv
-vnoremap <S-Up> :m '<-2<CR>gv=gv
+xnoremap <S-Down> :m '>+1<CR>gv=gv
+xnoremap <S-Up> :m '<-2<CR>gv=gv
 
 " Delete characters without clobbering default register:
 nnoremap x "_x

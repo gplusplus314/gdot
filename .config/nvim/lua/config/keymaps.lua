@@ -38,6 +38,11 @@ wk.add({
 --}}}
 
 --{{{ [s]earching:
+vim.keymap.set("n", "<leader>sx", require("telescope.builtin").resume, {
+  noremap = true,
+  silent = true,
+  desc = "Resume",
+})
 wk.add({
   { "<leader>sp", "<cmd>Telescope builtin<cr>", desc = "telescope [p]ickers" },
   { "<leader>sf", "<cmd>Telescope find_files<cr>", desc = "find [f]iles" },
