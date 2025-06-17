@@ -9,6 +9,11 @@ return {
   {
     "saghen/blink.cmp",
     opts = {
+      completion = {
+        ghost_text = {
+          enabled = false,
+        },
+      },
       sources = {
         transform_items = function(_, items)
           items = vim.tbl_filter(function(item)

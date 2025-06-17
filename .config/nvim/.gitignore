@@ -2,6 +2,7 @@
 
 !/.gitignore
 !/.neoconf.json
+!/.editorconfig
 !/init.lua
 !/init_pager.lua
 !/lazyvim.json
