@@ -9,6 +9,8 @@ vim.cmd("source " .. vim.env.HOME .. "/.config/vim/vimrc")
 -- working Rust toolchain.
 vim.g.lazyvim_blink_main = true
 
+vim.g.lazyvim_picker = "snacks"
+
 if _G.config_mode == "pager" then
   vim.opt.scrolloff = 5
   vim.opt.relativenumber = false

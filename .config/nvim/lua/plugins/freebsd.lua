@@ -5,11 +5,6 @@ end
 
 return {
   {
-    "nvim-telescope/telescope-fzf-native.nvim",
-    build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
-    lazy = false,
-  },
-  {
     "williamboman/mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = vim.tbl_filter(function(name)

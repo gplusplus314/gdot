@@ -25,27 +25,11 @@ wk.add({
 
 --{{{ Buffer management:
 wk.add({
-  { "<leader> ", "<cmd>Telescope buffers<cr>", desc = "switch buffer" },
-  { "<C-W>", ":bdelete<cr>", desc = "close buffer and switch" },
   { "<Home>", ":BufferLineCyclePrev<cr>", desc = "cycle previous buffer" },
   { "<End>", ":BufferLineCycleNext<cr>", desc = "cycle previous buffer" },
   { "<S-Home>", ":BufferLineMovePrev<cr>", desc = "swap previous buffer" },
   { "<S-End>", ":BufferLineMoveNext<cr>", desc = "swap next buffer" },
-  { "<C-P>", ":BufferLineTogglePin<cr>", desc = "toggle buffer pin" },
-  { "<C-U>", ":BufferLineGroupClose ungrouped<cr>", desc = "close all [U]ngrouped (non-pinned) buffers" },
   { "<leader>e", ":Neotree toggle reveal<cr>", desc = "open [e]xplorer" },
-})
---}}}
-
---{{{ [s]earching:
-vim.keymap.set("n", "<leader>sx", require("telescope.builtin").resume, {
-  noremap = true,
-  silent = true,
-  desc = "Resume",
-})
-wk.add({
-  { "<leader>sp", "<cmd>Telescope builtin<cr>", desc = "telescope [p]ickers" },
-  { "<leader>sf", "<cmd>Telescope find_files<cr>", desc = "find [f]iles" },
 })
 --}}}
 
