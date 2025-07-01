@@ -394,6 +394,10 @@ else
 	exit 1
 fi
 
+# If golang is installed, run `go version` so that it's cached for later use by
+# the Starship prompt.
+command -v go >/dev/null 2>&1 && go version
+
 echo ""
 echo "Done. Bootstrapped configuration. Rebooting is recommended."
 echo "Thank you for choosing Gdot. Buh-bye!"
