@@ -29,6 +29,7 @@ addp "textproc/bat"     # Better cat
 addp "textproc/fzf"     # TUI/CLI fuzzy finder
 addp "textproc/jq"      # JSON Query tool
 addp "textproc/ripgrep" # Fast search tool
+addp "sysutils/tmux"    # Terminal Multiplexer
 
 ## TUI
 addp "editors/neovim"     # NeoVim terminal-based text editor

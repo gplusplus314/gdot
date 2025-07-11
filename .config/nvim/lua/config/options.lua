@@ -11,6 +11,12 @@ vim.g.lazyvim_blink_main = true
 
 vim.g.lazyvim_picker = "snacks"
 
+vim.diagnostic.config({
+  float = {
+    source = true,
+  },
+})
+
 if _G.config_mode == "pager" then
   vim.opt.scrolloff = 5
   vim.opt.relativenumber = false

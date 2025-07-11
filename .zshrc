@@ -55,7 +55,11 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 # FreeBSD
 elif [[ "$(uname -s)" == "FreeBSD" ]]; then
 	# FreeBSD WIP
-
+export NVM_DIR="$HOME/.config/nvm"
+	export CC=cc  
+	export CXX=c++
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 else
   echo "Unexpected host system; dotfiles might not work as expected."
 fi
@@ -166,3 +170,4 @@ bindkey -e # use emacs style bindings on readline prompt
 export ATUIN_NOBIND="true"
 eval "$(atuin init zsh)"
 bindkey '^r' atuin-search
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
