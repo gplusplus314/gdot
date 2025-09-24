@@ -1,0 +1,121 @@
+mod1:
+  - control
+
+mod2:
+  - control
+  - shift
+
+layouts:
+  - tall
+  - two-pane
+  - floating
+
+window-margins: true
+window-margin-size: 5
+# Boolean flag for whether or not to set window margins if there is only one window on the screen, assuming window margins are enabled (default false).
+smart-window-margins: true
+
+# List of bundle identifiers for applications to either be automatically floating or automatically tiled based on floating-is-blacklist (default []).
+floating: []
+
+# true if the mouse should move position to the center of a window when it becomes focused (default false). Note that this is largely incompatible with focus-follows-mouse.
+mouse-follows-focus: true
+# true if dragging and dropping windows on to each other should swap their positions (default false).
+mouse-swaps-windows: true
+# true if changing the frame of a window with the mouse should update the layout to accommodate the change (default false). Note that not all layouts will be able to respond to the change.
+mouse-resizes-windows: true
+
+# true to display the name of the layout when moving to a new space (default true).
+enables-layout-hud-on-space-change: false
+
+cycle-layout:
+  mod: mod1
+  key: "`"
+
+cycle-layout-backward:
+  mod: mod2
+  key: "`"
+
+# Focus the next window in the list going counter-clockwise.
+focus-ccw:
+  mod: mod1
+  key: left
+
+# Focus the next window in the list going clockwise.
+focus-cw:
+  mod: mod1
+  key: right
+
+# Swap the position of the currently focused window with the next window in the list going counter-clockwise.
+swap-ccw:
+  mod: mod2
+  key: left
+
+# Swap the position of the currently focused window with the next window in the list going clockwise.
+swap-cw:
+  mod: mod2
+  key: right
+
+# Shrink the main pane by a percentage of the screen dimension as defined by window-resize-step. Note that not all layouts respond to this command.
+shrink-main:
+  mod: mod1
+  key: down
+
+# Expand the main pane by a percentage of the screen dimension as defined by window-resize-step. Note that not all layouts respond to this command.
+expand-main:
+  mod: mod1
+  key: up
+
+# Increase the number of windows in the main pane. Note that not all layouts respond to this command.
+increase-main:
+  mod: mod2
+  key: up
+
+# Decrease the number of windows in the main pane. Note that not all layouts respond to this command.
+decrease-main:
+  mod: mod2
+  key: down
+
+throw-space-1:
+  mod: mod2
+  key: 1
+throw-space-2:
+  mod: mod2
+  key: 2
+throw-space-3:
+  mod: mod2
+  key: 3
+throw-space-4:
+  mod: mod2
+  key: 4
+throw-space-5:
+  mod: mod2
+  key: 5
+throw-space-6:
+  mod: mod2
+  key: 6
+throw-space-7:
+  mod: mod2
+  key: 7
+throw-space-8:
+  mod: mod2
+  key: 8
+throw-space-9:
+  mod: mod2
+  key: 9
+throw-space-10:
+  mod: mod2
+  key: 0
+
+toggle-float:
+  mod: mod1
+  key: f
+
+# Disabled:
+# Move the currently focused window to the space to the left.
+throw-space-left: false
+
+# Move currently the focused window to the space to the right.
+throw-space-right: false
+
+swap-main: false

@@ -39,7 +39,7 @@ cd "$HOME" # Assume script is running in home dir
 : "${GDOT_GIT_EMAIL:=}" # git config user.email
 
 # ## Sane defaults:
-: "${GDOT_GIT_URI:=git@github.com:gplusplus314/gdot.git}"
+: "${GDOT_GIT_URI:=https://github.com/gplusplus314/gdot.git}"
 : "${GDOT_HOME:=$HOME/.config/gdot}"
 : "${GDOT_GIT_DIR:=$GDOT_HOME/.git_repo}"
 : "${GDOT_BACKUP_DIR:=$GDOT_HOME/.backup}"
@@ -143,7 +143,7 @@ elif [ "$architecture" = "x86_64" ]; then
 	fi
 elif [ "$architecture" = "amd64" ]; then
 	if [ "$OS" = "FreeBSD" ]; then
-		# FreeBSD amd64 is supported
+		echo "detectex FreeBSD amd64"
 	else
 		echo "Unexpected OS for $architecture: $OS"
 		exit 1
@@ -193,7 +193,7 @@ if [ "$OS" = "Darwin" ]; then
 		sleep 5
 	done
 elif [ "$OS" = "FreeBSD" ]; then
-	# FreeBSD is good to go.
+	echo "Continuing with FreeBSD..."
 else
 	echo "Unexpected operating system when installing minimum bootstrap dependencies: $OS"
 	# TODO: Linux support
@@ -207,8 +207,7 @@ fi
 if [ "$OS" = "Darwin" ]; then
 	if ! command -v brew >/dev/null 2>&1; then
 		echo "  - Installing Homebrew..."
-		sudo -v
-		/bin/sh -c "$(curl -fsSL \
+		/bin/bash -c "$(curl -fsSL \
 			https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	fi
 	# Enable brew for this shell session:
@@ -331,7 +330,13 @@ fi
 # Install packages
 if [ "$OS" = "Darwin" ]; then
 	echo "Executing Homebrew Brewfile..."
-	brew bundle --file="$GDOT_HOME/Brewfile"
+	if [ -f "$HOME/Brewfile" ]; then
+		echo "Using $HOME/Brewfile"
+		brew bundle --file="$HOME/Brewfile"
+	else
+		echo "Using gdot's Brewfile"
+		brew bundle --file="$GDOT_HOME/macos/Brewfile"
+	fi
 elif [ "$OS" = "FreeBSD" ]; then
 	echo "Installing FreeBSD packages (requires root)..."
 	su -m root -c "$GDOT_HOME/freebsd/pkg_install.sh"

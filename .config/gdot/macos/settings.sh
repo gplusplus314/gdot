@@ -1,8 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
-
-# Install latest LTS Node.JS, generally useful
-nvm install --lts
 
 # Close system preferences if it's open to avoid side effects
 osascript -e 'tell application "System Preferences" to quit'
