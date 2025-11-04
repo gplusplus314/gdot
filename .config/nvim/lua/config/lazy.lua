@@ -14,40 +14,48 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- TODO: get these to work on FreeBSD
-local notFreeBSD = {
-  { import = "lazyvim.plugins.extras.lang.markdown" },
-  { import = "lazyvim.plugins.extras.lang.omnisharp" },
-  { import = "lazyvim.plugins.extras.lang.terraform" },
-  { import = "lazyvim.plugins.extras.lang.docker" },
-  { import = "lazyvim.plugins.extras.lang.clangd" },
-  { import = "lazyvim.plugins.extras.lang.cmake" },
-  { import = "lazyvim.plugins.extras.lang.rust" },
+local fullSpec = {
+  -- add LazyVim and import its plugins
+  { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+  -- LazyVim extras
+  { import = "lazyvim.plugins.extras.dap.core" },
+  { import = "lazyvim.plugins.extras.dap.nlua" },
+  { import = "lazyvim.plugins.extras.editor.refactoring" },
+  { import = "lazyvim.plugins.extras.editor.snacks_picker" },
+  { import = "lazyvim.plugins.extras.formatting.prettier" },
+  { import = "lazyvim.plugins.extras.lang.git" },
+  { import = "lazyvim.plugins.extras.lang.go" },
+  { import = "lazyvim.plugins.extras.lang.json" },
+  { import = "lazyvim.plugins.extras.lang.python" },
+  { import = "lazyvim.plugins.extras.lang.java" },
+  { import = "lazyvim.plugins.extras.lang.sql" },
+  { import = "lazyvim.plugins.extras.lang.typescript" },
+  { import = "lazyvim.plugins.extras.lang.yaml" },
+  { import = "lazyvim.plugins.extras.lsp.neoconf" },
+  { import = "lazyvim.plugins.extras.test.core" },
+  { import = "lazyvim.plugins.extras.ui.mini-indentscope" },
 }
 
+-- TODO: get these to work on FreeBSD
+local isFreeBSD = vim.loop.os_uname().sysname == "FreeBSD"
+if not isFreeBSD then
+  fullSpec = vim.list_extend(vim.deepcopy(fullSpec), {
+    { import = "lazyvim.plugins.extras.lang.markdown" },
+    { import = "lazyvim.plugins.extras.lang.dotnet" },
+    { import = "lazyvim.plugins.extras.lang.terraform" },
+    { import = "lazyvim.plugins.extras.lang.docker" },
+    { import = "lazyvim.plugins.extras.lang.clangd" },
+    { import = "lazyvim.plugins.extras.lang.cmake" },
+    { import = "lazyvim.plugins.extras.lang.rust" },
+  })
+end
+
+-- Plugins should be imported last (order matters for LazyVim)
+-- This imports/overrides with my own plugin selection.
+fullSpec = vim.list_extend(vim.deepcopy(fullSpec), { { import = "plugins" } })
+
 local setupConf = {
-  spec = {
-    -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- LazyVim extras
-    { import = "lazyvim.plugins.extras.dap.core" },
-    { import = "lazyvim.plugins.extras.dap.nlua" },
-    { import = "lazyvim.plugins.extras.editor.refactoring" },
-    { import = "lazyvim.plugins.extras.editor.snacks_picker" },
-    { import = "lazyvim.plugins.extras.formatting.prettier" },
-    { import = "lazyvim.plugins.extras.lang.git" },
-    { import = "lazyvim.plugins.extras.lang.go" },
-    { import = "lazyvim.plugins.extras.lang.json" },
-    { import = "lazyvim.plugins.extras.lang.python" },
-    { import = "lazyvim.plugins.extras.lang.sql" },
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.lang.yaml" },
-    { import = "lazyvim.plugins.extras.lsp.neoconf" },
-    { import = "lazyvim.plugins.extras.test.core" },
-    { import = "lazyvim.plugins.extras.ui.mini-indentscope" },
-    -- import/override with your plugins
-    { import = "plugins" },
-  },
+  spec = fullSpec,
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
     -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.

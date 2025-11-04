@@ -25,11 +25,13 @@ wk.add({
 
 --{{{ Buffer management:
 wk.add({
-  { "<Home>", ":BufferLineCyclePrev<cr>", desc = "cycle previous buffer" },
-  { "<End>", ":BufferLineCycleNext<cr>", desc = "cycle previous buffer" },
-  { "<S-Home>", ":BufferLineMovePrev<cr>", desc = "swap previous buffer" },
-  { "<S-End>", ":BufferLineMoveNext<cr>", desc = "swap next buffer" },
-  { "<leader>e", ":Neotree toggle reveal<cr>", desc = "open [e]xplorer" },
+  { "<Home>", "<cmd>BufferLineCyclePrev<cr>", desc = "cycle previous buffer" },
+  { "<End>", "<cmd>BufferLineCycleNext<cr>", desc = "cycle previous buffer" },
+  { "<S-Home>", "<cmd>BufferLineMovePrev<cr>", desc = "swap previous buffer" },
+  { "<S-End>", "<cmd>BufferLineMoveNext<cr>", desc = "swap next buffer" },
+  { "<leader>e", "<cmd>Neotree toggle reveal<cr>", desc = "open [e]xplorer" },
+  { "<M-p>", "<cmd>BufferLineTogglePin<cr>", desc = "toggle [p]in" },
+  { "<M-x>", "<cmd>BufferLineGroupClose ungrouped<cr>", desc = "close unpinned" },
 })
 --}}}
 

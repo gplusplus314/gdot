@@ -109,6 +109,11 @@ return {
   {
     "akinsho/bufferline.nvim",
     lazy = false,
+    opts = {
+      options = {
+        always_show_bufferline = true,
+      },
+    },
     event = function()
       return {}
     end,

@@ -78,22 +78,21 @@ command -v rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
 
 # # Aliases and Functions
 
-# This will make nvim open a file in the "outer" nvim instance if this alias
-# is executed in an embedded terminal within nvim. Otherwise, a new instance
-# will start. It will also `cd` to a directory in a subshell *before* invoking
-# nvim if the first and only argument is a directory, which plays nicely with
-# the session handling in my nvim config.
-function nvim() {
-	if [[ "$#" == "1" && -d "$1" ]]; then
-		(cd "$1" && command nvim --server "$NVIM" --remote)
-	else
-		command nvim --server "$NVIM" --remote "$@"
-	fi
-}
+## This will make nvim open a file in the "outer" nvim instance if this alias
+## is executed in an embedded terminal within nvim. Otherwise, a new instance
+## will start. It will also `cd` to a directory in a subshell *before* invoking
+## nvim if the first and only argument is a directory, which plays nicely with
+## the session handling in my nvim config.
+#function nvim() {
+#	if [[ "$#" == "1" && -d "$1" ]]; then
+#		(cd "$1" && command nvim --server "$NVIM" --remote)
+#	else
+#		command nvim --server "$NVIM" --remote "$@"
+#	fi
+#}
 
 alias vim='nvim -u $HOME/.config/vim/vimrc'
 alias vi='nvim -u NONE'
-alias cat=bat
 
 # kitty ssh fix
 [[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color ssh"
@@ -171,3 +170,8 @@ export ATUIN_NOBIND="true"
 eval "$(atuin init zsh)"
 bindkey '^r' atuin-search
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+if [ -e "$HOME/.zshrc_local" ]; then
+	. "$HOME/.zshrc_local"
+fi
+
