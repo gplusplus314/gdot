@@ -120,36 +120,48 @@ prompt_config() {
 OS=$(uname -s)
 if [ "$OS" = "Darwin" ]; then
 	echo "Detected macOS"
-elif [ "$OS" = "FreeBSD" ]; then
-	echo "Detected FreeBSD"
-else
-	echo_err "Unexpected operating system: $OS"
-	# TODO: Linux support
-	exit 1
-fi
-
-# Which CPU architecture are we on?
-architecture=$(uname -m)
-if [ "$architecture" = "arm64" ]; then
-	if [ "$OS" = "Darwin" ]; then
+	# Brew needs to know if this is an Intel vs Apple Silicon Mac.
+	architecture=$(uname -m)
+	if [ "$architecture" = "arm64" ]; then
 		BREW_PATH="${BREW_PATH:-/opt/homebrew}"
-	fi
-elif [ "$architecture" = "x86_64" ]; then
-	if [ "$OS" = "Darwin" ]; then
+	elif [ "$architecture" = "x86_64" ]; then
 		BREW_PATH="${BREW_PATH:-/usr/local}"
 	else
-		echo "Unexpected OS for $architecture: $OS"
+		echo "Unexpected macOS architecture: $architecture"
 		exit 1
 	fi
-elif [ "$architecture" = "amd64" ]; then
-	if [ "$OS" = "FreeBSD" ]; then
-		echo "detectex FreeBSD amd64"
-	else
-		echo "Unexpected OS for $architecture: $OS"
-		exit 1
-	fi
+elif [ "$OS" = "FreeBSD" ]; then
+	echo "Detected FreeBSD"
+elif [ "$OS" = "Linux" ]; then
+	echo "Detected Linux"
+	. /etc/os-release
+	DISTRO_ID=${ID,,} # Convert to lowercase for consistent matching
+	DISTRO_VERSION=${VERSION_ID}
+	echo "Detected Distribution: $DISTRO_ID"
+	echo "Detected Version: $DISTRO_VERSION"
+	# Example of conditional logic:
+	case "$DISTRO_ID" in
+		ubuntu|debian)
+			echo "This is a Debian-based system."
+			echo "    Not supported."
+			exit 1
+			;;
+		fedora|centos|rhel)
+			echo "This is a Red Hat-based system."
+			echo "  Distribution: $DISTRO_ID $DISTRO_VERSION"
+			;;
+		arch)
+			echo "This is an Arch-based system."
+			echo "    Not supported."
+			exit 1
+			;;
+		*)
+			echo "Unknown or unsupported distribution: $DISTRO_ID"
+			exit 1
+			;;
+	esac
 else
-	echo_err "Unexpected architecture: $architecture"
+	echo_err "Unexpected operating system: $OS"
 	exit 1
 fi
 
@@ -194,6 +206,8 @@ if [ "$OS" = "Darwin" ]; then
 	done
 elif [ "$OS" = "FreeBSD" ]; then
 	echo "Continuing with FreeBSD..."
+elif [ "$OS" = "Linux" ]; then
+	echo "Continuing with Linux: $DISTRO_ID $DISTRO_VERSION"
 else
 	echo "Unexpected operating system when installing minimum bootstrap dependencies: $OS"
 	# TODO: Linux support
@@ -203,7 +217,6 @@ fi
 # Cool. Now let's keep bootstrapping...
 
 ## Use Homebrew in macOS as much as possible.
-
 if [ "$OS" = "Darwin" ]; then
 	if ! command -v brew >/dev/null 2>&1; then
 		echo "  - Installing Homebrew..."
@@ -218,6 +231,16 @@ if ! command -v git >/dev/null 2>&1; then
 	echo "  - Installing Git..."
 	if [ "$OS" = "Darwin" ]; then
 		brew install git
+	elif [ "$OS" = "Linux" ]; then
+		case "$DISTRO_ID" in
+			fedora|centos|rhel)
+				sudo dnf install -y git
+				;;
+			*)
+				echo "Unknown or unsupported distribution: $DISTRO_ID"
+				exit 1
+				;;
+		esac
 	elif [ "$OS" = "FreeBSD" ]; then
 		echo "FreeBSD needs to install git and update ports tree as root."
 		TMP_SCRIPT="/tmp/gdot_freebsd_bootstrap.sh"
@@ -313,13 +336,20 @@ if [ -n "$GDOT_HOSTNAME" ]; then
 		sudo scutil --set ComputerName "$GDOT_HOSTNAME"
 		dscacheutil -flushcache
 		echo "  - Hostname has been changed to $GDOT_HOSTNAME"
+	elif [ "$OS" = "Linux" ]; then
+		if command -v hostnamectl &> /dev/null; then
+			sudo hostnamectl set-hostname "$GDOT_HOSTNAME"
+			echo "  - Hostname has been changed to $GDOT_HOSTNAME"
+		else
+			echo "  hostnamectl not found. Currently, only systemd based distros are supported. Aborting."
+			exit 1
+		fi
 	elif [ "$OS" = "FreeBSD" ]; then
 		# change hostname in FreeBSD
 		echo "FreeBSD needs to set hostname as root."
 		# Set hostname permanently and immediately
 		su -m root -c "sysrc hostname=\"$GDOT_HOSTNAME\" && hostname \"$GDOT_HOSTNAME\""
 	else
-		# TODO: Linux support
 		echo "Unexpected OS when setting hostname: $OS"
 		exit 1
 	fi
@@ -337,6 +367,8 @@ if [ "$OS" = "Darwin" ]; then
 		echo "Using gdot's Brewfile"
 		brew bundle --file="$GDOT_HOME/macos/Brewfile"
 	fi
+elif [ "$OS" = "Linux" ]; then
+	"$GDOT_HOME/linux/$DISTRO_ID/install.sh"
 elif [ "$OS" = "FreeBSD" ]; then
 	echo "Installing FreeBSD packages (requires root)..."
 	su -m root -c "$GDOT_HOME/freebsd/pkg_install.sh"
@@ -354,6 +386,8 @@ echo "Installing Cargo packages..."
 echo "Installing built-from-source apps..."
 if [ "$OS" = "Darwin" ]; then
 	echo "No from-source apps to install on macOS."
+elif [ "$OS" = "Linux" ]; then
+	echo "No from-source apps to install on Linux."
 elif [ "$OS" = "FreeBSD" ]; then
 	"$GDOT_HOME/freebsd/src_apps.sh"
 else
@@ -365,22 +399,30 @@ fi
 echo "Installing fonts..."
 install_nerdfont() {
 	# download URL from https://www.nerdfonts.com/font-downloads
-	local ZIP_URL=$1
-
-	local TEMP_DIR="/tmp/nerd-fonts"
+	ZIP_URL=$1
+	FONT_FAMILY=$(echo "$ZIP_URL" | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}')
+	TEMP_DIR="/tmp/nerd-fonts"
 
 	# TODO: FreeBSD and Linux (this is just for macOS)
 	if [ "$OS" = "Darwin" ]; then
-		local FONT_DIR="$HOME/Library/Fonts"
-
-		mkdir -p "$TEMP_DIR"
-		curl -L "$ZIP_URL" -o "$TEMP_DIR/SourceCodePro.zip"
-		unzip "$TEMP_DIR/SourceCodePro.zip" -d "$TEMP_DIR"
-		find "$TEMP_DIR" -name "*.ttf" -exec mv {} "$FONT_DIR" \;
-		rm -rf "$TEMP_DIR"
+		FONT_DIR="$HOME/Library/Fonts"
+	elif [ "$OS" = "Linux" ]; then
+		FONT_DIR="$HOME/.local/share/fonts/$FONT_FAMILY"
 	else
 		echo "Skipping nerdfont installation for OS: $OS"
 	fi
+
+	mkdir -p "$TEMP_DIR"
+	mkdir -p "$FONT_DIR"
+	curl -L "$ZIP_URL" -o "$TEMP_DIR/font.zip"
+	unzip "$TEMP_DIR/font.zip" -d "$TEMP_DIR"
+	find "$TEMP_DIR" -name "*.ttf" -exec mv {} "$FONT_DIR" \;
+	rm -rf "$TEMP_DIR"
+
+	if [ "$OS" = "Linux" ]; then
+        echo "Refreshing font cache..."
+        fc-cache -fv
+    fi
 }
 install_nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/SourceCodePro.zip"
 install_nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
@@ -389,8 +431,8 @@ echo "Applying OS-specific settings..."
 if [ "$OS" = "Darwin" ]; then
 	echo "  - Setting macOS settings..."
 	"$GDOT_HOME/macos/settings.sh"
-	echo "  - Setting Brave as default browser..."
-	open -W -a "Brave Browser" --args --make-default-browser
+elif [ "$OS" = "Linux" ]; then
+	"$GDOT_HOME/linux/$DISTRO_ID/settings.sh"
 elif [ "$OS" = "FreeBSD" ]; then
 	"$GDOT_HOME/freebsd/settings.sh"
 else

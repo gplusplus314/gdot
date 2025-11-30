@@ -36,33 +36,30 @@ export NODE_VERSION_PREFIX="v"
 
 # # Environment and path
 
-# macOS
-if [[ "$(uname -s)" == "Darwin" ]]; then
-  if [[ "$(uname -m)" == "arm64" ]]; then
-    # Apple Silicon Mac
-    HOMEBREW_PREFIX="/opt/homebrew"
-  else
-    # Intel Mac
-    HOMEBREW_PREFIX="/usr/local"
-  fi
-  export PATH="$HOMEBREW_PREFIX/bin:$PATH"
-  export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
-  export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
-  [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+case $(uname -s) in
+  Darwin)
+    if [[ "$(uname -m)" == "arm64" ]]; then
+      # Apple Silicon Mac
+      HOMEBREW_PREFIX="/opt/homebrew"
+    else
+      # Intel Mac
+      HOMEBREW_PREFIX="/usr/local"
+    fi
+    export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+  ;;
 
-# FreeBSD
-elif [[ "$(uname -s)" == "FreeBSD" ]]; then
-	# FreeBSD WIP
-export NVM_DIR="$HOME/.config/nvm"
-	export CC=cc  
-	export CXX=c++
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-else
-  echo "Unexpected host system; dotfiles might not work as expected."
-fi
+  FreeBSD)
+    export NVM_DIR="$HOME/.config/nvm"
+      export CC=cc  
+      export CXX=c++
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+esac
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"

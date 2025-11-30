@@ -14,9 +14,14 @@ if [ -z "$GDOT_GIT_DIR" ]; then
   exit 1
 fi
 
-OS=$(uname -o)
+OS=$(uname -s)
 if [ "$OS" = "Darwin" ]; then
   SETTINGS_SCRIPT="macos/settings.sh"
+elif [ "$OS" = "Linux" ]; then
+  . /etc/os-release
+  DISTRO_ID=${ID,,} # Convert to lowercase for consistent matching
+  DISTRO_VERSION=${VERSION_ID}
+  SETTINGS_SCRIPT="$GDOT_HOME/linux/$DISTRO_ID/settings.sh"
 elif [ "$OS" = "FreeBSD" ]; then
   SETTINGS_SCRIPT="none" # none for FreeBSD
 else
