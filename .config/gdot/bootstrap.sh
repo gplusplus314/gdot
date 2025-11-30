@@ -16,8 +16,6 @@
 #
 # Next, it installs packages via the OS-appropriate package manager and sets
 # system settings.
-#
-# Linux support is a TODO item.
 
 # # Conventions:
 set -e     # Fail on error
@@ -139,27 +137,6 @@ elif [ "$OS" = "Linux" ]; then
 	DISTRO_VERSION=${VERSION_ID}
 	echo "Detected Distribution: $DISTRO_ID"
 	echo "Detected Version: $DISTRO_VERSION"
-	# Example of conditional logic:
-	case "$DISTRO_ID" in
-		ubuntu|debian)
-			echo "This is a Debian-based system."
-			echo "    Not supported."
-			exit 1
-			;;
-		fedora|centos|rhel)
-			echo "This is a Red Hat-based system."
-			echo "  Distribution: $DISTRO_ID $DISTRO_VERSION"
-			;;
-		arch)
-			echo "This is an Arch-based system."
-			echo "    Not supported."
-			exit 1
-			;;
-		*)
-			echo "Unknown or unsupported distribution: $DISTRO_ID"
-			exit 1
-			;;
-	esac
 else
 	echo_err "Unexpected operating system: $OS"
 	exit 1
@@ -210,7 +187,6 @@ elif [ "$OS" = "Linux" ]; then
 	echo "Continuing with Linux: $DISTRO_ID $DISTRO_VERSION"
 else
 	echo "Unexpected operating system when installing minimum bootstrap dependencies: $OS"
-	# TODO: Linux support
 	exit 1
 fi
 
@@ -262,7 +238,6 @@ EOF
 		rm $TMP_SCRIPT
 	else
 		echo "Unexpected operating system when installing git: $OS"
-		# TODO: Linux support
 		exit 1
 	fi
 fi
@@ -357,6 +332,13 @@ else
 	echo "  - Hostname not set. Skipping hostname-specific config."
 fi
 
+if 
+	[ ! -x "$GDOT_HOME/linux/$DISTRO_ID/install_packages.sh" ] ; then
+	echo "Unsupported Linux distro. To add support, make sure the" \
+		"following files exist and are executable:"
+	echo "\t$GDOT_HOME/linux/$DISTRO_ID/install_packages.sh"
+fi
+
 # Install packages
 if [ "$OS" = "Darwin" ]; then
 	echo "Executing Homebrew Brewfile..."
@@ -368,13 +350,12 @@ if [ "$OS" = "Darwin" ]; then
 		brew bundle --file="$GDOT_HOME/macos/Brewfile"
 	fi
 elif [ "$OS" = "Linux" ]; then
-	"$GDOT_HOME/linux/$DISTRO_ID/install.sh"
+	"$GDOT_HOME/linux/$DISTRO_ID/install_packages.sh"
 elif [ "$OS" = "FreeBSD" ]; then
 	echo "Installing FreeBSD packages (requires root)..."
 	su -m root -c "$GDOT_HOME/freebsd/pkg_install.sh"
 else
 	echo "Unexpected operating system when installing packages: $OS"
-	# TODO: Linux support
 	exit 1
 fi
 
@@ -387,12 +368,15 @@ echo "Installing built-from-source apps..."
 if [ "$OS" = "Darwin" ]; then
 	echo "No from-source apps to install on macOS."
 elif [ "$OS" = "Linux" ]; then
-	echo "No from-source apps to install on Linux."
+	if [ -x "$GDOT_HOME/linux/$DISTRO_ID/install_from_src.sh" ]; then
+		"$GDOT_HOME/linux/$DISTRO_ID/install_from_src.sh"
+	else
+		echo "No from-source apps to install on $DISTRO_ID."
+	fi
 elif [ "$OS" = "FreeBSD" ]; then
 	"$GDOT_HOME/freebsd/src_apps.sh"
 else
 	echo "Unexpected operating system when installing from-source apps: $OS"
-	# TODO: Linux support
 	exit 1
 fi
 
@@ -403,7 +387,6 @@ install_nerdfont() {
 	FONT_FAMILY=$(echo "$ZIP_URL" | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}')
 	TEMP_DIR="/tmp/nerd-fonts"
 
-	# TODO: FreeBSD and Linux (this is just for macOS)
 	if [ "$OS" = "Darwin" ]; then
 		FONT_DIR="$HOME/Library/Fonts"
 	elif [ "$OS" = "Linux" ]; then
@@ -432,12 +415,15 @@ if [ "$OS" = "Darwin" ]; then
 	echo "  - Setting macOS settings..."
 	"$GDOT_HOME/macos/settings.sh"
 elif [ "$OS" = "Linux" ]; then
-	"$GDOT_HOME/linux/$DISTRO_ID/settings.sh"
+	if [ -x "$GDOT_HOME/linux/$DISTRO_ID/settings.sh" ]; then
+		"$GDOT_HOME/linux/$DISTRO_ID/settings.sh"
+	else
+		echo "No OS-specific settings for $DISTRO_ID."
+	fi
 elif [ "$OS" = "FreeBSD" ]; then
 	"$GDOT_HOME/freebsd/settings.sh"
 else
 	echo "Unexpected operating system when applying OS-specific settings: $OS"
-	# TODO: Linux support
 	exit 1
 fi
 
