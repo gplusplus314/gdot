@@ -16,3 +16,9 @@
 !/sqlite3/
 !/amethyst/
 !/doom/
+
+# KDE Plasma (ref: https://github.com/shalva97/kde-configuration-files)
+!/kwinrc                                  # screen edges
+!/kglobalshortcutsrc                      # global shortcuts
+!/krunnerrc                               # krunner
+!/plasma-org.kde.plasma.desktop-appletsrc # panel

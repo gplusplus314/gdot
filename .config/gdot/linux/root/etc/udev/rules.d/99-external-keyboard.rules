@@ -1,6 +1,0 @@
-SUBSYSTEM=="input", ATTRS{name}=="ZMK Project vibraphone Keyboard", ACTION=="add", \
-RUN+="/usr/bin/sh -c '/usr/bin/echo 1 > $(/usr/bin/find /sys/devices/platform/i8042/serio0/input -name inhibited)'"
-
-SUBSYSTEM=="input", ATTRS{name}=="ZMK Project vibraphone Keyboard", ACTION=="remove", \
-RUN+="/usr/bin/sh -c '/usr/bin/echo 0 > $(/usr/bin/find /sys/devices/platform/i8042/serio0/input -name inhibited)'"
-

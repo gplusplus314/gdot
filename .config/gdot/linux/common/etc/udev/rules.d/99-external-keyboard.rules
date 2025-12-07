@@ -1,0 +1,3 @@
+# Disable laptop's built-in keyboard when my custom keyboard is connected
+SUBSYSTEM=="input", ATTRS{name}!="", ENV{ID_MODEL}!="", \
+RUN+="/etc/udev/scripts/inhibit_laptop_keyboard.sh '$attr{name}' '%E{ACTION}'"

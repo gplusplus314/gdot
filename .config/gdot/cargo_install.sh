@@ -1,11 +1,15 @@
 #!/bin/sh
 
+set -e
+
 if [ "$(id -u)" -eq 0 ]; then
 	echo "This script must NOT be run as root!" >&2
 	exit 1
 fi
 
-. "$HOME/.cargo/env"
+rustup-init -y || rustup default stable
+
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 PACKAGES=""
 addp() {

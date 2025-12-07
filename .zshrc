@@ -52,21 +52,13 @@ case $(uname -s) in
     [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
     [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
   ;;
-
-  FreeBSD)
-    export NVM_DIR="$HOME/.config/nvm"
-      export CC=cc  
-      export CXX=c++
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 esac
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
-
-[ -d "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
