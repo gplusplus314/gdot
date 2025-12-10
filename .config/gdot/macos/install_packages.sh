@@ -1,6 +1,12 @@
 #!/bin/sh
 set -e
+if [ "$(id -u)" -eq 0 ]; then
+	echo "This script must NOT be run as root!" >&2
+	exit 1
+fi
+
 cd "$(dirname "$0")"
+
 echo "Executing Homebrew Brewfile..."
 if [ -f "$HOME/Brewfile" ]; then
 	echo "Using $HOME/Brewfile"

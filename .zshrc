@@ -31,6 +31,9 @@ compinit
 # Don't close the shell on Ctrl-D
 set -o ignoreeof
 
+# Cursor is a steady vertical bar
+echo -e "\e[6 q"
+
 export NODE_VERSIONS="$HOME/.nvm/versions/node"
 export NODE_VERSION_PREFIX="v"
 
@@ -163,3 +166,4 @@ bindkey '^r' atuin-search
 if [ -e "$HOME/.zshrc_local" ]; then
 	. "$HOME/.zshrc_local"
 fi
+

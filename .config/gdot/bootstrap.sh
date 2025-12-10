@@ -105,21 +105,6 @@ prompt_config() {
 	fi
 }
 
-error_linux_scripts() {
-    echo "For Linux compatibility, ensure the following files are executable:"
-	echo "\t$OS_SCRIPTS_DIR/install_git.sh"
-	echo "\t$OS_SCRIPTS_DIR/install_packages.sh"
-	exit 1
-}
-validate_linux_scripts() {
-	if [ ! -x "$OS_SCRIPTS_DIR/install_git.sh" ] ; then
-		error_linux_scripts
-	fi
-	if [ ! -x "$OS_SCRIPTS_DIR/install_packages.sh" ] ; then
-		error_linux_scripts
-	fi
-}
-
 # Now let's try to exit early and do nothing.
 
 # Which OS are we on?
@@ -146,7 +131,6 @@ elif [ "$OS" = "linux" ]; then
 	echo "Detected Distribution: $DISTRO_ID"
 	echo "Detected Version: $DISTRO_VERSION"
 	export OS_SCRIPTS_DIR="$GDOT_HOME/linux/$DISTRO_ID"
-	validate_linux_scripts
 else
 	echo_err "Unexpected operating system: $OS"
 	exit 1
@@ -205,7 +189,17 @@ fi
 # Make sure we have git
 if ! command -v git >/dev/null 2>&1; then
 	echo "  - Installing Git..."
-	"$OS_SCRIPTS_DIR/install_git.sh"
+	if command -v brew >/dev/null 2>&1; then
+		brew install git
+	elif command -v dnf >/dev/null 2>&1; then
+		sudo dnf install -y git
+	elif command -v pacman >/dev/null 2>&1; then
+		sudo pacman --noconfirm -S git
+	else
+		echo "Unable to automatically install git - install it manually or" \
+			"add support for the system's package manager."
+		exit 1
+	fi
 fi
 
 echo "  - Configuring Git..."
@@ -266,41 +260,20 @@ gdot config --local status.showUntrackedFiles no
 # Switch to the branch we're supposed to be using
 gdot checkout "$GDOT_GIT_BRANCH"
 
-echo "Installing system packages..."
-"$OS_SCRIPTS_DIR/install_packages.sh"
+if [ -x "$OS_SCRIPTS_DIR/install_packages.sh" ]; then
+	echo "Installing system packages..."
+	"$OS_SCRIPTS_DIR/install_packages.sh"
+fi
 
-echo "Installing Cargo packages..."
-(cd $GDOT_HOME && ./cargo_install.sh)
+if [ -x "$GDOT_HOME/cargo_install.sh" ]; then
+	echo "Installing Cargo packages..."
+	"$GDOT_HOME/cargo_install.sh"
+fi
 
-echo "Installing fonts..."
-install_nerdfont() {
-	# download URL from https://www.nerdfonts.com/font-downloads
-	ZIP_URL=$1
-	FONT_FAMILY=$(echo "$ZIP_URL" | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}')
-	TEMP_DIR="/tmp/nerd-fonts"
-
-	if [ "$OS" = "darwin" ]; then
-		FONT_DIR="$HOME/Library/Fonts"
-	elif [ "$OS" = "linux" ]; then
-		FONT_DIR="$HOME/.local/share/fonts/$FONT_FAMILY"
-	else
-		echo "Skipping nerdfont installation for OS: $OS"
-	fi
-
-	mkdir -p "$TEMP_DIR"
-	mkdir -p "$FONT_DIR"
-	curl -L "$ZIP_URL" -o "$TEMP_DIR/font.zip"
-	unzip "$TEMP_DIR/font.zip" -d "$TEMP_DIR"
-	find "$TEMP_DIR" -name "*.ttf" -exec mv {} "$FONT_DIR" \;
-	rm -rf "$TEMP_DIR"
-
-	if [ "$OS" = "linux" ]; then
-        echo "Refreshing font cache..."
-        fc-cache -fv
-    fi
-}
-install_nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/SourceCodePro.zip"
-install_nerdfont "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
+if [ -x "$GDOT_HOME/install_fonts.sh" ]; then
+	echo "Installing fonts..."
+	"$GDOT_HOME/install_fonts.sh"
+fi
 
 if [ -x "$OS_SCRIPTS_DIR/settings.sh" ]; then
 	echo "Applying OS-specific settings..."

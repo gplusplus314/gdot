@@ -25,7 +25,6 @@ addp stylua     # Lua formatter
 addp taplo-cli  # TOML LSP
 addp television # General purpose fuzzy finder TUI
 addp tlrc       # TLDR manual pages (tldr command)
-addp uv         # Python package manager and build tool
 addp zoxide     # Smart `cd` alternative
 
 # TUI File manager
@@ -33,3 +32,6 @@ addp resvg      # SVG library and CLI tool
 addp yazi-build # Installs yazi-fm and yazi-cli TUI file manager
 
 cargo install $PACKAGES
+
+# provides the `cargo install-update` command to update the above packages
+cargo install cargo-update --force --features vendored-libgit2

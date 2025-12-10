@@ -1,32 +1,5 @@
 # vim: filetype=ruby
 
-# Casks
-
-## General crossplatform
-cask "1password"               # 1piece
-cask "1password-cli"           # 1piece
-cask "brave-browser"           # Browser of choice
-cask "cyberduck"               # GUI FTP client
-cask "discord"                 # Chat app
-cask "flameshot"               # Screen shot tool
-cask "kitty"                   # Terminal emulator
-cask "obsidian"                # Notes system
-cask "private-internet-access" # VPN
-cask "visual-studio-code"      # Thicc editor, light IDE
-cask "zed"                     # Somewhere between VSCode and Emacs
-
-## macOS-specific
-brew "FelixKratz/formulae/borders" # JankyBorders
-cask "karabiner-elements"          # Keyboard manipulation/remapping
-cask "raycast"                     # Launcher
-cask "microsoft-remote-desktop"    # MSFT RDP
-cask "amethyst"                    # Tiling window manager
-
-brew "mas" # Mac App Store
-mas "WireGuard", id: 1451685025
-
-# Non-cask packages
-
 ## CLI
 brew "atuin"               # CLI history in searchable sqlite
 brew "bat"                 # Better cat
@@ -51,13 +24,7 @@ brew "wget"                # Gets things from the W
 
 ## TUI
 brew "neovim"              # NeoVim terminal-based text editor
-brew "ranger"              # Terminal file manager
 brew "television"          # General purpose fuzzy finder TUI
-
-## Ranger (TUI File manager) deps
-brew "pillow"              # Image manipulation library
-brew "mupdf"               # PDF rocessing
-brew "pandoc"              # MS/Open Office processing
 
 ## Programming
 brew "ccache"              # Compiler Cache to speed up some compilations
@@ -83,13 +50,6 @@ brew "tio"                 # Serial IO/TTY
 brew "uv"                  # Modern Python build and package management
 brew "yarn"                # NPM alternative, ish
 brew "zig"                 # Zig Programming language
-### Apple-specific:
-brew "fastlane"            # Build tool for Apple platform apps
-brew "swiftformat"         # Formatter for Swift
-brew "swiftlint"           # Linter for Swift
-brew "xcbeautify"          # Beautifier for XCode things
-brew "xcode-build-server"  # Do Xcode things outside of Xcode
-brew "xcodegen"            # Xcode projects using dir structure and project spec
 
 ## ZMK dependencies
 brew "ccache"
@@ -104,5 +64,3 @@ brew "python3"
 brew "qemu"
 brew "west"
 
-## Networking
-brew "wireguard-tools"     # wg command

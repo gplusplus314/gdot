@@ -15,18 +15,16 @@ if [ -z "$GDOT_GIT_DIR" ]; then
 fi
 
 OS=$(uname -s)
-if [ "$OS" = "Darwin" ]; then
-  SETTINGS_SCRIPT="macos/settings.sh"
-elif [ "$OS" = "Linux" ]; then
+export OS=${OS,,} # Convert to lowercase for consistent matching
+if [ "$OS" = "darwin" ]; then
+  SETTINGS_SCRIPT="$GDOT_HOME/macos/settings.sh"
+elif [ "$OS" = "linux" ]; then
   . /etc/os-release
   DISTRO_ID=${ID,,} # Convert to lowercase for consistent matching
   DISTRO_VERSION=${VERSION_ID}
   SETTINGS_SCRIPT="$GDOT_HOME/linux/$DISTRO_ID/settings.sh"
-elif [ "$OS" = "FreeBSD" ]; then
-  SETTINGS_SCRIPT="none" # none for FreeBSD
 else
   echo "Unexpected operating system: $OS"
-  # TODO: Linux support
   exit 1
 fi
 
@@ -36,6 +34,7 @@ if [ "$#" = 0 ]; then
   echo ""
   echo "  brew          Sync Homebrew bundle file (Brewfile)"
   echo "  brew edit     Edit Homebrew bundle file (Brewfile)"
+  echo "  brew install  Install Homebrew"
   echo ""
   echo "  tm            Apply Time Machine exclusions (macOS)"
   echo ""
@@ -52,18 +51,27 @@ shift
 SUBCOMMAND="$1"
 
 case "$COMMAND" in
-
 "brew")
-  if [ "$OS" -ne "Darwin" ]; then
-    echo "$COMMAND is only for macOS; detected $OS"
-    exit 1
+  if [ "$OS" == "darwin" ]; then
+	BREWFILE="$GDOT_HOME/macos/Brewfile"
+  elif [ "$OS" == "linux" ]; then
+	BREWFILE="$GDOT_HOME/linux/common/Brewfile"
   fi
-  BREWFILE="$GDOT_HOME/macos/Brewfile"
-  if [ "$SUBCOMMAND" = "edit" ]; then
-    $EDITOR "$BREWFILE"
-  else
+  case "$SUBCOMMAND" in
+  edit)
+    "$EDITOR" "$BREWFILE"
+	;;
+  install)
+    NONINTERACTIVE=1 /bin/bash -c \
+	  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	;;
+  "")
     brew bundle --file="$BREWFILE"
-  fi
+	;;
+  *)
+	  echo "invalid subcommand: $SUBCOMMAND"
+	  exit 1
+  esac
   ;;
 
 "tm")
@@ -80,20 +88,17 @@ case "$COMMAND" in
   ;;
 
 "settings")
-  if [ "$OS" = "Darwin" ]; then
-    "$GDOT_HOME/$SETTINGS_SCRIPT"
+  if [ -x "$SETTINGS_SCRIPT" ]; then
+    echo "Applying OS-specific settings..."
+	"$SETTINGS_SCRIPT"
   else
 	echo "No settings file for $OS"
   fi
   ;;
 
 "sync")
-  if [ "$OS" -ne "Darwin" ]; then
-    gdot brew
-    gdot settings
-  else
-	  echo "No sync for OS: $OS"
-  fi
+  gdot brew
+  gdot settings
   ;;
 
 *)

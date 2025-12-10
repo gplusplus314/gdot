@@ -1,11 +1,86 @@
 [ActivityManager]
 _k_friendly_name=Activity Manager
 switch-to-activity-4f45663c-9592-457d-bc4b-42e8b5b16b4b=none,none,Switch to activity "Default"
+switch-to-activity-c7a91714-f5cd-4030-91a3-e1b62111059a=none,none,Switch to activity "Default"
 
 [KDE Keyboard Layout Switcher]
 Switch to Last-Used Keyboard Layout=Meta+Alt+L,Meta+Alt+L,Switch to Last-Used Keyboard Layout
 Switch to Next Keyboard Layout=Meta+Alt+K,Meta+Alt+K,Switch to Next Keyboard Layout
 _k_friendly_name=Keyboard Layout Switcher
+
+[com.brave.Browser]
+2770F0605D4E05A0FE175B97A1B15F6C-lock=none,none,Lock the extension
+9FC1872FC81375059261CBEC7856F741-custom-command-0=none,none,Custom shortcut #1
+9FC1872FC81375059261CBEC7856F741-custom-command-1=none,none,Custom shortcut #2
+9FC1872FC81375059261CBEC7856F741-custom-command-2=none,none,Custom shortcut #3
+9FC1872FC81375059261CBEC7856F741-custom-command-3=none,none,Custom shortcut #4
+9FC1872FC81375059261CBEC7856F741-custom-command-4=none,none,Custom shortcut #5
+9FC1872FC81375059261CBEC7856F741-custom-command-5=none,none,Custom shortcut #6
+9FC1872FC81375059261CBEC7856F741-custom-command-6=none,none,Custom shortcut #7
+9FC1872FC81375059261CBEC7856F741-custom-command-7=none,none,Custom shortcut #8
+9FC1872FC81375059261CBEC7856F741-custom-command-8=none,none,Custom shortcut #9
+9FC1872FC81375059261CBEC7856F741-custom-command-9=none,none,Custom shortcut #10
+9FC1872FC81375059261CBEC7856F741-save-all-tabs=none,none,Save all tabs
+9FC1872FC81375059261CBEC7856F741-save-selected-tabs=none,none,Save the selected tabs or their selected contents
+A745B8B458A8778D8F9DA15598D25E71-launch-element-picker=none,none,Enter element picker mode
+A745B8B458A8778D8F9DA15598D25E71-launch-element-zapper=none,none,Enter element zapper mode
+A745B8B458A8778D8F9DA15598D25E71-launch-logger=none,none,Open the logger
+A745B8B458A8778D8F9DA15598D25E71-open-dashboard=none,none,Open the dashboard
+A745B8B458A8778D8F9DA15598D25E71-relax-blocking-mode=none,none,Relax blocking mode
+A745B8B458A8778D8F9DA15598D25E71-toggle-cosmetic-filtering=none,none,Toggle cosmetic filtering
+A745B8B458A8778D8F9DA15598D25E71-toggle-javascript=none,none,Toggle JavaScript
+BCA4EB155AE3BF5D78D6C013744D4CE4-createTab=none,none,Create new tab
+BCA4EB155AE3BF5D78D6C013744D4CE4-goBack=none,none,Go back in history
+BCA4EB155AE3BF5D78D6C013744D4CE4-goForward=none,none,Go forward in history
+BCA4EB155AE3BF5D78D6C013744D4CE4-previousTab=none,none,Go one tab left
+BCA4EB155AE3BF5D78D6C013744D4CE4-quickNext=none,none,Go one tab right
+BCA4EB155AE3BF5D78D6C013744D4CE4-reloadTab=none,none,Reload tab
+BCA4EB155AE3BF5D78D6C013744D4CE4-userCustomized1=none,none,Custom shortcut 1
+BCA4EB155AE3BF5D78D6C013744D4CE4-userCustomized2=none,none,Custom shortcut 2
+EE7F2BF7DCF36E864710A72171E83B4A-c000-options-page=none,none,Open the options page
+EE7F2BF7DCF36E864710A72171E83B4A-c020-theme-youtube-dark=none,none,Theme: YouTube™ (Dark)
+EE7F2BF7DCF36E864710A72171E83B4A-c025-theme-enhanced-dark=none,none,Theme: Enhancer for YouTube™
+EE7F2BF7DCF36E864710A72171E83B4A-c030-theme-youtube-deep-dark=none,none,Theme: YouTube-DeepDark
+EE7F2BF7DCF36E864710A72171E83B4A-c040-theme-youtube-deep-dark-custom=none,none,Theme: YouTube-DeepDark (Custom)
+EE7F2BF7DCF36E864710A72171E83B4A-c050-theme-custom-theme=none,none,Theme: Custom theme
+EE7F2BF7DCF36E864710A72171E83B4A-c060-focus-video-player=none,none,Set focus on the video player
+EE7F2BF7DCF36E864710A72171E83B4A-c070-toggle-loop=none,none,Toggle the loop mode
+EE7F2BF7DCF36E864710A72171E83B4A-c080-stop-video=none,none,Stop the video
+EE7F2BF7DCF36E864710A72171E83B4A-c090-reverse-playlist=none,none,Reverse the playlist order
+EE7F2BF7DCF36E864710A72171E83B4A-c100-toggle-volume-booster=none,none,Toggle the volume booster
+EE7F2BF7DCF36E864710A72171E83B4A-c130-toggle-annotations=none,none,Toggle info cards and end screens visibility
+EE7F2BF7DCF36E864710A72171E83B4A-c140-toggle-cinema-mode=none,none,Toggle the cinema mode
+EE7F2BF7DCF36E864710A72171E83B4A-c150-toggle-player-size=none,none,Expand or shrink the video player
+EE7F2BF7DCF36E864710A72171E83B4A-c160-center-video-player=none,none,Center the video player within the viewport
+EE7F2BF7DCF36E864710A72171E83B4A-c170-pop-up-player=none,none,Watch with the pop-up player
+EE7F2BF7DCF36E864710A72171E83B4A-c180-decrease-speed=none,none,Decrease the playback speed
+EE7F2BF7DCF36E864710A72171E83B4A-c190-increase-speed=none,none,Increase the playback speed
+EE7F2BF7DCF36E864710A72171E83B4A-c200-default-speed=none,none,Select the default playback speed
+EE7F2BF7DCF36E864710A72171E83B4A-c210-normal-speed=none,none,Select the normal playback speed
+EE7F2BF7DCF36E864710A72171E83B4A-c220-toggle-video-filters=none,none,Toggle the video filters
+EE7F2BF7DCF36E864710A72171E83B4A-c230-flip-horizontally=none,none,Flip the video horizontally
+EE7F2BF7DCF36E864710A72171E83B4A-c240-flip-vertically=none,none,Flip the video vertically
+EE7F2BF7DCF36E864710A72171E83B4A-c250-take-screenshot=none,none,Take a screenshot of the video
+EE7F2BF7DCF36E864710A72171E83B4A-c260-keyboard-shortcuts=none,none,Display all the keyboard shortcuts for YouTube
+EE7F2BF7DCF36E864710A72171E83B4A-c270-custom-script=none,none,Execute the custom script
+EE7F2BF7DCF36E864710A72171E83B4A-c280-picture-in-picture=none,none,Toggle the Picture-in-Picture mode
+EE7F2BF7DCF36E864710A72171E83B4A-c290-quality-highres=none,none,Select the playback quality “4320p”
+EE7F2BF7DCF36E864710A72171E83B4A-c300-quality-hd2880=none,none,Select the playback quality “2880p”
+EE7F2BF7DCF36E864710A72171E83B4A-c310-quality-hd2160=none,none,Select the playback quality “2160p”
+EE7F2BF7DCF36E864710A72171E83B4A-c320-quality-hd1440=none,none,Select the playback quality “1440p”
+EE7F2BF7DCF36E864710A72171E83B4A-c330-quality-hd1080=none,none,Select the playback quality “1080p”
+EE7F2BF7DCF36E864710A72171E83B4A-c340-quality-hd720=none,none,Select the playback quality “720p”
+EE7F2BF7DCF36E864710A72171E83B4A-c350-quality-large=none,none,Select the playback quality “480p”
+EE7F2BF7DCF36E864710A72171E83B4A-c360-quality-medium=none,none,Select the playback quality “360p”
+EE7F2BF7DCF36E864710A72171E83B4A-c370-quality-small=none,none,Select the playback quality “240p”
+EE7F2BF7DCF36E864710A72171E83B4A-c380-quality-tiny=none,none,Select the playback quality “144p”
+EE7F2BF7DCF36E864710A72171E83B4A-c390-quality-auto=none,none,Select the playback quality “Auto”
+EE7F2BF7DCF36E864710A72171E83B4A-c400-comments-visibility=none,none,Toggle comments visibility
+EE7F2BF7DCF36E864710A72171E83B4A-c410-related-videos-visibility=none,none,Toggle related videos visibility
+FE7CEECE22D337440C5CB78E815791E5-addSite=none,none,Toggle current site
+FE7CEECE22D337440C5CB78E815791E5-switchEngine=none,none,Theme generation mode
+FE7CEECE22D337440C5CB78E815791E5-toggle=none,none,Toggle extension
+_k_friendly_name=Brave
 
 [kaccess]
 Toggle Screen Reader On and Off=Meta+Alt+S,Meta+Alt+S,Toggle Screen Reader On and Off
@@ -39,8 +114,8 @@ Cycle Overview=none,none,Cycle through Overview and Grid View
 Cycle Overview Opposite=none,none,Cycle through Grid View and Overview
 Decrease Opacity=none,,Decrease Opacity of Active Window by 5%
 Edit Tiles=none,Meta+T,Toggle Tiles Editor
-Expose=Meta+Shift+Tab,Ctrl+F9,Toggle Present Windows (Current desktop)
-ExposeAll=Meta+Tab,Ctrl+F10\tLaunch (C),Toggle Present Windows (All desktops)
+Expose=Meta+Tab,Ctrl+F9,Toggle Present Windows (Current desktop)
+ExposeAll=,Ctrl+F10\tLaunch (C),Toggle Present Windows (All desktops)
 ExposeClass=Meta+Ctrl+Tab,Ctrl+F7,Toggle Present Windows (Window class)
 ExposeClassCurrentDesktop=none,none,Toggle Present Windows (Window class on current desktop)
 Grid View=none,Meta+G,Toggle Grid View
@@ -296,7 +371,7 @@ powerProfile=Battery\tMeta+B,Battery\tMeta+B,Switch Power Profile
 [plasmashell]
 Slideshow Wallpaper Next Image=none,,Next Wallpaper Image
 _k_friendly_name=plasmashell
-activate application launcher=none,Meta\tAlt+F1,Activate Application Launcher
+activate application launcher=Meta+Space,Meta\tAlt+F1,Activate Application Launcher
 activate task manager entry 1=none,Meta+1,Activate Task Manager Entry 1
 activate task manager entry 10=none,,Activate Task Manager Entry 10
 activate task manager entry 2=none,Meta+2,Activate Task Manager Entry 2
@@ -307,6 +382,7 @@ activate task manager entry 6=none,Meta+6,Activate Task Manager Entry 6
 activate task manager entry 7=none,Meta+7,Activate Task Manager Entry 7
 activate task manager entry 8=none,Meta+8,Activate Task Manager Entry 8
 activate task manager entry 9=none,Meta+9,Activate Task Manager Entry 9
+activate widget 3=none,none,Activate Application Launcher Widget
 clear-history=none,,Clear Clipboard History
 clipboard_action=Meta+Ctrl+X,Meta+Ctrl+X,Automatic Action Popup Menu
 cycle-panels=Meta+Alt+P,Meta+Alt+P,Move keyboard focus between panels
@@ -324,12 +400,15 @@ switch to next activity=none,,Switch to Next Activity
 switch to previous activity=none,,Switch to Previous Activity
 toggle do not disturb=none,,Toggle do not disturb
 
+[services][net.local.kitty.desktop]
+_launch=Meta+Return
+
 [services][org.kde.dolphin.desktop]
 _launch=none
 
 [services][org.kde.krunner.desktop]
 RunClipboard=none
-_launch=Meta+Space
+_launch=Alt+Space
 
 [services][org.kde.plasma.emojier.desktop]
 _launch=Meta+E
