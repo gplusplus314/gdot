@@ -108,7 +108,7 @@ prompt_config() {
 # Now let's try to exit early and do nothing.
 
 # Which OS are we on?
-OS=$(uname -s)
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 export OS=${OS,,} # Convert to lowercase for consistent matching
 if [ "$OS" = "darwin" ]; then
 	echo "Detected macOS"

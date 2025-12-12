@@ -31,9 +31,26 @@ set backupdir=~/.local/state/vim/backups//
 set directory=~/.local/state/vim/swap//
 set undodir=~/.local/state/vim/undo//
 
-" Relative line numbers for easy movement
+" Enable both absolute and relative numbers
 set number
 set relativenumber
+augroup numbertoggle
+  autocmd!
+  " Turn off relative numbering only while typing (Insert mode)
+  autocmd InsertEnter * set norelativenumber
+  autocmd InsertLeave * set relativenumber
+augroup END
+
+" Always move by screen (display) lines so that wrapped lines look and feel like
+" normal lines.
+nnoremap j gj
+nnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+
+" When we do wrap lines, do it on word boundaries and show an indicator
+set linebreak
+set showbreak=↳\   " visually mark wrapped continuation
 
 "" Whitespace rules
 set tabstop=4
@@ -115,3 +132,6 @@ nnoremap X "_X
 " Save and quit in style!
 nnoremap ZZ :wqa<CR>
 
+" Enable modelines so Vim respects filetype hints in comments
+set modeline        " allow modelines
+set modelines=5     " check first/last 5 lines of file

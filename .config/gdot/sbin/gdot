@@ -14,8 +14,7 @@ if [ -z "$GDOT_GIT_DIR" ]; then
   exit 1
 fi
 
-OS=$(uname -s)
-export OS=${OS,,} # Convert to lowercase for consistent matching
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 if [ "$OS" = "darwin" ]; then
   SETTINGS_SCRIPT="$GDOT_HOME/macos/settings.sh"
 elif [ "$OS" = "linux" ]; then
