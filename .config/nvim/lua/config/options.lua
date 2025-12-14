@@ -5,10 +5,6 @@
 -- Load vimrc file as starting place for sane defaults
 vim.cmd("source " .. vim.env.HOME .. "/.config/vim/vimrc")
 
--- This will end up building Blink's fuzzy matcher from source, which requires a
--- working Rust toolchain.
-vim.g.lazyvim_blink_main = true
-
 vim.g.lazyvim_picker = "snacks"
 
 vim.diagnostic.config({

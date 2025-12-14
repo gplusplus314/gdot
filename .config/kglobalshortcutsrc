@@ -115,7 +115,7 @@ Cycle Overview Opposite=none,none,Cycle through Grid View and Overview
 Decrease Opacity=none,,Decrease Opacity of Active Window by 5%
 Edit Tiles=none,Meta+T,Toggle Tiles Editor
 Expose=Meta+Tab,Ctrl+F9,Toggle Present Windows (Current desktop)
-ExposeAll=,Ctrl+F10\tLaunch (C),Toggle Present Windows (All desktops)
+ExposeAll=none,Ctrl+F10\tLaunch (C),Toggle Present Windows (All desktops)
 ExposeClass=Meta+Ctrl+Tab,Ctrl+F7,Toggle Present Windows (Window class)
 ExposeClassCurrentDesktop=none,none,Toggle Present Windows (Window class on current desktop)
 Grid View=none,Meta+G,Toggle Grid View
@@ -400,7 +400,7 @@ switch to next activity=none,,Switch to Next Activity
 switch to previous activity=none,,Switch to Previous Activity
 toggle do not disturb=none,,Toggle do not disturb
 
-[services][net.local.kitty.desktop]
+[services][kitty.desktop]
 _launch=Meta+Return
 
 [services][org.kde.dolphin.desktop]

@@ -63,4 +63,3 @@ brew "ninja"
 brew "python3"
 brew "qemu"
 brew "west"
-
