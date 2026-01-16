@@ -34,21 +34,14 @@ local fullSpec = {
   { import = "lazyvim.plugins.extras.lsp.neoconf" },
   { import = "lazyvim.plugins.extras.test.core" },
   { import = "lazyvim.plugins.extras.ui.mini-indentscope" },
+  { import = "lazyvim.plugins.extras.lang.markdown" },
+  { import = "lazyvim.plugins.extras.lang.dotnet" },
+  { import = "lazyvim.plugins.extras.lang.terraform" },
+  { import = "lazyvim.plugins.extras.lang.docker" },
+  { import = "lazyvim.plugins.extras.lang.clangd" },
+  { import = "lazyvim.plugins.extras.lang.cmake" },
+  { import = "lazyvim.plugins.extras.lang.rust" },
 }
-
--- TODO: get these to work on FreeBSD
-local isFreeBSD = vim.loop.os_uname().sysname == "FreeBSD"
-if not isFreeBSD then
-  fullSpec = vim.list_extend(vim.deepcopy(fullSpec), {
-    { import = "lazyvim.plugins.extras.lang.markdown" },
-    { import = "lazyvim.plugins.extras.lang.dotnet" },
-    { import = "lazyvim.plugins.extras.lang.terraform" },
-    { import = "lazyvim.plugins.extras.lang.docker" },
-    { import = "lazyvim.plugins.extras.lang.clangd" },
-    { import = "lazyvim.plugins.extras.lang.cmake" },
-    { import = "lazyvim.plugins.extras.lang.rust" },
-  })
-end
 
 -- Plugins should be imported last (order matters for LazyVim)
 -- This imports/overrides with my own plugin selection.

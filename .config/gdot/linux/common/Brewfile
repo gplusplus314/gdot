@@ -1,26 +1,23 @@
-# vim: filetype=ruby
-
 ## CLI
-brew "atuin"               # CLI history in searchable sqlite
-brew "bat"                 # Better cat
-brew "direnv"              # Automatically source .envrc upon dir navigation
-brew "fd"                  # Alternative to find
-brew "figlet"              # ASCyII art text generator
-brew "fzf"                 # TUI/CLI fuzzy finder
-brew "gh"                  # GitHub CLI
-brew "git"                 # Git version control
-brew "jq"                  # JSON Query tool
-brew "lolcat"              # The purrfect addition to the CLI
-brew "ripgrep"             # Fast search tool
-brew "starship"            # Prompt
-brew "tldr"                # Short alternative to man-pages
-brew "tmux"                # Terminal multiplexer
-brew "tree"                # Show directory structure visually
-brew "uutils-coreutils"    # Modern coreutils rewritten in Rust and MIT licensed
-brew "wget"                # Gets things from the web
-brew "zoxide"              # Smart `cd` alternative
-brew "zsh"                 # Ye old faithful interactive shell
-brew "wget"                # Gets things from the W
+brew "atuin"            # CLI history in searchable sqlite
+brew "bat"              # Better cat
+brew "direnv"           # Automatically source .envrc upon dir navigation
+brew "fd"               # Alternative to find
+brew "figlet"           # ASCyII art text generator
+brew "fzf"              # TUI/CLI fuzzy finder
+brew "gh"               # GitHub CLI
+brew "git"              # Git version control
+brew "jq"               # JSON Query tool
+brew "lolcat"           # The purrfect addition to the CLI
+brew "ripgrep"          # Fast search tool
+brew "starship"         # Prompt
+brew "tldr"             # Short alternative to man-pages
+brew "tmux"             # Terminal multiplexer
+brew "tree"             # Show directory structure visually
+brew "uutils-coreutils" # Modern coreutils rewritten in Rust and MIT licensed
+brew "wget"             # Gets things from the W
+brew "zoxide"           # Smart `cd` alternative
+brew "zsh"              # Ye old faithful interactive shell
 
 ## TUI
 brew "neovim"              # NeoVim terminal-based text editor
@@ -29,17 +26,16 @@ brew "television"          # General purpose fuzzy finder TUI
 ## Programming
 brew "ccache"              # Compiler Cache to speed up some compilations
 brew "cmake"               # Configurable cross platform make
+brew "devcontainer"        # Operate on devcontainer.json without an IDE
 brew "dotnet"              # .Net Core (used by some NeoVim extensions)
+brew "fvm"                 # Node Version Manager (in Rust)
 brew "go"                  # Go programming language
-brew "gopls"               # Go languago server
+brew "gopls"               # Go language server
 brew "llvm"                # Next-gen compiler backend
 brew "lua-language-server" # As the name implies
 brew "luarocks"            # Package manager for Lua
 brew "marksman"            # Markdown language server
 brew "ncurses"             # TUI tooling
-brew "nvm"                 # Node Version Manager (Node JS)
-brew "pipx"                # Python binaries package manager
-brew "poetry"              # Python dependency manager
 brew "pyenv"               # Python version manager
 brew "python3"             # A snake that runs code
 brew "rbenv"               # Ruby environment management
@@ -63,3 +59,5 @@ brew "ninja"
 brew "python3"
 brew "qemu"
 brew "west"
+
+# vim: filetype=ruby

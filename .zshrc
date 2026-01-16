@@ -1,4 +1,5 @@
 #vim: filetype=zsh
+zmodload zsh/zprof
 
 # # Gdot expects these to be exported for other commands to work properly
 export GDOT_HOME="${GDOT_HOME:=$HOME/.config/gdot}"
@@ -51,9 +52,6 @@ case $(uname -s) in
     export PATH="$HOMEBREW_PREFIX/bin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
     export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
-    [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
   ;;
 esac
 
@@ -162,11 +160,8 @@ export ATUIN_NOBIND="true"
 eval "$(atuin init zsh)"
 bindkey '^r' atuin-search
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
-[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
-
 if [ -e "$HOME/.zshrc_local" ]; then
-	. "$HOME/.zshrc_local"
+  . "$HOME/.zshrc_local"
 fi
 
+zprof

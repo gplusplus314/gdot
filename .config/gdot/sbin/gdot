@@ -1,5 +1,5 @@
 #!/bin/sh
-# vi: fs=sh
+# vi: set fs=sh
 set -e
 
 # Assumpions:
