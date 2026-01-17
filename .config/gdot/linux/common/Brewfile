@@ -11,7 +11,7 @@ brew "jq"               # JSON Query tool
 brew "lolcat"           # The purrfect addition to the CLI
 brew "ripgrep"          # Fast search tool
 brew "starship"         # Prompt
-brew "tldr"             # Short alternative to man-pages
+brew "tlrc"             # Short alternative to man-pages (in Rust)
 brew "tmux"             # Terminal multiplexer
 brew "tree"             # Show directory structure visually
 brew "uutils-coreutils" # Modern coreutils rewritten in Rust and MIT licensed
@@ -22,6 +22,8 @@ brew "zsh"              # Ye old faithful interactive shell
 ## TUI
 brew "neovim"              # NeoVim terminal-based text editor
 brew "television"          # General purpose fuzzy finder TUI
+brew "resvg"               # SVG rendering tool
+brew "yazi"                # file manager
 
 ## Programming
 brew "ccache"              # Compiler Cache to speed up some compilations
@@ -42,6 +44,7 @@ brew "rbenv"               # Ruby environment management
 brew "ruby-build"          # Install various Ruby versions and implementations
 brew "rustup"              # Rust toolchain
 brew "stylua"              # Lua formatter
+brew "taplo"               # TOML toolkit
 brew "tio"                 # Serial IO/TTY
 brew "uv"                  # Modern Python build and package management
 brew "yarn"                # NPM alternative, ish

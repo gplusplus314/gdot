@@ -16,21 +16,6 @@ addp() {
 	PACKAGES="$PACKAGES $1"
 }
 
-addp atuin      # CLI history in searchable sqlite
-addp bat        # Better cat
-addp fd-find    # Alternative to find
-addp ripgrep    # Fast search tool
-addp starship   # Shell prompt
-addp stylua     # Lua formatter
-addp taplo-cli  # TOML LSP
-addp television # General purpose fuzzy finder TUI
-addp tlrc       # TLDR manual pages (tldr command)
-addp zoxide     # Smart `cd` alternative
-
-# TUI File manager
-addp resvg      # SVG library and CLI tool
-addp yazi-build # Installs yazi-fm and yazi-cli TUI file manager
-
 cargo install $PACKAGES
 
 # provides the `cargo install-update` command to update the above packages
