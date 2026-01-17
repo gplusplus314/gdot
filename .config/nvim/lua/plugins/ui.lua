@@ -1,4 +1,3 @@
-local is_full_nvim = _G.config_mode == "nvim"
 return {
   {
     "folke/snacks.nvim",
@@ -108,6 +107,7 @@ return {
 
   {
     "akinsho/bufferline.nvim",
+    cond = _G.config_mode == "nvim",
     lazy = false,
     opts = {
       options = {
@@ -120,13 +120,13 @@ return {
   },
   {
     "folke/persistence.nvim",
-    cond = is_full_nvim,
+    cond = _G.config_mode == "nvim",
     lazy = false,
   },
 
   {
     "nvim-neo-tree/neo-tree.nvim",
-    cond = is_full_nvim,
+    cond = _G.config_mode == "nvim",
     lazy = false,
     opts = {
       event_handlers = {
@@ -154,7 +154,11 @@ return {
     name = "catppuccin",
     priority = 1000,
     opts = {
-      transparent_background = not is_full_nvim,
+      color_overrides = _G.config_mode == "nvim" and {} or {
+        all = {
+          base = "#222200",
+        },
+      },
     },
   },
 

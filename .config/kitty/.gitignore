@@ -1,3 +1,6 @@
 /*
 !/.gitignore
 !/*.conf
+!/*.sh
+!/*.session
+!/*.py

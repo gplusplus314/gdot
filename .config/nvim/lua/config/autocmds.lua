@@ -6,12 +6,12 @@ if _G.config_mode ~= "nvim" then
   return
 end
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = vim.api.nvim_create_augroup("restore_session", { clear = true }),
-  callback = function()
-    if vim.fn.getcwd() ~= vim.env.HOME then
+if _G.config_mode == "nvim" and vim.fn.getcwd() ~= vim.env.HOME then
+  vim.api.nvim_create_autocmd("VimEnter", {
+    group = vim.api.nvim_create_augroup("restore_session", { clear = true }),
+    callback = function()
       require("persistence").load()
-    end
-  end,
-  nested = true,
-})
+    end,
+    nested = true,
+  })
+end

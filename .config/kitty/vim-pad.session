@@ -1,0 +1,3 @@
+cd ~
+focus_os_window
+launch --title "Vim Pad" .config/kitty/vim-pad.sh
