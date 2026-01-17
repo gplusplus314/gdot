@@ -4,3 +4,6 @@
 !/*.sh
 !/*.session
 !/*.py
+
+# This is machine-specific and must be generated, so let's keep it out of gdot
+/quick-access-terminal.conf

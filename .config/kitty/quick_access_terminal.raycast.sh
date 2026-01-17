@@ -8,4 +8,5 @@
 # Optional parameters:
 # @raycast.icon 🐈
 
+cd "$HOME"
 kitten quick_access_terminal
