@@ -1,5 +1,14 @@
 #vim: filetype=zsh
-zmodload zsh/zprof
+export ZDOTDIR="$HOME/.zsh"
+export ZDOTCACHE="$ZDOTDIR/cache"
+
+# Auto-recompile .zshrc if it's newer than the compiled version
+{
+  local zshrc_compiled="$HOME/.zshrc.zwc"
+  if [[ ! -f "$zshrc_compiled" ]] || [[ "$HOME/.zshrc" -nt "$zshrc_compiled" ]]; then
+    zcompile "$HOME/.zshrc"
+  fi
+} &|
 
 # # Gdot expects these to be exported for other commands to work properly
 export GDOT_HOME="${GDOT_HOME:=$HOME/.config/gdot}"
@@ -26,19 +35,35 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 # Tab Autocompletion Settings
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' menu select
+
 autoload -Uz compinit
-compinit
+{
+  _comp_dump="${ZDOTDIR}/.zcompdump"
+  if [[ -f "$_comp_dump" ]]; then
+    case $(uname -s) in
+      Darwin) _comp_mtime=$(stat -f %m "$_comp_dump" 2>/dev/null || echo 0) ;;
+      Linux) _comp_mtime=$(stat -c %Y "$_comp_dump" 2>/dev/null || echo 0) ;;
+      *) _comp_mtime=0 ;;
+    esac
+  else
+    _comp_mtime=0
+  fi
+  
+  if [[ $_comp_mtime -eq 0 ]] || [[ $(( $(date +%s) - _comp_mtime )) -gt 86400 ]]; then
+    echo "Generating compinit..."
+    compinit -i -u
+    { zcompile "$_comp_dump" } &!
+  else
+    compinit -C -i -u
+  fi
+  unset _comp_dump _comp_mtime
+} &|
 
 # Don't close the shell on Ctrl-D
 set -o ignoreeof
 
 # Cursor is a steady vertical bar
 echo -e "\e[6 q"
-
-export NODE_VERSIONS="$HOME/.nvm/versions/node"
-export NODE_VERSION_PREFIX="v"
-
-# # Environment and path
 
 case $(uname -s) in
   Darwin)
@@ -61,25 +86,32 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
-command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init --hook none zsh)"
-command -v rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
+_cache_eval() {
+  local filename="$1"
+  local gen_cmd="$2"
+  local cache_path="$ZDOTCACHE/$filename"
+  [[ -f "$cache_path" ]] || {
+    echo "Caching $gen_cmd -> $cache_path"
+    mkdir -p "$ZDOTCACHE"
+    eval "$gen_cmd" > "$cache_path"
+  }
+  source "$cache_path"
+}
+_cache_eval "starship.eval" "starship init zsh"
+_cache_eval "direnv.eval" "direnv hook zsh"
+_cache_eval "zoxide.eval" "zoxide init --hook none zsh"
+_cache_eval "fnm.eval" "fnm env --use-on-cd --shell zsh"
+export ATUIN_NOBIND="true"
+_cache_eval "atuin.eval" "atuin init zsh"
+
+function rbenv() {
+  unset -f rbenv
+  export PATH="$HOME/.rbenv/shims:$PATH"
+  eval "$(command rbenv init -)"
+  rbenv "$@"
+}
 
 # # Aliases and Functions
-
-## This will make nvim open a file in the "outer" nvim instance if this alias
-## is executed in an embedded terminal within nvim. Otherwise, a new instance
-## will start. It will also `cd` to a directory in a subshell *before* invoking
-## nvim if the first and only argument is a directory, which plays nicely with
-## the session handling in my nvim config.
-#function nvim() {
-#	if [[ "$#" == "1" && -d "$1" ]]; then
-#		(cd "$1" && command nvim --server "$NVIM" --remote)
-#	else
-#		command nvim --server "$NVIM" --remote "$@"
-#	fi
-#}
 
 alias vim='nvim -u $HOME/.config/vim/vimrc'
 alias vi='nvim -u NONE'
@@ -87,11 +119,11 @@ alias vi='nvim -u NONE'
 # kitty ssh fix
 [[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color ssh"
 
-# Colorize the ls output ##
+# Colorize the ls output
 alias ls='ls --color=auto'
-# Use a long listing format ##
+# Use a long listing format
 alias ll='ls -la'
-# Show hidden files ##
+# Show hidden files
 alias l.='ls -d .* --color=auto'
 # colorful grep
 alias grep='grep --color'
@@ -156,12 +188,8 @@ gclone() {
 bindkey -e # use emacs style bindings on readline prompt
 
 # Command history search
-export ATUIN_NOBIND="true"
-eval "$(atuin init zsh)"
 bindkey '^r' atuin-search
 
 if [ -e "$HOME/.zshrc_local" ]; then
   . "$HOME/.zshrc_local"
 fi
-
-zprof
