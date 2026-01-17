@@ -1,12 +1,9 @@
 #vim: filetype=zsh
-export ZDOTDIR="$HOME/.zsh"
-export ZDOTCACHE="$ZDOTDIR/cache"
-
 # Auto-recompile .zshrc if it's newer than the compiled version
 {
-  local zshrc_compiled="$HOME/.zshrc.zwc"
-  if [[ ! -f "$zshrc_compiled" ]] || [[ "$HOME/.zshrc" -nt "$zshrc_compiled" ]]; then
-    zcompile "$HOME/.zshrc"
+  local zshrc_compiled="$ZDOTDIR/.zshrc.zwc"
+  if [[ ! -f "$zshrc_compiled" ]] || [[ "$ZDOTDIR/.zshrc" -nt "$zshrc_compiled" ]]; then
+    zcompile "$ZDOTDIR/.zshrc"
   fi
 } &|
 
@@ -38,8 +35,9 @@ zstyle ':completion:*' menu select
 
 autoload -Uz compinit
 {
-  _comp_dump="${ZDOTDIR}/.zcompdump"
+  _comp_dump="$ZDOTDIR/cache/.zcompdump"
   if [[ -f "$_comp_dump" ]]; then
+    mkdir -p "$ZDOTDIR/cache"
     case $(uname -s) in
       Darwin) _comp_mtime=$(stat -f %m "$_comp_dump" 2>/dev/null || echo 0) ;;
       Linux) _comp_mtime=$(stat -c %Y "$_comp_dump" 2>/dev/null || echo 0) ;;
@@ -51,10 +49,10 @@ autoload -Uz compinit
   
   if [[ $_comp_mtime -eq 0 ]] || [[ $(( $(date +%s) - _comp_mtime )) -gt 86400 ]]; then
     echo "Generating compinit..."
-    compinit -i -u
+    compinit -d "$_comp_dump" -i -u
     { zcompile "$_comp_dump" } &!
   else
-    compinit -C -i -u
+    compinit -d "$_comp_dump" -C -i -u
   fi
   unset _comp_dump _comp_mtime
 } &|
@@ -89,10 +87,10 @@ export XDG_CONFIG_HOME="$HOME/.config"
 _cache_eval() {
   local filename="$1"
   local gen_cmd="$2"
-  local cache_path="$ZDOTCACHE/$filename"
+  local cache_path="$ZDOTDIR/cache/$filename"
   [[ -f "$cache_path" ]] || {
     echo "Caching $gen_cmd -> $cache_path"
-    mkdir -p "$ZDOTCACHE"
+    mkdir -p "$ZDOTDIR/cache"
     eval "$gen_cmd" > "$cache_path"
   }
   source "$cache_path"
@@ -190,6 +188,4 @@ bindkey -e # use emacs style bindings on readline prompt
 # Command history search
 bindkey '^r' atuin-search
 
-if [ -e "$HOME/.zshrc_local" ]; then
-  . "$HOME/.zshrc_local"
-fi
+[[ -e "$ZDOTDIR/.zshrc_local" ]] && source "$ZDOTDIR/.zshrc_local"
