@@ -33,11 +33,30 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' menu select
 
+# Completion system setup
+# Add homebrew/linuxbrew completions to fpath (must be before compinit)
+case $(uname -s) in
+  Darwin)
+    if [[ "$(uname -m)" == "arm64" ]]; then
+      fpath=("/opt/homebrew/share/zsh/site-functions" $fpath)
+    else
+      fpath=("/usr/local/share/zsh/site-functions" $fpath)
+    fi
+  ;;
+  Linux)
+    if [[ -d /home/linuxbrew/.linuxbrew/share/zsh/site-functions ]]; then
+      fpath=("/home/linuxbrew/.linuxbrew/share/zsh/site-functions" $fpath)
+    elif [[ -d "$HOME/.linuxbrew/share/zsh/site-functions" ]]; then
+      fpath=("$HOME/.linuxbrew/share/zsh/site-functions" $fpath)
+    fi
+  ;;
+esac
+
 autoload -Uz compinit
 {
+  mkdir -p "$ZDOTDIR/cache"
   _comp_dump="$ZDOTDIR/cache/.zcompdump"
   if [[ -f "$_comp_dump" ]]; then
-    mkdir -p "$ZDOTDIR/cache"
     case $(uname -s) in
       Darwin) _comp_mtime=$(stat -f %m "$_comp_dump" 2>/dev/null || echo 0) ;;
       Linux) _comp_mtime=$(stat -c %Y "$_comp_dump" 2>/dev/null || echo 0) ;;
@@ -46,16 +65,16 @@ autoload -Uz compinit
   else
     _comp_mtime=0
   fi
-  
+
   if [[ $_comp_mtime -eq 0 ]] || [[ $(( $(date +%s) - _comp_mtime )) -gt 86400 ]]; then
-    echo "Generating compinit..."
+    echo "Regenerating completions cache..."
     compinit -d "$_comp_dump" -i -u
     { zcompile "$_comp_dump" } &!
   else
     compinit -d "$_comp_dump" -C -i -u
   fi
   unset _comp_dump _comp_mtime
-} &|
+}
 
 # Don't close the shell on Ctrl-D
 set -o ignoreeof
