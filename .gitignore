@@ -5,7 +5,7 @@
 !/.gitignore
 !/README.md
 !/.config/
-!/.zshrc
+!/.zshenv
 
 # Make sure exceptions always ignore annoying macOS noise
 .DS_Store

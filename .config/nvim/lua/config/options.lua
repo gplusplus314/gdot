@@ -13,6 +13,10 @@ vim.diagnostic.config({
   },
 })
 
+if vim.fn.executable("zsh") == 1 then
+  vim.opt.shell = "zsh" -- Use zsh if installed
+end
+
 if _G.config_mode == "pager" then
   vim.opt.scrolloff = 5
   vim.opt.relativenumber = false
