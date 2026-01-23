@@ -7,6 +7,28 @@
   fi
 } &|
 
+case $(uname -s) in
+  Darwin)
+    if [[ "$(uname -m)" == "arm64" ]]; then
+      # Apple Silicon Mac
+      export HOMEBREW_PREFIX="/opt/homebrew"
+    else
+      # Intel Mac
+      export HOMEBREW_PREFIX="/usr/local"
+    fi
+	;;
+  Linux)
+    if [[ -d /home/linuxbrew/.linuxbrew/share/zsh/site-functions ]]; then
+      export HOMEBREW_PREFIX="/home/linuxbrew"
+    elif [[ -d "$HOME/.linuxbrew/share/zsh/site-functions" ]]; then
+      export HOMEBREW_PREFIX="$HOME/.linuxbrew"
+    fi
+    ;;
+  *)
+    echo "\nunexpected operating system: $(uname -s)\n"
+    ;;
+esac
+
 # # Gdot expects these to be exported for other commands to work properly
 export GDOT_HOME="${GDOT_HOME:=$HOME/.config/gdot}"
 export GDOT_GIT_DIR="${GDOT_GIT_DIR:=$GDOT_HOME/.git_repo}"
@@ -35,46 +57,32 @@ zstyle ':completion:*' menu select
 
 # Completion system setup
 # Add homebrew/linuxbrew completions to fpath (must be before compinit)
-case $(uname -s) in
-  Darwin)
-    if [[ "$(uname -m)" == "arm64" ]]; then
-      fpath=("/opt/homebrew/share/zsh/site-functions" $fpath)
-    else
-      fpath=("/usr/local/share/zsh/site-functions" $fpath)
-    fi
-  ;;
-  Linux)
-    if [[ -d /home/linuxbrew/.linuxbrew/share/zsh/site-functions ]]; then
-      fpath=("/home/linuxbrew/.linuxbrew/share/zsh/site-functions" $fpath)
-    elif [[ -d "$HOME/.linuxbrew/share/zsh/site-functions" ]]; then
-      fpath=("$HOME/.linuxbrew/share/zsh/site-functions" $fpath)
-    fi
-  ;;
-esac
+fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
 
 autoload -Uz compinit
-{
-  mkdir -p "$ZDOTDIR/cache"
-  _comp_dump="$ZDOTDIR/cache/.zcompdump"
-  if [[ -f "$_comp_dump" ]]; then
-    case $(uname -s) in
-      Darwin) _comp_mtime=$(stat -f %m "$_comp_dump" 2>/dev/null || echo 0) ;;
-      Linux) _comp_mtime=$(stat -c %Y "$_comp_dump" 2>/dev/null || echo 0) ;;
-      *) _comp_mtime=0 ;;
-    esac
-  else
+_comp_dump="$ZDOTDIR/cache/.zcompdump"
+case $(uname -s) in
+  Darwin) _comp_mtime=$(stat -f %m "$_comp_dump" 2>/dev/null || echo 0) ;;
+  Linux) _comp_mtime=$(stat -c %Y "$_comp_dump" 2>/dev/null || echo 0) ;;
+  *)
+    echo "** error statting compdump file! **"
     _comp_mtime=0
-  fi
+    ;;
+esac
 
-  if [[ $_comp_mtime -eq 0 ]] || [[ $(( $(date +%s) - _comp_mtime )) -gt 86400 ]]; then
-    echo "Regenerating completions cache..."
-    compinit -d "$_comp_dump" -i -u
-    { zcompile "$_comp_dump" } &!
-  else
-    compinit -d "$_comp_dump" -C -i -u
-  fi
-  unset _comp_dump _comp_mtime
-}
+_comp_diff=$(( $(date +%s) - $_comp_mtime ))
+
+if [[ $_comp_mtime -eq 0 ]] || [[ ${_comp_diff} -gt 86400 ]]; then
+  echo "Regenerating completions cache..."
+  mkdir -p "$ZDOTDIR/cache"
+  #rm "$_comp_dump.zwc" || 0
+  rm "$_comp_dump" || 0
+  compinit -d "$_comp_dump" -i -u
+  zcompile "$_comp_dump"
+else
+  compinit -d "$_comp_dump" -C -i -u
+fi
+unset _comp_dump _comp_mtime _comp_diff
 
 # Don't close the shell on Ctrl-D
 set -o ignoreeof
@@ -82,24 +90,13 @@ set -o ignoreeof
 # Cursor is a steady vertical bar
 echo -e "\e[6 q"
 
-case $(uname -s) in
-  Darwin)
-    if [[ "$(uname -m)" == "arm64" ]]; then
-      # Apple Silicon Mac
-      HOMEBREW_PREFIX="/opt/homebrew"
-    else
-      # Intel Mac
-      HOMEBREW_PREFIX="/usr/local"
-    fi
-    export PATH="$HOMEBREW_PREFIX/bin:$PATH"
-    export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
-    export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
-  ;;
-esac
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
+export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -207,4 +204,4 @@ bindkey -e # use emacs style bindings on readline prompt
 # Command history search
 bindkey '^r' atuin-search
 
-[[ -e "$ZDOTDIR/.zshrc_local" ]] && source "$ZDOTDIR/.zshrc_local"
+[[ -e "$HOME/.zshrc" ]] && source "$HOME/.zshrc"
