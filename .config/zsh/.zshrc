@@ -75,8 +75,8 @@ _comp_diff=$(( $(date +%s) - $_comp_mtime ))
 if [[ $_comp_mtime -eq 0 ]] || [[ ${_comp_diff} -gt 86400 ]]; then
   echo "Regenerating completions cache..."
   mkdir -p "$ZDOTDIR/cache"
-  #rm "$_comp_dump.zwc" || 0
-  rm "$_comp_dump" || 0
+  rm "$_comp_dump.zwc" 2&>1
+  rm "$_comp_dump" 2&>1
   compinit -d "$_comp_dump" -i -u
   zcompile "$_comp_dump"
 else
