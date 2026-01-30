@@ -16,7 +16,8 @@ addp() {
 	PACKAGES="$PACKAGES $1"
 }
 
-cargo install $PACKAGES
+# Uncomment when there are packages to install
+#cargo install $PACKAGES
 
 # provides the `cargo install-update` command to update the above packages
 cargo install cargo-update --force --features vendored-libgit2

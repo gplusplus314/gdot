@@ -5,7 +5,7 @@
   if [[ ! -f "$zshrc_compiled" ]] || [[ "$ZDOTDIR/.zshrc" -nt "$zshrc_compiled" ]]; then
     zcompile "$ZDOTDIR/.zshrc"
   fi
-} &|
+}
 
 case $(uname -s) in
   Darwin)
@@ -18,9 +18,9 @@ case $(uname -s) in
     fi
 	;;
   Linux)
-    if [[ -d /home/linuxbrew/.linuxbrew/share/zsh/site-functions ]]; then
-      export HOMEBREW_PREFIX="/home/linuxbrew"
-    elif [[ -d "$HOME/.linuxbrew/share/zsh/site-functions" ]]; then
+    if [[ -d /home/linuxbrew/.linuxbrew ]]; then
+      export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+    elif [[ -d "$HOME/.linuxbrew/" ]]; then
       export HOMEBREW_PREFIX="$HOME/.linuxbrew"
     fi
     ;;
@@ -75,8 +75,8 @@ _comp_diff=$(( $(date +%s) - $_comp_mtime ))
 if [[ $_comp_mtime -eq 0 ]] || [[ ${_comp_diff} -gt 86400 ]]; then
   echo "Regenerating completions cache..."
   mkdir -p "$ZDOTDIR/cache"
-  rm "$_comp_dump.zwc" 2&>1
-  rm "$_comp_dump" 2&>1
+  rm -f "$_comp_dump.zwc" 2>&1
+  rm -f "$_comp_dump" 2&>1
   compinit -d "$_comp_dump" -i -u
   zcompile "$_comp_dump"
 else

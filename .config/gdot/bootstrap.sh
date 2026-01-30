@@ -19,6 +19,7 @@
 
 # # Conventions:
 set -e     # Fail on error
+BOOTSTRAP_CMD="$(realpath $0)"
 cd "$HOME" # Assume script is running in home dir
 
 # # Config (either change these values or set them as env vars):
@@ -42,7 +43,10 @@ cd "$HOME" # Assume script is running in home dir
 : "${GDOT_CLOBBER_BACKUPS:=n}"
 : "${GDOT_SKIP_CONFIRM_CONFIG:=n}"
 : "${GDOT_CLOBBER_GIT:=n}"
-: "${GDOT_SKIP_CLONE:=n}"
+: "${GDOT_SKIP_CLONE:=}"
+if [[ "$BOOTSTRAP_CMD" == "$HOME/.config/gdot/bootstrap.sh" ]]; then
+	GDOT_SKIP_CLONE=y
+fi
 
 # # Convenience:
 prompt_yn() {
@@ -131,6 +135,7 @@ elif [ "$OS" = "linux" ]; then
 	echo "Detected Distribution: $DISTRO_ID"
 	echo "Detected Version: $DISTRO_VERSION"
 	export OS_SCRIPTS_DIR="$GDOT_HOME/linux/$DISTRO_ID"
+	export BREW_PATH="/home/linuxbrew/.linuxbrew"
 else
 	echo_err "Unexpected operating system: $OS"
 	exit 1
@@ -176,30 +181,19 @@ if [ "$OS" = "darwin" ]; then
 		xcode-select --install >/dev/null 2>&1
 		sleep 5
 	done
-	## Use Homebrew in macOS as much as possible.
-	if ! command -v brew >/dev/null 2>&1; then
-		echo "  - Installing Homebrew..."
-		/bin/bash -c "$(curl -fsSL \
-			https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	fi
-	# Enable brew for this shell session:
-	eval "$($BREW_PATH/bin/brew shellenv)"
 fi
+if ! command -v brew >/dev/null 2>&1; then
+	echo "  - Installing Homebrew..."
+	/bin/bash -c "$(curl -fsSL \
+		https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+# Enable brew for this shell session:
+eval "$($BREW_PATH/bin/brew shellenv)"
 
 # Make sure we have git
 if ! command -v git >/dev/null 2>&1; then
 	echo "  - Installing Git..."
-	if command -v brew >/dev/null 2>&1; then
-		brew install git
-	elif command -v dnf >/dev/null 2>&1; then
-		sudo dnf install -y git
-	elif command -v pacman >/dev/null 2>&1; then
-		sudo pacman --noconfirm -S git
-	else
-		echo "Unable to automatically install git - install it manually or" \
-			"add support for the system's package manager."
-		exit 1
-	fi
+	brew install git
 fi
 
 echo "  - Configuring Git..."
@@ -261,7 +255,7 @@ gdot config --local status.showUntrackedFiles no
 gdot checkout "$GDOT_GIT_BRANCH"
 
 if [ -x "$OS_SCRIPTS_DIR/install_packages.sh" ]; then
-	echo "Installing system packages..."
+	echo "Installing packages..."
 	"$OS_SCRIPTS_DIR/install_packages.sh"
 fi
 
@@ -287,3 +281,8 @@ command -v go >/dev/null 2>&1 && go version
 echo ""
 echo "Done. Bootstrapped configuration. Rebooting is recommended."
 echo "Thank you for choosing Gdot. Buh-bye!"
+
+if [ -x "$OS_SCRIPTS_DIR/post_install.sh" ]; then
+	echo "Executing post-install scripts..."
+	"$OS_SCRIPTS_DIR/post_install.sh"
+fi

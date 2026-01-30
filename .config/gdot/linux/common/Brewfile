@@ -30,7 +30,7 @@ brew "ccache"              # Compiler Cache to speed up some compilations
 brew "cmake"               # Configurable cross platform make
 brew "devcontainer"        # Operate on devcontainer.json without an IDE
 brew "dotnet"              # .Net Core (used by some NeoVim extensions)
-brew "fvm"                 # Node Version Manager (in Rust)
+brew "fnm"                 # Fast Node Version Manager (in Rust)
 brew "go"                  # Go programming language
 brew "gopls"               # Go language server
 brew "llvm"                # Next-gen compiler backend
