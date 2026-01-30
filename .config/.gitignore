@@ -4,14 +4,12 @@
 # except
 !/.gitignore
 
-!/aerospace/
-!/amethyst/
 !/borders/
 !/doom/
+!/dwmac
 !/gdot/
 !/karabiner/
 !/kitty/
-!/nushell/
 !/nvim/
 !/ranger/
 !/sqlite3/

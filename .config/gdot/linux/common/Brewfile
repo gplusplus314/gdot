@@ -1,3 +1,6 @@
+# This Brewfile is platform agnostic between Linux and macOS. Do not put any
+# OS-specific packages in here.
+
 ## CLI
 brew "atuin"            # CLI history in searchable sqlite
 brew "bat"              # Better cat
