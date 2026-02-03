@@ -12,6 +12,8 @@ addp() {
 	PACKAGES="$PACKAGES $@"
 }
 
+addp "dnf-plugins-core" # Needed to add dnf repos
+
 ## CLI - System packages
 addp "gcc"          # C compiler
 addp "wlroots"      # Wayland utils/libs
@@ -32,8 +34,19 @@ if [ -z "$CONTAINER_ID" ]; then
 	exit 0
 fi
 
+# 1Password is a bit of a special case.
+# https://support.1password.com/install-linux/#fedora-or-red-hat-enterprise-linux
+sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
+sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" > /etc/yum.repos.d/1password.repo'
+sudo dnf install -y 1password
+
 ## GUI - System packages
 addp "kitty" # Terminal emulator
+
+# Brave web browser
+sudo dnf config-manager addrepo -y \
+	--from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+addp "brave-browser"
 
 set -x
 sudo dnf install -y $PACKAGES

@@ -34,7 +34,12 @@ sudo dnf install -y asusctl supergfxctl asusctl-rog-gui
 sudo dnf update --refresh
 sudo systemctl enable supergfxd.service
 
+# Fix screen brightness adjustment:
+sudo grubby --update-kernel=DEFAULT --args 'quiet splash nvidia-drm.modeset=1 i915.enable_dpcd_backlight=1 nvidia.NVreg_EnableBacklightHandler=0 nvidia.NVreg_RegistryDwords=EnableBrightnessControl=0'
+
 ## Install CachyOS Kernel
+# NOTE: Won't need to install CachyOS Kernel once Fedora is on Linux kernel
+# 6.19+. See here: https://www.phoronix.com/news/ASUS-Armoury-More-Hardware
 echo "Installing CachyOS Kernel for Asus hardware support."
 # Disable stock kernel updates:
 sudo dnf config-manager setopt fedora.excludepkgs=kernel,kernel-core,kernel-modules,kernel-uki-virt,kernel-devel,kernel-modules-extra,kernel-modules-core,kernel-devel-matched
