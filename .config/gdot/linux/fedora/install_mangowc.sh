@@ -8,8 +8,9 @@ fi
 cd "$(dirname "$0")"
 
 dnf install -y --nogpgcheck --repofrompath \
-	'terra,https://repos.fyralabs.com/terra$releasever' terra-release
-sudo dnf copr enable avengemedia/dms
+	'terra,https://repos.fyralabs.com/terra$releasever' terra-release \
+	|| echo "terra repo already installed"
+sudo dnf copr enable -y avengemedia/dms
 
 sudo dnf install -y wlr-randr mangowc dms
 
