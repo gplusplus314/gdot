@@ -172,6 +172,12 @@ if ! confirm_config; then
 	exit 1
 fi
 
+# Get pre-installation steps done (prereqs)
+if [ -x "$OS_SCRIPTS_DIR/pre_install.sh" ]; then
+	echo "Applying OS-specific pre-installation steps..."
+	"$OS_SCRIPTS_DIR/pre_install.sh"
+fi
+
 # We need to make sure Homebrew is available for dependent scripts, so doing it
 # here in bootstrap.sh is convenient.
 if [ "$OS" = "darwin" ]; then
