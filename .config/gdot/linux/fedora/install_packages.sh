@@ -42,13 +42,14 @@ sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https:/
 sudo dnf install -y 1password
 
 ## GUI - System packages
+addp "firefox" # Browser that actually works correctly on Linux
 addp "flatpak" # Universal GUI packages
 addp "kitty"   # Terminal emulator
 
-# Brave web browser
+# Brave web browser, buggy, but sometimes a Chromium browser is required.
 sudo dnf config-manager addrepo -y \
-	--from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo \
-	|| echo "Brave Browser repo already installed."
+	--from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo ||
+	echo "Brave Browser repo already installed."
 addp "brave-browser"
 
 set -x
