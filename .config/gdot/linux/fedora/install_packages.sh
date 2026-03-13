@@ -30,7 +30,8 @@ brew bundle --file=../common/Brewfile
 
 # CONTAINER_ID is set when we're inside a DistroBox session. If installing
 # gdot into a devcontainer, we'll short-circuit anything GUI related.
-if [ -z "$CONTAINER_ID" ]; then
+if [[ -v CONTAINER_ID ]]; then
+	echo "Detected DistroBox session; skipping GUI packages."
 	exit 0
 fi
 
@@ -41,11 +42,14 @@ sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https:/
 sudo dnf install -y 1password
 
 ## GUI - System packages
-addp "kitty" # Terminal emulator
+addp "firefox" # Browser that actually works correctly on Linux
+addp "flatpak" # Universal GUI packages
+addp "kitty"   # Terminal emulator
 
-# Brave web browser
+# Brave web browser, buggy, but sometimes a Chromium browser is required.
 sudo dnf config-manager addrepo -y \
-	--from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+	--from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo ||
+	echo "Brave Browser repo already installed."
 addp "brave-browser"
 
 set -x
@@ -54,9 +58,9 @@ set +x
 PACKAGES=""
 
 ## GUI - Flatpak, user packages
-addp "com.github.tchx84.Flatseal" # Flatpak permissions management
+#addp "com.github.tchx84.Flatseal" # Flatpak permissions management
 
 set -x
-flatpak install -y --noninteractive $PACKAGES
+#flatpak install -y --noninteractive $PACKAGES
 set +x
 PACKAGES=""
