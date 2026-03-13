@@ -90,15 +90,15 @@ defaults write -g NSTextInsertionPointBlinkPeriodOff -float 10000
 # TODO: make this more robust... this will wipe out any changes done in the gui
 # that haven't been exported to the plist file.
 defaults import com.apple.symbolichotkeys \
-  "$GDOT_HOME/macos/com.apple.symbolichotkeys.plist"
+	"$GDOT_HOME/macos/com.apple.symbolichotkeys.plist"
 
 #
 # Easier icloud navigation via file system
 #
 ICLOUD_DOCS="$HOME/Library/Mobile Documents/com~apple~CloudDocs/"
 if [ ! -e "$HOME/icloud" ]; then
-  # create a symbolic link to the actual iCloud directory
-  ln -s "$ICLOUD_DOCS" "$HOME/icloud"
+	# create a symbolic link to the actual iCloud directory
+	ln -s "$ICLOUD_DOCS" "$HOME/icloud"
 fi
 #
 # Restart various things to apply changes
@@ -109,5 +109,9 @@ killall Dock
 
 # Homebrew Services
 brew services start borders # JankyBorders
+
+# Git alias
+git config --global alias.jump '!$(which git)/share/git-core/contrib/git-jump/git-jump'
+git config --global alias.logf "log --first-parent"
 
 echo "All macOS settings have been applied."
