@@ -54,7 +54,7 @@ case "$COMMAND" in
   if [ "$OS" == "darwin" ]; then
 	BREWFILE="$GDOT_HOME/macos/Brewfile"
   elif [ "$OS" == "linux" ]; then
-	BREWFILE="$GDOT_HOME/linux/common/Brewfile"
+	BREWFILE="$GDOT_HOME/Brewfile"
   fi
   case "$SUBCOMMAND" in
   edit)

@@ -7,5 +7,5 @@ fi
 
 cd "$(dirname "$0")"
 
-brew bundle --file="$GDOT_HOME/linux/common/Brewfile"
+brew bundle --file="$GDOT_HOME/Brewfile"
 brew bundle --file="$GDOT_HOME/macos/Brewfile"

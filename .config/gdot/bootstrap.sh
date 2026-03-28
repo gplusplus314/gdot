@@ -29,8 +29,8 @@ cd "$HOME" # Assume script is running in home dir
 # then the script will automatically set Git's configuration accordingly at
 # the end of bootstrapping. If at least one is not set, no additional Git
 # configuration will be set.
-: "${GDOT_GIT_NAME:=}"  # git config user.name
-: "${GDOT_GIT_EMAIL:=}" # git config user.email
+: "${GDOT_GIT_NAME:=Gerry Hernandez}"  # git config user.name
+: "${GDOT_GIT_EMAIL:='gerry@gerryhernandez.com'}" # git config user.email
 
 # ## Sane defaults:
 : "${GDOT_GIT_URI:=https://github.com/gplusplus314/gdot.git}"

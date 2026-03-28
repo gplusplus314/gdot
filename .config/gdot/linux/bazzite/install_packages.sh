@@ -19,7 +19,7 @@ addp "com.github.tchx84.Flatseal" # Flatpak permissions management
 flatpak install -y --noninteractive $PACKAGES
 
 cd "$(dirname "$0")"
-brew bundle --file=../common/Brewfile
+brew bundle --file="$GDOT_HOME/Brewfile"
 
 ## rpm-ostree layering
 PACKAGES=""
