@@ -1,4 +1,6 @@
-# Gdot - Gerry's Dot Files
+# DEPRECATED - Replaced by [gnix](https://github.com/gplusplus314/gnix)
+
+## Gdot - Gerry's Dot Files
 
 I didn't intend on other people using this, so I didn't write much of a readme.
 
